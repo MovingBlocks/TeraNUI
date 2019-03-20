@@ -1,59 +1,96 @@
-/*
- * This is a Gradle build file:
- * - Gradle Homepage: http://gradle.org/
- * - Gradle Documentation: http://gradle.org/documentation
- * - View tasks for this project: $ gradlew tasks
- */
+apply from: "$rootDir/config/gradle/artifactory.gradle"
 
-// gradle wrapper version
-wrapper {
-    gradleVersion '2.11'
+apply plugin: 'java'
+apply plugin: 'project-report'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+// Dependencies needed for what our Gradle scripts themselves use. It cannot be included via an external Gradle file :-(
+buildscript {
+    repositories {
+        // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        // Artifactory plugin
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.0.0')
+    }
 }
 
-allprojects {
-    apply plugin: 'idea'
+ext {
+    dirConfigMetrics = 'config/metrics'
+    generatorClassName = 'org.terasology.math.generator.MathGeneratorRunner'
 
-    group = 'org.terasology'
+    // Read environment variables, including variables passed by jenkins continuous integration server
+    env = System.getenv()
+}
 
-    // Declare remote repositories we're interested in - library files will be fetched from here
-    repositories {
-        // Main Maven repo
-        mavenCentral()
+// Declare remote repositories we're interested in - library files will be fetched from here
+repositories {
+    // Main Maven repo
+    mavenCentral()
 
-        // MovingBlocks Artifactory instance for libs not readily available elsewhere plus our own libs
-        maven {
-            url "http://artifactory.terasology.org/artifactory/virtual-repo-live"
+    // MovingBlocks Artifactory instance for libs not readily available elsewhere plus our own libs
+    maven {
+        url "http://artifactory.terasology.org/artifactory/virtual-repo-live"
+    }
+}
+
+
+configurations {
+    codeMetrics
+}
+
+task extractConfig (type: Copy) {
+    description = "Extracts our configuration files from the zip we fetched as a dependency"
+    from {
+        configurations.codeMetrics.collect {
+            zipTree(it)
         }
     }
+    into "$rootDir/$dirConfigMetrics"
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-    apply plugin: 'checkstyle'
-    apply plugin: 'pmd'
+// Primary dependencies definition
+dependencies {
+    checkstyle ('com.puppycrawl.tools:checkstyle:6.14.1')
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.12'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    compile group: 'org.terasology', name: 'TeraMath', version: '1.4.0'
+    compile group: 'com.google.guava', name: 'guava', version: '23.0'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+    compile group: 'com.miglayout', name: 'miglayout-core', version: '5.0'
 
-    // Primary dependencies definition
-    dependencies {
-        compile group: 'org.terasology', name: 'gestalt-asset-core', version: '5.0.1'
-    }
+    compile "org.terasology:gestalt-util:6.0.0"
+    compile "org.terasology:gestalt-module:6.0.0"
+    compile "org.terasology:gestalt-asset-core:6.0.0"
+    compile "org.terasology:gestalt-entity-system:6.0.0"
 
-    // Set the expected module Java level (can use a higher Java to run, but should not use features from a higher Java)
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
-    // TODO: add CI-specific settings on first release
+    // These dependencies are only needed for running tests
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.3'
 
-    checkstyle {
-        ignoreFailures = true
-        configFile = new File(rootDir, 'config/checkstyle/checkstyle.xml')
-        configProperties.samedir = checkstyle.configFile.parentFile
-    }
+    codeMetrics group: 'org.terasology.config', name: 'codemetrics', version: '1.2.0', ext: 'zip'
 
-    pmd {
-        ignoreFailures = true
-        ruleSetFiles = files("$rootDir/config/pmd/pmd.xml")
-    }
+}
+
+// Set the expected module Java level (can use a higher Java to run, but should not use features from a higher Java)
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Library and distribution config
+group = 'org.terasology'
+description = 'A UI Library'
+// project name must be defined in a separate settings.gradle file
+
+// Beyond the common Java setup this project also has some generated source files to add in
+
+// TODO: Temporary until javadoc has been fixed for Java 8 everywhere
+javadoc {
+    failOnError = false
 }
 
 // Setup IntelliJ-IDEA
@@ -80,6 +117,8 @@ idea {
         // Exclude Eclipse dirs
         excludeDirs += file('bin')
         excludeDirs += file('.settings')
+
+        // Add the dependencies from the generator compile config
     }
 
     workspace {
@@ -94,6 +133,7 @@ idea {
 }
 
 ext {
+
     // Activate 'git' as VCS
     ideaActivateGit = { Node iprNode ->
         def vcsMappings = iprNode.component.find { it.'@name' == 'VcsDirectoryMappings' }
@@ -111,14 +151,14 @@ ext {
             def option = builder.option(name: 'configuration') {
                 map {
                     entry(key: 'active-configuration',
-                            value: 'PROJECT_RELATIVE:$PROJECT_DIR$/config/checkstyle/checkstyle.xml:TeraNUI CheckStyle')
+                            value: 'PROJECT_RELATIVE:$PROJECT_DIR$/config/metrics/checkstyle/checkstyle.xml:TeraMath CheckStyle')
                     entry(key: 'check-nonjava-files', value: false)
                     entry(key: 'check-test-classes', value: true)
                     entry(key: 'location-0',
                             value: 'CLASSPATH:/sun_checks.xml:The default CheckStyle rules')
                     entry(key: 'location-1',
-                            value: 'PROJECT_RELATIVE:$PROJECT_DIR$/config/checkstyle/checkstyle.xml:TeraNUI CheckStyle')
-                    entry(key: 'property-1.samedir', value: 'config/checkstyle')
+                            value: 'PROJECT_RELATIVE:$PROJECT_DIR$/config/metrics/checkstyle/checkstyle.xml:TeraMath CheckStyle')
+                    entry(key: 'property-1.samedir', value: 'config/metrics/checkstyle')
                     entry(key: 'suppress-errors', value: false)
                     entry(key: 'thirdparty-classpath', value: '')
                 }
@@ -130,22 +170,17 @@ ext {
 
     // Activate copyright conventions
     ideaActivateCopyright = { Node iprNode ->
-        def copyrightManager = iprNode.component.find { it.'@name' == 'CopyrightManager' }
-        copyrightManager.'@default' = "nui-core"
-        def copyright = copyrightManager.copyright.find {
-            it.option.find { it.'@name' == "myName" }?.'@value' == "TeraNUI"
-        }
-        if (copyright == null) {
-            copyrightManager.append(new XmlParser().parseText('''
-                <copyright>
-                    <option name="notice" value="Copyright 2016 MovingBlocks&#10;&#10;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#10;you may not use this file except in compliance with the License.&#10;You may obtain a copy of the License at&#10;&#10;     http://www.apache.org/licenses/LICENSE-2.0&#10;&#10;Unless required by applicable law or agreed to in writing, software&#10;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#10;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#10;See the License for the specific language governing permissions and&#10;limitations under the License." />
-                    <option name="keyword" value="Copyright" />
-                    <option name="allowReplaceKeyword" value="" />
-                    <option name="myName" value="TeraNUI" />
-                    <option name="myLocal" value="true" />
-                </copyright>
-            '''))
-        }
+        // Setup copyright statement injection
+        def copyrightManager = iprNode.find { it.@name == 'CopyrightManager' }
+        copyrightManager.@default = "TerasologyEngine"
+        def copyright = copyrightManager.appendNode("copyright")
+        copyright.appendNode("option", [name: "notice", value: 'Copyright ' + Calendar.getInstance().get(Calendar.YEAR) + ' MovingBlocks\n\nLicensed under the Apache License, Version 2.0 (the "License");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an "AS IS" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.'])
+        copyright.appendNode("option", [name: "keyword", value: "Copyright"])
+        copyright.appendNode("option", [name: "allowReplaceKeyword", value: ""])
+        copyright.appendNode("option", [name: "myName", value: "TerasologyEngine"])
+        copyright.appendNode("option", [name: "myLocal", value: "true"])
+        def langOptions = copyrightManager.appendNode("LanguageOptions", [name: "__TEMPLATE__"])
+        langOptions.appendNode("option", [name: "addBlankAfter", value: "false"])
     }
 
     // Enable "make project automatically"
@@ -156,4 +191,10 @@ ext {
             compilerWsConf.appendNode("option", [name: "MAKE_PROJECT_ON_SAVE", value: "true"])
         }
     }
+
 }
+
+// Make sure our config file for code analytics get extracted (vulnerability: non-IDE execution of single analytic)
+ideaModule.dependsOn rootProject.extractConfig
+tasks.eclipse.dependsOn rootProject.extractConfig
+check.dependsOn rootProject.extractConfig
