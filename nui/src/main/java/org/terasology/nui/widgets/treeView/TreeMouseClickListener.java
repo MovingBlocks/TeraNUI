@@ -15,7 +15,7 @@
  */
 package org.terasology.nui.widgets.treeView;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 import org.terasology.nui.events.NUIMouseClickEvent;
 
 

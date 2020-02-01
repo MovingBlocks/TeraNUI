@@ -16,7 +16,7 @@
 
 package org.terasology.nui;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 
 /**
  * Defines a set of special characters that mark contents of a string to be underlined

@@ -16,9 +16,9 @@
 
 package org.terasology.reflection.metadata;
 
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.Module;
-import org.terasology.naming.Name;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.naming.Name;
 
 import java.util.List;
 

@@ -16,10 +16,10 @@
 package org.terasology.nui;
 
 import com.google.common.base.Preconditions;
-import org.terasology.module.sandbox.API;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
+import org.terasology.gestalt.module.sandbox.API;
 
 import java.nio.ByteBuffer;
 import java.util.Locale;

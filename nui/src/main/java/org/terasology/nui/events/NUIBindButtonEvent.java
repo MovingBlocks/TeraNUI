@@ -16,7 +16,7 @@
 
 package org.terasology.nui.events;
 
-import org.terasology.assets.ResourceUrn;
+import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.input.ButtonState;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseDevice;

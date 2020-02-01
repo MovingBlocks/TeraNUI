@@ -16,7 +16,7 @@
 package org.terasology.nui.widgets.treeView;
 
 import com.google.common.collect.Lists;
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 
 import java.util.Iterator;
 import java.util.List;
