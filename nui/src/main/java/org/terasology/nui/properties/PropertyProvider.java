@@ -18,13 +18,8 @@ package org.terasology.nui.properties;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-<<<<<<< HEAD
-import org.terasology.assets.ResourceUrn;
 import org.joml.Vector3f;
-=======
 import org.terasology.gestalt.assets.ResourceUrn;
-import org.terasology.math.geom.Vector3f;
->>>>>>> Converted NUI to use gestalt 7.0.3.
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 import org.terasology.nui.itemRendering.ItemRenderer;
