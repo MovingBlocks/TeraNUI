@@ -54,5 +54,5 @@ Thumbs.db
 local.properties
 
 # Ignore generated output of mdbook for Github Pages
-book/
+docs/book
 

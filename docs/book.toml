@@ -2,10 +2,8 @@
 authors = ["The Terasology Foundation"]
 language = "en"
 multilingual = false
-src = "docs"
 title = "TeraNUI: A Guide to Terasology's UI"
 
 [output.html]
-theme = "docs/gooey-theme"
 default-theme = "light"
 git-repository-url = "https://github.com/MovingBlocks/TeraNUI"
