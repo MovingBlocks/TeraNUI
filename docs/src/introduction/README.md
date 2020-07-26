@@ -7,4 +7,7 @@ For practical guidance on how to get started with TeraNUI and how to work with t
 
 For information on Terasology, please check out [the Terasology website](terasology.org) or [the main Terasology wiki](https://github.com/MovingBlocks/Terasology/wiki).
 
-<figure><img src="https://imgs.xkcd.com/comics/ui_change.png" /></figure>
+<figure>
+  <img src="https://imgs.xkcd.com/comics/ui_change.png" />
+  <figcaption><a href="https://xkcd.com/1770/">https://xkcd.com/1770/</a></figcaption>
+</figure>
