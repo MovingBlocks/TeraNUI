@@ -1,6 +1,8 @@
 figure img {
+  display: block;
   width: auto;
-  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 figure {
@@ -11,4 +13,5 @@ figure {
 figcaption {
   margin-top: 1em;
   font-style: italic;
+  text-align: center;
 }
