@@ -1,0 +1,14 @@
+figure img {
+  width: auto;
+  margin: 0;
+}
+
+figure {
+  margin: 1em 0em;
+  padding: 1em 1em;
+}
+
+figcaption {
+  margin-top: 1em;
+  font-style: italic;
+}
