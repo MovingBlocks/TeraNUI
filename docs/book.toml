@@ -1,0 +1,9 @@
+[book]
+authors = ["The Terasology Foundation"]
+language = "en"
+multilingual = false
+title = "TeraNUI: A Guide to Terasology's UI"
+
+[output.html]
+default-theme = "light"
+git-repository-url = "https://github.com/MovingBlocks/TeraNUI"

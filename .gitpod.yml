@@ -1,0 +1,6 @@
+image: gitpod/mdbook
+ports:
+- port: 3000
+  onOpen: open-preview
+tasks:
+- command: mdbook serve
