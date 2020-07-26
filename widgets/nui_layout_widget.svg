@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="144 22.02067 373.4199 130.97933" width="373.4199" height="130.97933">
+  <defs>
+    <font-face font-family="Helvetica Neue" font-size="20" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Helvetica Neue" font-size="12" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="400">
+      <font-face-src>
+        <font-face-name name="HelveticaNeue"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#b34400">
+      <g>
+        <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker_2" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-9 -4 10 8" markerWidth="10" markerHeight="8" color="#b34400">
+      <g>
+        <path d="M -8 0 L 0 3 L 0 -3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <font-face font-family="Menlo" font-size="12" panose-1="2 11 6 9 3 8 4 2 2 4" units-per-em="1000" underline-position="-63.47656" underline-thickness="43.94531" slope="0" x-height="546.875" cap-height="729.0039" ascent="928.2227" descent="-235.83984" font-weight="400">
+      <font-face-src>
+        <font-face-name name="Menlo-Regular"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.17 
+    <dc:date>2020-07-20 14:42:35 +0000</dc:date>
+  </metadata>
+  <g id="Canvas_1" stroke="none" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1: Layer 1">
+      <title>Layer 1</title>
+      <g id="Graphic_31">
+        <rect x="174.08333" y="50.398336" width="224" height="69" fill="white"/>
+        <rect x="174.08333" y="50.398336" width="224" height="69" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(179.08333 73.11834)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="20" font-weight="400" fill="black" x="100.52" y="19">A</tspan>
+        </text>
+      </g>
+      <g id="Graphic_30">
+        <circle cx="177.04167" cy="53.35667" r="7.00001118531327" fill="white"/>
+        <circle cx="177.04167" cy="53.35667" r="7.00001118531327" stroke="#b34400" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      </g>
+      <g id="Graphic_32">
+        <text transform="translate(149 27.02067)" fill="#b34400">
+          <tspan font-family="Helvetica Neue" font-size="12" font-weight="400" fill="#b34400" x="5684342e-20" y="11">anchor point</tspan>
+        </text>
+      </g>
+      <g id="Graphic_33">
+        <text transform="translate(180.584 100.06234)" fill="#666">
+          <tspan font-family="Helvetica Neue" font-size="12" font-weight="400" fill="#666" x="5933032e-19" y="11">widget</tspan>
+        </text>
+      </g>
+      <g id="Line_35">
+        <line x1="174.08333" y1="112.73625" x2="174.08333" y2="137.07225" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Line_34">
+        <line x1="398.08333" y1="112.73625" x2="398.08333" y2="137.07225" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Line_36">
+        <line x1="183.98327" y1="129.16866" x2="388.1834" y2="129.88646" marker-end="url(#FilledArrow_Marker)" marker-start="url(#FilledArrow_Marker_2)" stroke="#b34400" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_37">
+        <text transform="translate(239.12337 134)" fill="#b34400">
+          <tspan font-family="Menlo" font-size="12" font-weight="400" fill="#b34400" x="0" y="11">widget.size.x</tspan>
+        </text>
+      </g>
+      <g id="Line_42">
+        <line x1="388" y1="119.39834" x2="417.18667" y2="119.39834" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Line_43">
+        <line x1="388" y1="50.398336" x2="417.18667" y2="50.398336" stroke="#7f8080" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.0,4.0" stroke-width="1"/>
+      </g>
+      <g id="Line_44">
+        <line x1="409.3458" y1="109.49834" x2="409.3458" y2="60.298336" marker-end="url(#FilledArrow_Marker)" marker-start="url(#FilledArrow_Marker_2)" stroke="#b34400" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_45">
+        <text transform="translate(418.5 77.89834)" fill="#b34400">
+          <tspan font-family="Menlo" font-size="12" font-weight="400" fill="#b34400" x="0" y="11">widget.size.y</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

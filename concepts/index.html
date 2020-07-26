@@ -3,9 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>TeraNUI: A Guide to Terasology's UI</title>
-        
-        <meta name="robots" content="noindex" />
+        <title>Concepts - TeraNUI: A Guide to Terasology's UI</title>
         
         
 
@@ -19,27 +17,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
         
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
-        <link rel="stylesheet" href="theme/css/custom.css">
+        <link rel="stylesheet" href="../theme/css/custom.css">
         
 
         
@@ -47,7 +45,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -93,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts/index.html"><strong aria-hidden="true">1.1.</strong> Concepts</a></li></ol></li><li class="chapter-item expanded "><a href="widgets/index.html"><strong aria-hidden="true">2.</strong> Widgets</a></li><li class="chapter-item expanded "><a href="layouts/index.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="layouts/flow-layout.html"><strong aria-hidden="true">3.1.</strong> Flow</a></li></ol></li><li class="chapter-item expanded "><a href="skins/index.html"><strong aria-hidden="true">4.</strong> Skins</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../concepts/index.html" class="active"><strong aria-hidden="true">1.1.</strong> Concepts</a></li></ol></li><li class="chapter-item expanded "><a href="../widgets/index.html"><strong aria-hidden="true">2.</strong> Widgets</a></li><li class="chapter-item expanded "><a href="../layouts/index.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../layouts/flow-layout.html"><strong aria-hidden="true">3.1.</strong> Flow</a></li></ol></li><li class="chapter-item expanded "><a href="../skins/index.html"><strong aria-hidden="true">4.</strong> Skins</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -128,7 +126,7 @@
                     <h1 class="menu-title">TeraNUI: A Guide to Terasology's UI</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         
@@ -163,15 +161,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#teranui-a-guide-to-terasologys-ui" id="teranui-a-guide-to-terasologys-ui">TeraNUI: A Guide to Terasology's UI</a></h1>
-<p>&quot;TeraNUI&quot; is Terasology's New UI Framework - a canvas-based UI framework developed specifically with the needs of game UI in mind: dynamic elements reflective of game state and adaptive to different resolutions.
-This guide covers the concepts of this framework and lists the individual layouts and widgets available for use.</p>
-<p>For practical guidance on how to get started with TeraNUI and how to work with the TeraNUI in-game editor, please access the <a href="https://github.com/Terasology/TutorialNui/wiki">TeraNUI tutorial</a>.</p>
-<p>For information on Terasology, please check out <a href="introduction/terasology.org">the Terasology website</a> or <a href="https://github.com/MovingBlocks/Terasology/wiki">the main Terasology wiki</a>.</p>
-<figure>
-  <img src="https://imgs.xkcd.com/comics/ui_change.png" />
-  <figcaption><a href="https://xkcd.com/1770/">https://xkcd.com/1770/</a></figcaption>
-</figure><h1><a class="header" href="#concepts" id="concepts">Concepts</a></h1>
+                        <h1><a class="header" href="#concepts" id="concepts">Concepts</a></h1>
 <p><strong>TeraNUI</strong> is a canvas-based UI framework designed to provide dynamic elements reflective of game state and adaptive to different resolutions.
 The following sections concisely explain the central concepts of TeraNUI required to understand how it works and how it can be worked with.</p>
 <blockquote>
@@ -187,53 +177,21 @@ This allows for flexibility in the rendering technology and implementation utili
 <h2><a class="header" href="#events" id="events">Events</a></h2>
 <h2><a class="header" href="#data-bindings" id="data-bindings">Data Bindings</a></h2>
 <h2><a class="header" href="#skins" id="skins">Skins</a></h2>
-<h1><a class="header" href="#widgets-1" id="widgets-1">Widgets</a></h1>
-<div align="center">
-  <figure>
-    <img src='nui_layout_widget.svg' />
-    <figcaption>A widget and its properties.</figcaption>
-  </figure>
-</div>
-<h1><a class="header" href="#layouts-1" id="layouts-1">Layouts</a></h1>
-<h1><a class="header" href="#flow-layout" id="flow-layout">Flow Layout</a></h1>
-<p>The <em>Flow</em> layout arranges its children in a directional flow that wraps at the layout's boundary,
-very much like words wrap at the end of a line when writing a text. The children are layed out in
-row in the flow direction, each widget sized by its preferred size. The individual elements are
-top-aligned, and wrapped at the first element that does not fit in the row.</p>
-<figure id="fig:layouts-flow-ltr">
-  <img src="layouts/./nui_layout_flow-ltr.svg" />
-  <figcaption>
-    Arrangement of widgets in Flow layout with left-to-right alignment.
-  </figcaption>
-</figure>
-<p><em>Flow</em> lays out each managed child regardless of the child's visible property value - invisible
-children won't be rendered but will take up space. The layout may be styled as other widgets with
-<a href="layouts/">Skins</a>. See <a href="layouts/">AbstractWidget</a> superclass for more details.</p>
-<p>Example of a <em>Flow</em> layout:</p>
-<pre><code class="language-json">{
-  &quot;type&quot;: &quot;FlowLayout&quot;,
-  &quot;verticalSpacing&quot;: 8,
-  &quot;horizontalSpacing&quot;: 24,
-  &quot;contents&quot;: [...]
-  // all properties of AbstractWidget
-}
-</code></pre>
-<hr />
-<h2><a class="header" href="#implementation" id="implementation">Implementation</a></h2>
-<figure id="fig:layouts-flow-internal">
-  <img src="layouts/./nui_layout_flow-internal.svg" />
-  <figcaption>
-    Internal fields and measures of the Flow layout.
-  </figcaption>
-</figure>
-<h1><a class="header" href="#skins-1" id="skins-1">Skins</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
+                            <a rel="prev" href="../introduction/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
 
+                        
+                            <a rel="next" href="../widgets/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -243,7 +201,15 @@ children won't be rendered but will take up space. The layout may be styled as o
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
+                    <a rel="prev" href="../introduction/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
 
+                
+                    <a rel="next" href="../widgets/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                 
             </nav>
 
@@ -264,26 +230,18 @@ children won't be rendered but will take up space. The layout may be styled as o
         
 
         
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         
 
-        
-        
-        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
-        
         
 
     </body>

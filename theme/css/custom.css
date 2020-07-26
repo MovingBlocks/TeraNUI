@@ -1,0 +1,17 @@
+figure img {
+  display: block;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure {
+  margin: 1em 0em;
+  padding: 1em 1em;
+}
+
+figcaption {
+  margin-top: 1em;
+  font-style: italic;
+  text-align: center;
+}
