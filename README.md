@@ -49,7 +49,7 @@ guideline how to backport a change to TeraNUI v1 so that every contributor with 
 
 A _release_ denotes that an artifact for the associated commit is available for consumption. Our
 [Jenkins CI/CD pipeline][jenkins] automatically builds and publishes releases for the main `master` branch and release
-branches prefixed with `release/{{version}}`. The artifact is published to our [Artifactory] under the version specified
+branches prefixed with `release/v{{major-version}}.x`. The artifact is published to our [Artifactory] under the version specified
 in [`build.gradle`](./build.gradle).
 
 > ⚠ **Note:** Whether an artifact should be published as release or snapshot is determined by whether or not there is a
