@@ -53,7 +53,7 @@ branches prefixed with `release/v{{major-version}}.x`. The artifact is published
 in [`build.gradle`](./build.gradle).
 
 > ⚠ **Note:** Whether an artifact should be published as release or snapshot is determined by whether or not there is a
-> `-SNAPSHOT` in the version. Publishing will fail in case the same non-snapshot version is supposed to be published
+> `-SNAPSHOT` in the version. Publishing will fail in case publishing the same non-snapshot version is attempted
 > again.
 
 The exact build steps for this library are defined in the [Jenkinsfile](./Jenkinsfile).
