@@ -21,22 +21,22 @@ public interface Colorc {
     /**
      * @return The red component, between 0 and 255
      */
-    byte r();
+    int r();
 
     /**
      * @return The green component, between 0 and 255
      */
-    byte g();
+    int g();
 
     /**
      * @return The blue component, between 0 and 255
      */
-    byte b();
+    int b();
 
     /**
      * @return The alpha component, between 0 and 255
      */
-    byte a();
+    int a();
 
     /**
      * @return The red channel, between 0.0f and 1.0f

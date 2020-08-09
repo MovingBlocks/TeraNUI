@@ -16,6 +16,7 @@
 package org.terasology.nui;
 
 import com.google.common.base.Preconditions;
+import org.joml.Math;
 import org.joml.Vector3fc;
 import org.joml.Vector3ic;
 import org.joml.Vector4fc;
@@ -141,40 +142,40 @@ public class Color implements Colorc{
      * @param g green in the range of 0.0f to 1.0f
      * @param b blue in the range of 0.0f to 1.0f
      */
-    public Color(byte r, byte g, byte b) {
+    public Color(int r, int g, int b) {
         this.set(r, g, b);
     }
 
     /**
      * Creates a color with the given red/green/blue/alpha values.
      *
-     * @param r red in the range of 0.0f to 1.0f
-     * @param g green in the range of 0.0f to 1.0f
-     * @param b blue in the range of 0.0f to 1.0f
-     * @param a alpha in the range of 0.0f to 1.0f
+     * @param r red in the range of 0 to 255
+     * @param g green in the range of 0 to 255
+     * @param b blue in the range of 0 to 255
+     * @param a alpha in the range of 0 to 255
      */
-    public Color(byte r, byte g, byte b, byte a) {
+    public Color(int r, int g, int b, int a) {
         this.set(r, g, b, a);
     }
 
     @Override
-    public byte r() {
-        return (byte) ((representation >> RED_OFFSET) & MAX);
+    public int r() {
+        return (representation >> RED_OFFSET) & MAX;
     }
 
     @Override
-    public byte g() {
-        return (byte) ((representation >> GREEN_OFFSET) & MAX);
+    public int g() {
+        return (representation >> GREEN_OFFSET) & MAX;
     }
 
     @Override
-    public byte b() {
-        return (byte) ((representation >> BLUE_OFFSET) & MAX);
+    public int b() {
+        return (representation >> BLUE_OFFSET) & MAX;
     }
 
     @Override
-    public byte a() {
-        return (byte)(representation & MAX);
+    public int a() {
+        return representation & MAX;
     }
 
     @Override
@@ -230,14 +231,16 @@ public class Color implements Colorc{
         return this;
     }
 
-    public Color set(byte r, byte g, byte b, byte a){
-        representation = r << RED_OFFSET | g << GREEN_OFFSET | b << BLUE_OFFSET | a;
-        return this;
+    public Color set(int r, int g, int b, int a) {
+        return this.set(Math.clamp(0, 255, r) << RED_OFFSET |
+            Math.clamp(0, 255, g) << GREEN_OFFSET |
+            Math.clamp(0, 255, b) << BLUE_OFFSET |
+            Math.clamp(0, 255, a));
     }
 
 
-    public Color set(byte r, byte g, byte b) {
-        return this.set(r, g, b, (byte) 0xFF);
+    public Color set(int r, int g, int b) {
+        return this.set(r, g, b, 0xFF);
     }
 
 
@@ -246,7 +249,7 @@ public class Color implements Colorc{
      * @param value color range between 0-255
      * @return this
      */
-    public Color setRed(byte value) {
+    public Color setRed(int value) {
         return this.set(value << RED_OFFSET | (representation & RED_FILTER));
     }
 
@@ -264,7 +267,7 @@ public class Color implements Colorc{
      * @param value color range between 0-255
      * @return this
      */
-    public Color setGreen(byte value) {
+    public Color setGreen(int value) {
         return this.set(value << GREEN_OFFSET | (representation & GREEN_FILTER));
     }
 
@@ -284,7 +287,7 @@ public class Color implements Colorc{
      * @param value blue range between 0-255
      * @return this
      */
-    public Color setBlue(byte value) {
+    public Color setBlue(int value) {
         return this.set(value << BLUE_OFFSET | (representation & BLUE_FILTER));
     }
 
@@ -302,7 +305,7 @@ public class Color implements Colorc{
      * @param value alpha range between 0-255
      * @return this
      */
-    public Color setAlpha(byte value) {
+    public Color setAlpha(int value) {
         return this.set(value | (representation & ALPHA_FILTER));
     }
 
@@ -320,7 +323,7 @@ public class Color implements Colorc{
      *
      * @param value
      * @return
-     * @deprecated use {@link #setRed(byte)} instead
+     * @deprecated use {@link #setRed(int)} instead
      */
     @Deprecated
     public Color alterRed(int value) {
@@ -332,7 +335,7 @@ public class Color implements Colorc{
      *
      * @param value
      * @return
-     * @deprecated use {@link #setBlue(byte)} instead
+     * @deprecated use {@link #setBlue(int)} instead
      */
     @Deprecated
     public Color alterBlue(int value) {
@@ -344,7 +347,7 @@ public class Color implements Colorc{
      *
      * @param value
      * @return
-     * @deprecated use {@link #setBlue(byte)} instead
+     * @deprecated use {@link #setBlue(int)} instead
      */
     @Deprecated
     public Color alterGreen(int value) {
@@ -355,7 +358,7 @@ public class Color implements Colorc{
     /**
      * @param value
      * @return
-     * @deprecated use {@link #setAlpha(byte)} instead
+     * @deprecated use {@link #setAlpha(int)} instead
      */
     @Deprecated
     public Color alterAlpha(int value) {
