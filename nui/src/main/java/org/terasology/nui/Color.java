@@ -391,7 +391,7 @@ public class Color implements Colorc{
 
     @Override
     public int rgb() {
-        return representation | ALPHA_FILTER;
+        return (representation & ALPHA_FILTER) | 0xFF;
     }
 
     /**
