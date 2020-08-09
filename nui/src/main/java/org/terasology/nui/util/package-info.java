@@ -15,4 +15,4 @@
  */
 @API package org.terasology.nui.util;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;

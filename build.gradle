@@ -6,7 +6,7 @@ plugins {
 
 ext {
     // Overall version number for NUI's various elements
-    nuiVersion = "1.2.1-SNAPSHOT"
+    nuiVersion = "2.0.0-SNAPSHOT"
 
     // JOML version we're tracking
     jomlVersion = "1.9.25"

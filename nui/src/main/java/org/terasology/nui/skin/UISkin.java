@@ -15,10 +15,10 @@
  */
 package org.terasology.nui.skin;
 
-import org.terasology.assets.Asset;
-import org.terasology.assets.AssetType;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.assets.format.AssetDataFile;
+import org.terasology.gestalt.assets.Asset;
+import org.terasology.gestalt.assets.AssetType;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.assets.format.AssetDataFile;
 import org.terasology.nui.UIWidget;
 
 /**

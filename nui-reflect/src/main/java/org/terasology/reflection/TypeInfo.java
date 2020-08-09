@@ -15,7 +15,7 @@
  */
 package org.terasology.reflection;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 import org.terasology.reflection.ReflectionUtil;
 
 import java.lang.reflect.Type;

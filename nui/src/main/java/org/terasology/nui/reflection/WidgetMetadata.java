@@ -16,9 +16,10 @@
 package org.terasology.nui.reflection;
 
 import com.google.common.base.Predicate;
-import org.terasology.assets.ResourceUrn;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.UIWidget;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.reflection.copy.CopyStrategy;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.metadata.ClassMetadata;
 import org.terasology.reflection.metadata.FieldMetadata;

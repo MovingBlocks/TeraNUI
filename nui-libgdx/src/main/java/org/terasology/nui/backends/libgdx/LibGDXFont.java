@@ -17,8 +17,8 @@ package org.terasology.nui.backends.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import org.terasology.assets.AssetData;
 import org.joml.Vector2i;
+import org.terasology.gestalt.assets.AssetData;
 import org.terasology.nui.asset.font.Font;
 
 import java.util.List;

@@ -19,4 +19,4 @@
  */
 @API package org.terasology.nui.skin;
 
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
