@@ -16,9 +16,11 @@
 package org.terasology.nui;
 
 import com.google.common.base.Preconditions;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
-import org.joml.Vector4f;
+import org.joml.Math;
+import org.joml.Vector3fc;
+import org.joml.Vector3ic;
+import org.joml.Vector4fc;
+import org.joml.Vector4ic;
 import org.terasology.gestalt.module.sandbox.API;
 
 import java.nio.ByteBuffer;
@@ -41,18 +43,40 @@ import java.util.Objects;
  *
  */
 @API
-public class Color {
+public class Color implements Colorc{
 
+    @Deprecated
     public static final Color BLACK = new Color(0x000000FF);
+    @Deprecated
     public static final Color WHITE = new Color(0xFFFFFFFF);
+    @Deprecated
     public static final Color BLUE = new Color(0x0000FFFF);
+    @Deprecated
     public static final Color GREEN = new Color(0x00FF00FF);
+    @Deprecated
     public static final Color RED = new Color(0xFF0000FF);
+    @Deprecated
     public static final Color GREY = new Color(0x888888FF);
+    @Deprecated
     public static final Color TRANSPARENT = new Color(0x00000000);
+    @Deprecated
     public static final Color YELLOW = new Color(0xFFFF00FF);
+    @Deprecated
     public static final Color CYAN = new Color(0x00FFFFFF);
+    @Deprecated
     public static final Color MAGENTA = new Color(0xFF00FFFF);
+
+    public static final Colorc black = new Color(0x000000FF);
+    public static final Colorc white = new Color(0xFFFFFFFF);
+    public static final Colorc blue = new Color(0x0000FFFF);
+    public static final Colorc green = new Color(0x00FF00FF);
+    public static final Colorc red = new Color(0xFF0000FF);
+    public static final Colorc grey = new Color(0x888888FF);
+    public static final Colorc transparent = new Color(0x00000000);
+    public static final Colorc yellow = new Color(0xFFFF00FF);
+    public static final Colorc cyan = new Color(0x00FFFFFF);
+    public static final Colorc magenta = new Color(0xFF00FFFF);
+
 
     private static final int MAX = 255;
     private static final int RED_OFFSET = 24;
@@ -63,7 +87,7 @@ public class Color {
     private static final int BLUE_FILTER = 0xFFFF00FF;
     private static final int ALPHA_FILTER = 0xFFFFFF00;
 
-    private final int representation;
+    private int representation;
 
     /**
      * Creates a color that is black with full alpha.
@@ -72,144 +96,309 @@ public class Color {
         representation = 0x000000FF;
     }
 
+    /**
+     * range between 0x00000000 to 0xFFFFFFFF
+     * @param representation color in hex format
+     */
     public Color(int representation) {
         this.representation = representation;
     }
 
     /**
+     * set the color source
+     * @param src color source
+     */
+    public Color(Colorc src) {
+        this.set(src.rgba());
+    }
+
+    /**
      * Create a color with the given red/green/blue values. Alpha is initialised as max.
      *
-     * @param r
-     * @param g
-     * @param b
+     * @param r red in the range of 0.0f to 1.0f
+     * @param g green in the range of 0.0f to 1.0f
+     * @param b blue in the range of 0.0f to 1.0f
      */
     public Color(float r, float g, float b) {
-        this((int) (r * MAX), (int) (g * MAX), (int) (b * MAX));
+        this((byte) (r * MAX), (byte) (g * MAX), (byte) (b * MAX));
     }
 
     /**
      * Creates a color with the given red/green/blue/alpha values.
      *
-     * @param r
-     * @param g
-     * @param b
-     * @param a
+     * @param r red in the range of 0.0f to 1.0f
+     * @param g green in the range of 0.0f to 1.0f
+     * @param b blue in the range of 0.0f to 1.0f
+     * @param a alpha in the range of 0.0f to 1.0f
      */
     public Color(float r, float g, float b, float a) {
-        this((int) (r * MAX), (int) (g * MAX), (int) (b * MAX), (int) (a * MAX));
+        this((byte) (r * MAX), (byte) (g * MAX), (byte) (b * MAX), (byte) (a * MAX));
     }
 
     /**
      * Creates a color with the given red/green/blue values. Alpha is initialised as max.
      *
-     * @param r
-     * @param g
-     * @param b
+     * @param r red in the range of 0.0f to 1.0f
+     * @param g green in the range of 0.0f to 1.0f
+     * @param b blue in the range of 0.0f to 1.0f
      */
     public Color(int r, int g, int b) {
-        this(r, g, b, 0xFF);
+        this.set(r, g, b);
     }
 
     /**
      * Creates a color with the given red/green/blue/alpha values.
      *
-     * @param r
-     * @param g
-     * @param b
-     * @param a
+     * @param r red in the range of 0 to 255
+     * @param g green in the range of 0 to 255
+     * @param b blue in the range of 0 to 255
+     * @param a alpha in the range of 0 to 255
      */
     public Color(int r, int g, int b, int a) {
-        Preconditions.checkArgument(r >= 0 && r <= MAX, "Color values must be in range 0-255");
-        Preconditions.checkArgument(g >= 0 && g <= MAX, "Color values must be in range 0-255");
-        Preconditions.checkArgument(b >= 0 && b <= MAX, "Color values must be in range 0-255");
-        Preconditions.checkArgument(a >= 0 && a <= MAX, "Color values must be in range 0-255");
-        representation = r << RED_OFFSET | g << GREEN_OFFSET | b << BLUE_OFFSET | a;
+        this.set(r, g, b, a);
     }
 
-    /**
-     * @return The red component, between 0 and 255
-     */
+    @Override
     public int r() {
         return (representation >> RED_OFFSET) & MAX;
     }
 
-    /**
-     * @return The green component, between 0 and 255
-     */
+    @Override
     public int g() {
         return (representation >> GREEN_OFFSET) & MAX;
     }
 
-    /**
-     * @return The blue component, between 0 and 255
-     */
+    @Override
     public int b() {
         return (representation >> BLUE_OFFSET) & MAX;
     }
 
-    /**
-     * @return The alpha component, between 0 and 255
-     */
+    @Override
     public int a() {
         return representation & MAX;
     }
 
+    @Override
     public float rf() {
         return r() / 255.f;
     }
 
+    @Override
     public float bf() {
         return b() / 255.f;
     }
 
+    @Override
     public float gf() {
         return g() / 255.f;
     }
 
+    @Override
     public float af() {
         return a() / 255.f;
     }
 
+
+    public Color set(Vector3ic representation) {
+        return this.set((byte) representation.x(),
+            (byte) representation.y(),
+            (byte) representation.z());
+    }
+
+    public Color set(Vector3fc representation) {
+        return this.set((byte) (representation.x() * MAX),
+            (byte) (representation.y() * MAX),
+            (byte) (representation.z() * MAX));
+    }
+
+
+    public Color set(Vector4fc representation) {
+        return this.set((byte) (representation.x() * MAX),
+            (byte) (representation.y() * MAX),
+            (byte) (representation.z() * MAX),
+            (byte) (representation.w() * MAX));
+    }
+
+    public Color set(Vector4ic representation) {
+        return this.set((byte) representation.x(),
+            (byte) representation.y(),
+            (byte) representation.z(),
+            (byte) representation.w());
+    }
+
+    public Color set(int representation){
+        this.representation = representation;
+        return this;
+    }
+
+    public Color set(int r, int g, int b, int a) {
+        return this.set(Math.clamp(0, 255, r) << RED_OFFSET |
+            Math.clamp(0, 255, g) << GREEN_OFFSET |
+            Math.clamp(0, 255, b) << BLUE_OFFSET |
+            Math.clamp(0, 255, a));
+    }
+
+
+    public Color set(int r, int g, int b) {
+        return this.set(r, g, b, 0xFF);
+    }
+
+
+    /**
+     * set the value of the red channel
+     * @param value color range between 0-255
+     * @return this
+     */
+    public Color setRed(int value) {
+        return this.set(value << RED_OFFSET | (representation & RED_FILTER));
+    }
+
+    /**
+     * set the value of the red channel
+     * @param value color range between 0.0f to 1.0f
+     * @return this
+     */
+    public Color setRed(float value) {
+        return setRed((byte) (value * MAX));
+    }
+
+    /**
+     * set the value of the green channel
+     * @param value color range between 0-255
+     * @return this
+     */
+    public Color setGreen(int value) {
+        return this.set(value << GREEN_OFFSET | (representation & GREEN_FILTER));
+    }
+
+
+    /**
+     * set the value of the green channel
+     * @param value color range between 0.0f to 1.0f
+     * @return this
+     */
+    public Color setGreen(float value) {
+        return setGreen((byte) (value * MAX));
+    }
+
+
+    /**
+     * set the value of the blue channel
+     * @param value blue range between 0-255
+     * @return this
+     */
+    public Color setBlue(int value) {
+        return this.set(value << BLUE_OFFSET | (representation & BLUE_FILTER));
+    }
+
+    /**
+     * set the value of the blue channel
+     * @param value blue range between 0.0f to 1.0f
+     * @return this
+     */
+    public Color setBlue(float value) {
+        return setBlue((byte) (value * MAX));
+    }
+
+    /**
+     * set the value of the alpha channel
+     * @param value alpha range between 0-255
+     * @return this
+     */
+    public Color setAlpha(int value) {
+        return this.set(value | (representation & ALPHA_FILTER));
+    }
+
+    /**
+     * set the value of the alpha channel
+     * @param value alpha range between 0.0f to 1.0f
+     * @return this
+     */
+    public Color setAlpha(float value) {
+        return setAlpha((byte) (value * MAX));
+    }
+
+
+    /**
+     *
+     * @param value
+     * @return
+     * @deprecated use {@link #setRed(int)} instead
+     */
+    @Deprecated
     public Color alterRed(int value) {
         Preconditions.checkArgument(value >= 0 && value <= MAX, "Color values must be in range 0-255");
         return new Color(value << RED_OFFSET | (representation & RED_FILTER));
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @deprecated use {@link #setBlue(int)} instead
+     */
+    @Deprecated
     public Color alterBlue(int value) {
         Preconditions.checkArgument(value >= 0 && value <= MAX, "Color values must be in range 0-255");
         return new Color(value << BLUE_OFFSET | (representation & BLUE_FILTER));
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @deprecated use {@link #setBlue(int)} instead
+     */
+    @Deprecated
     public Color alterGreen(int value) {
         Preconditions.checkArgument(value >= 0 && value <= MAX, "Color values must be in range 0-255");
         return new Color(value << GREEN_OFFSET | (representation & GREEN_FILTER));
     }
 
+    /**
+     * @param value
+     * @return
+     * @deprecated use {@link #setAlpha(int)} instead
+     */
+    @Deprecated
     public Color alterAlpha(int value) {
         Preconditions.checkArgument(value >= 0 && value <= MAX, "Color values must be in range 0-255");
         return new Color(value | (representation & ALPHA_FILTER));
     }
 
+    /**
+     * 255 Subtract from all components except alpha
+     * @return new instance of inverted {@link Color}
+     * @deprecated use {@link #invert()} instead
+     */
+    @Deprecated
     public Color inverse() {
         return new Color((~representation & ALPHA_FILTER) | a());
     }
 
+    /**
+     * 255 Subtract from all components except alpha;
+     * @return this
+     */
+    public Color invert() {
+        return this.set((~representation & ALPHA_FILTER) | a());
+    }
+
+    @Override
     public int rgba() {
         return representation;
     }
 
-    public Vector4f toVector4f() {
-        return new Vector4f(rf(), gf(), bf(), af());
+    @Override
+    public int rgb() {
+        return (representation & ALPHA_FILTER) | 0xFF;
     }
 
-    public Vector3f toVector3f() {
-        return new Vector3f(rf(), gf(), bf());
-    }
-
-    public Vector3i toVector3i() {
-        return new Vector3i(r(), g(), b());
-    }
-
+    /**
+     * write color to ByteBuffer as int.
+     *
+     * @param buffer The ByteBuffer
+     */
     public void addToBuffer(ByteBuffer buffer) {
         buffer.putInt(representation);
     }
@@ -231,6 +420,7 @@ public class Color {
         return Objects.hash(representation);
     }
 
+    @Override
     public String toHex() {
         StringBuilder builder = new StringBuilder();
         String hexString = Integer.toHexString(representation);
@@ -241,27 +431,15 @@ public class Color {
         return builder.toString();
     }
 
-    /**
-     * @param color
-     * @return Slick.Color format representation used in old GUI colorStrings.
-     * Remove after Slick.Color is removed or after colorString format changes.
-     */
-    // TODO: Remove
-    public static String toColorString(Color color) {
-        String hex = color.toHex();
-        String rString = hex.substring(0, 2);
-        String gString = hex.substring(2, 4);
-        String bString = hex.substring(4, 6);
-        String aString = hex.substring(6);
-        return "#" + aString + rString + gString + bString;
-    }
-
-
     @Override
     public String toString() {
         return toHex();
     }
 
+    /**
+     * @deprecated  use {@link #rgba()} instead
+     */
+    @Deprecated
     public int getRepresentation() {
         return representation;
     }
