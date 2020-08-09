@@ -22,6 +22,12 @@ PR with your changes. You can start right away by using the Gitpod online worksp
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/MovingBlocks/TeraNUI)
 
+In Terasology, you can test easily locally until you're ready for a snapshot or release. To do so, you'll need to re-embed TeraNUI into Terasology as source which has priority over any binary version. You can get the TeraNUI library as source into your local Terasology workspace as follows:
+```sh
+groovyw lib get TeraNUI
+```
+This will place the TeraNUI source code into `/libs/TeraNUI`. Please note, that you may need to reload/refresh your gradle workspace in Intellij IDEA.
+
 ## 🤖 Maintenance
 
 The main development of TeraNUI happens on the `master` branch, a strong main branch that always has the latest version
@@ -51,7 +57,8 @@ The exact build steps for this library are defined in the [Jenkinsfile](./Jenkin
 
 🗄 [**Snapshots**][artifactory-nui-snapshot] ▪ [**Releases**][artifactory-nui-release]
 
-> 🚧 TODO: how to consume TeraNUI from the Terasolgoy Artifactory (e.g., gradle dependency snippet)
+
+> 🚧 TODO: how to consume TeraNUI from the Terasology Artifactory (e.g., gradle dependency snippet)
 
 ### Release Process
 
