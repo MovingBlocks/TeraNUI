@@ -17,6 +17,13 @@ Learn more about TeraNUI and how to use it here:
 
 ## 🤓 Development
 
+We welcome contributions to this UI library, be it bug fixes or new features. Feel free to fork this project and open a 
+PR with your changes. You can start right away by using the Gitpod online workspace:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/MovingBlocks/TeraNUI)
+
+## 🤖 Maintenance
+
 **Where do we do the main development?**
 I guess a main branch with the latest code (on gestalt v7)...
  
@@ -52,12 +59,6 @@ in [`build.gradle`](./build.gradle).
 The exact build steps for this library are defined in the [Jenkinsfile](./Jenkinsfile).
 
 🗄 [**Snapshots**][artifactory-nui-snapshot] ▪ [**Releases**][artifactory-nui-release]
-
-## Contributors
-
-See [CONTRIBUTORS.md](CONTRIBUTORS.md).
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/MovingBlocks/TeraNUI)
 
 ## License
 
