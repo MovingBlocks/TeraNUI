@@ -16,7 +16,7 @@
 package org.terasology.nui.properties;
 
 import com.google.common.collect.Maps;
-import org.terasology.module.sandbox.API;
+import org.terasology.gestalt.module.sandbox.API;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.itemRendering.ItemRenderer;
 

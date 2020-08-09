@@ -22,9 +22,9 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
-import org.terasology.module.Module;
-import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.sandbox.ModuleClassLoader;
+import org.terasology.gestalt.module.Module;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.gestalt.module.sandbox.ModuleClassLoader;
 import org.terasology.reflection.ReflectionUtil;
 
 import java.lang.annotation.Annotation;
@@ -118,11 +118,11 @@ public class TypeRegistry {
         initializeReflections(classLoader);
 
         for (Module module : environment.getModulesOrderedByDependencies()) {
-            if (!module.isCodeModule()) {
+            if (module.getClasspaths().size() == 0) {
                 continue;
             }
 
-            reflections.merge(module.getReflectionsFragment());
+            reflections.merge(module.getModuleManifest());
         }
     }
 

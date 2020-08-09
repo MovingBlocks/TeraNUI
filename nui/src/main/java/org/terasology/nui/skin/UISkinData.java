@@ -16,8 +16,8 @@
 package org.terasology.nui.skin;
 
 import com.google.common.collect.Maps;
-import org.terasology.assets.AssetData;
-import org.terasology.assets.format.AssetDataFile;
+import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.format.AssetDataFile;
 
 import java.util.Map;
 
