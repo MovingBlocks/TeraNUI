@@ -24,11 +24,14 @@ PR with your changes. You can start right away by using the Gitpod online worksp
 
 ## 🤖 Maintenance
 
-**Where do we do the main development?**
-I guess a main branch with the latest code (on gestalt v7)...
+The main development of TeraNUI happens on the `master` branch, a strong main branch that always has the latest version
+of the code. However, we maintain two versions of TeraNUI for [gestalt] v5 and v7, respectively. As the two code lines are nearly identical most changes to either version should be [ported back 🔗](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops#port-changes-back-to-the-main-branch) to the other. 
  
-**How do we maintain old versions?**
-I assume there'll be a branch for TeraNUI v1 based on gestalt v5...
+
+| Branch         | Version | gestalt | Projects |
+| -------------- |:-------:|:-------:| -------- |
+| `master`       | v2.x    | v7      | [DestinationSol] |
+| `release/v1.x` | v1.x    | v5      | [Terasology]
 
 **How to back-port changes?** 
 That's a question I'm always asking myself when submitting something to gestalt. I'd like to have a least a rough 
@@ -59,6 +62,8 @@ in [`build.gradle`](./build.gradle).
 The exact build steps for this library are defined in the [Jenkinsfile](./Jenkinsfile).
 
 🗄 [**Snapshots**][artifactory-nui-snapshot] ▪ [**Releases**][artifactory-nui-release]
+
+> 🚧 TODO: how to consume TeraNUI from the Terasolgoy Artifactory (e.g., gradle dependency snippet)
 
 ## License
 
