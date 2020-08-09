@@ -15,7 +15,10 @@ pipeline {
         }
         stage('Publish') {
             when {
-                branch 'master'
+                anyOf {
+                    branch 'master'
+                    branch pattern: "release/v\\d+.x", comparator: "REGEXP"
+                }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'artifactory-gooey', usernameVariable: 'artifactoryUser', passwordVariable: 'artifactoryPass')]) {
