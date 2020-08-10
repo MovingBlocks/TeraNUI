@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ColorTest {
@@ -27,20 +28,20 @@ public class ColorTest {
 
     @Test
     public void testAlterRed() {
-        color = color.setRed(72);
+        color = color.alterRed(72);
         assertEquals(72, color.r());
     }
 
     @Test
     public void testAlterRedThrowsWhenColorLessThanLowerBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setRed(-1));
+                () -> color.alterRed(-1));
     }
 
     @Test
     public void testAlterRedThrowsWhenColorLargerThanUpperBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setRed(256));
+                () -> color.alterRed(256));
     }
 
     @Test
@@ -50,20 +51,20 @@ public class ColorTest {
 
     @Test
     public void testAlterGreen() {
-        color = color.setGreen(72);
+        color = color.alterGreen(72);
         assertEquals(72, color.g());
     }
 
     @Test
     public void testAlterGreenThrowsWhenColorLessThanLowerBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setGreen(-1));
+                () -> color.alterGreen(-1));
     }
 
     @Test
     public void testAlterGreenThrowsWhenColorLargerThanUpperBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setGreen(256));
+                () -> color.alterGreen(256));
     }
 
     @Test
@@ -73,20 +74,20 @@ public class ColorTest {
 
     @Test
     public void testAlterBlue() {
-        color = color.setBlue(72);
+        color = color.alterBlue(72);
         assertEquals(72, color.b());
     }
 
     @Test
     public void testAlterBlueThrowsWhenColorLessThanLowerBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setBlue(-1));
+                () -> color.alterBlue(-1));
     }
 
     @Test
     public void testAlterBlueThrowsWhenColorLargerThanUpperBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setBlue(256));
+                () -> color.alterBlue(256));
     }
 
     @Test
@@ -96,20 +97,20 @@ public class ColorTest {
 
     @Test
     public void testAlterAlpha() {
-        color = color.setAlpha(72);
+        color = color.alterAlpha(72);
         assertEquals(72, color.a());
     }
 
     @Test
     public void testAlterAlphaThrowsWhenColorLessThanLowerBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setAlpha(-1));
+                () -> color.alterAlpha(-1));
     }
 
     @Test
     public void testAlterAlphaThrowsWhenColorLargerThanUpperBound() {
         assertThrows(IllegalArgumentException.class,
-                () -> color.setAlpha(256));
+                () -> color.alterAlpha(256));
     }
 
     @Test
@@ -153,5 +154,20 @@ public class ColorTest {
         assertEquals(255, c1.g());
         assertEquals(255, c1.b());
         assertEquals(155, c1.a());
+    }
+
+
+    @Test
+    public void testColorSet() {
+        Color c1 = new Color(255, 0, 0);
+        assertEquals(Color.red, c1);
+        c1.setGreen(155)
+            .setRed(155)
+            .setBlue(155);
+        assertNotEquals(Color.red, c1);
+        assertEquals(c1.r(), 155);
+        assertEquals(c1.g(), 155);
+        assertEquals(c1.b(), 155);
+        assertEquals(c1.a(), 255);
     }
 }
