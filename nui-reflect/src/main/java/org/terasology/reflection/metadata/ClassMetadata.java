@@ -24,7 +24,6 @@ import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
-import org.terasology.reflection.copy.CopyStrategy;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.InaccessibleFieldException;
 import org.terasology.reflection.reflect.ObjectConstructor;
@@ -39,13 +38,14 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Class Metadata provides information on a class and its fields, and the ability to create, copy or manipulate an instance of the class.
+ * Class Metadata provides information on a class and its fields, and the ability to create, copy or manipulate an
+ * instance of the class.
  * <br><br>
- * Subclasses can be created to hold additional information for specific types of objects.  These may override createField()
- * to change how fields are processed and possibly switch to a subtype of FieldMetadata that holds additional information.
+ * Subclasses can be created to hold additional information for specific types of objects.  These may override
+ * createField() to change how fields are processed and possibly switch to a subtype of FieldMetadata that holds
+ * additional information.
  * <br><br>
  * Consumed classes are required to have a default constructor (this may be private)
- *
  */
 public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
 
@@ -54,20 +54,21 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
 
     private final ResourceUrn uri;
     private final Class<T> clazz;
-    private final ObjectConstructor<T> constructor;
-    private Map<String, FIELD> fields = Maps.newHashMap();
+    protected final ObjectConstructor<T> constructor;
+    protected Map<String, FIELD> fields = Maps.newHashMap();
     private Map<Byte, FIELD> fieldsById = new HashMap<>();
 
     /**
      * Creates a class metatdata
      *
-     * @param uri                 The uri that identifies this type
-     * @param type                The type to create the metadata for
-     * @param factory             A reflection library to provide class construction and field get/set functionality
+     * @param uri The uri that identifies this type
+     * @param type The type to create the metadata for
+     * @param factory A reflection library to provide class construction and field get/set functionality
      * @param copyStrategyLibrary A copy strategy library
      * @throws NoSuchMethodException If the class has no default constructor
      */
-    public ClassMetadata(ResourceUrn uri, Class<T> type, ReflectFactory factory, CopyStrategyLibrary copyStrategyLibrary, Predicate<Field> includedFieldPredicate)
+    public ClassMetadata(ResourceUrn uri, Class<T> type, ReflectFactory factory,
+                         CopyStrategyLibrary copyStrategyLibrary, Predicate<Field> includedFieldPredicate)
             throws NoSuchMethodException {
         if (System.getSecurityManager() != null) {
             System.getSecurityManager().checkPermission(CREATE_CLASS_METADATA);
@@ -92,17 +93,17 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
      * Scans the class this metadata describes, adding all fields to the class' metadata.
      *
      * @param copyStrategyLibrary The library of copy strategies
-     * @param factory             The reflection provider
+     * @param factory The reflection provider
      */
-    private void addFields(CopyStrategyLibrary copyStrategyLibrary, ReflectFactory factory, Predicate<Field> includedFieldsPredicate) {
+    private void addFields(CopyStrategyLibrary copyStrategyLibrary, ReflectFactory factory,
+                           Predicate<Field> includedFieldsPredicate) {
         for (Field field : ReflectionUtils.getAllFields(clazz, includedFieldsPredicate)) {
             if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
-            CopyStrategy<?> copyStrategy = copyStrategyLibrary.getStrategy(field.getGenericType());
 
             try {
-                FIELD metadata = createField(field, copyStrategy, factory);
+                FIELD metadata = createField(field, copyStrategyLibrary, factory);
                 if (metadata != null) {
                     fields.put(metadata.getName().toLowerCase(Locale.ENGLISH), metadata);
                 }
@@ -116,12 +117,13 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     /**
      * Creates the FieldMetadata describing a field
      *
-     * @param field        The field to create metadata for
-     * @param copyStrategy The copy strategy library
-     * @param factory      The reflection provider
+     * @param field The field to create metadata for
+     * @param copyStrategyLibrary The copy strategy library
+     * @param factory The reflection provider
      * @return A FieldMetadata describing the field, or null to ignore this field
      */
-    protected abstract <V> FIELD createField(Field field, CopyStrategy<V> copyStrategy, ReflectFactory factory) throws InaccessibleFieldException;
+    protected abstract <V> FIELD createField(Field field, CopyStrategyLibrary copyStrategyLibrary,
+                                             ReflectFactory factory) throws InaccessibleFieldException;
 
     /**
      * @return The class described by this metadata
@@ -161,7 +163,8 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
      * @return A new instance of this class.
      */
     public T newInstance() {
-        Preconditions.checkState(isConstructable(), "Cannot construct '" + this + "' - no accessible default constructor");
+        Preconditions.checkState(isConstructable(), "Cannot construct '" + this + "' - no accessible default " +
+                "constructor");
         return constructor.construct();
     }
 
@@ -180,7 +183,8 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     }
 
     /**
-     * This method is for use in situations where metadata is being used generically and the actual type of the value cannot be
+     * This method is for use in situations where metadata is being used generically and the actual type of the value
+     * cannot be
      *
      * @param object The instance of this class to copy
      * @return A copy of the given object, or null if object is not of the type described by this metadata.
@@ -228,7 +232,7 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
      * Used by FieldMetadata to update the id lookup table
      *
      * @param field The field to update the id for
-     * @param id    The new id of the field
+     * @param id The new id of the field
      */
     @SuppressWarnings("unchecked")
     void setFieldId(FieldMetadata<T, ?> field, byte id) {
