@@ -10,6 +10,20 @@ public final class RectUtility {
     private RectUtility() {
     }
 
+    /**
+     * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
+     *
+     * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
+     * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
+     * into the range is returned.
+     *
+     * @param minX the x-coordinate of the bottom-left corner
+     * @param minY the y-coordinate of the bottom-left corner
+     * @param width the width (x-direction)
+     * @param height the height (y-direction)
+     *
+     * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
+     */
     public static Rectanglei createFromMinAndSize(int minX, int minY, int width, int height) {
         final int maxX = NUIMathUtil.addClampAtMax(minX, width);
         final int maxY = NUIMathUtil.addClampAtMax(minY, height);
@@ -17,10 +31,35 @@ public final class RectUtility {
         return rect.isValid() ? rect : new Rectanglei();
     }
 
+    /**
+     * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
+     *
+     * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
+     * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
+     * into the range is returned.
+     *
+     * @param min the coordinates of the bottom-left corner
+     * @param size the size of the rectangle
+     * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
+     */
     public static Rectanglei createFromMinAndSize(Vector2i min, Vector2i size) {
         return createFromMinAndSize(min.x, min.y, size.x, size.y);
     }
 
+    /**
+     * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
+     *
+     * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
+     * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
+     * into the range is returned.
+     *
+     * @param minX the x-coordinate of the bottom-left corner
+     * @param minY the y-coordinate of the bottom-left corner
+     * @param width the width (x-direction)
+     * @param height the height (y-direction)
+     *
+     * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
+     */
     public static Rectanglef createFromMinAndSize(float minX, float minY, float width, float height) {
         final float maxX = NUIMathUtil.addClampAtMax(minX, width);
         final float maxY = NUIMathUtil.addClampAtMax(minY, height);
@@ -28,6 +67,17 @@ public final class RectUtility {
         return rect.isValid() ? rect : new Rectanglef();
     }
 
+    /**
+     * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
+     *
+     * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
+     * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
+     * into the range is returned.
+     *
+     * @param min the coordinates of the bottom-left corner
+     * @param size the size of the rectangle
+     * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
+     */
     public static Rectanglef createFromMinAndSize(Vector2f min, Vector2f size) {
         return createFromMinAndSize(min.x, min.y, size.x, size.y);
     }
