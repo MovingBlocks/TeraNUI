@@ -5,6 +5,9 @@ package org.terasology.nui;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,6 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ColorTest {
 
     private Color color;
+
+    private static Stream<Arguments> nextGameNamesProvider() {
+        return Stream.of(
+                Arguments.arguments("Custom", "Custom 1"),
+                Arguments.arguments("Custom 1", "Custom 2"),
+                Arguments.arguments("Custom 2", "Custom 3"),
+                Arguments.arguments("Custom 9", "Custom 10"),
+                Arguments.arguments("Custom 19", "Custom 20")
+        );
+    }
 
     @BeforeEach
     public void setUp() {
@@ -23,6 +36,8 @@ public class ColorTest {
         assertEquals("010A3CFF", color.toHex());
     }
 
+    // -- RED -----------------------------------------------------------------
+
     @Test
     public void testGetRed() {
         assertEquals(1, color.r());
@@ -30,21 +45,31 @@ public class ColorTest {
 
     @Test
     public void testAlterRed() {
+        color = color.alterRed(72);
+        assertEquals(72, color.r());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterRed(-1),
+                "alter-method throws exception when color value is below lower bound");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterRed(256),
+                "alter-method throws exception when color value is above upper bound");
+    }
+
+    @Test
+    public void testSetRed() {
         color = color.setRed(72);
         assertEquals(72, color.r());
+
+        color = color.setRed(-1);
+        assertEquals(0, color.r(), "set-method clamps when color value is below lower bound");
+
+        color = color.setRed(256);
+        assertEquals(255, color.r(), "set-method clamps when color value is above upper bound");
     }
 
-    @Test
-    public void testAlterRedThrowsWhenColorLessThanLowerBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setRed(-1));
-    }
-
-    @Test
-    public void testAlterRedThrowsWhenColorLargerThanUpperBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setRed(256));
-    }
+    // -- GREEN ---------------------------------------------------------------
 
     @Test
     public void testGetGreen() {
@@ -53,21 +78,31 @@ public class ColorTest {
 
     @Test
     public void testAlterGreen() {
+        color = color.alterGreen(72);
+        assertEquals(72, color.g());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterGreen(-1),
+                "alter-method throws exception when color value is below lower bound");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterGreen(256),
+                "alter-method throws exception when color value is above upper bound");
+    }
+
+    @Test
+    public void testSetGreen() {
         color = color.setGreen(72);
         assertEquals(72, color.g());
+
+        color = color.setGreen(-1);
+        assertEquals(0, color.g(), "set-method clamps when color value is below lower bound");
+
+        color = color.setGreen(256);
+        assertEquals(255, color.g(), "set-method clamps when color value is above upper bound");
     }
 
-    @Test
-    public void testAlterGreenThrowsWhenColorLessThanLowerBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setGreen(-1));
-    }
-
-    @Test
-    public void testAlterGreenThrowsWhenColorLargerThanUpperBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setGreen(256));
-    }
+    // -- BLUE ----------------------------------------------------------------
 
     @Test
     public void testGetBlue() {
@@ -76,21 +111,31 @@ public class ColorTest {
 
     @Test
     public void testAlterBlue() {
+        color = color.alterBlue(72);
+        assertEquals(72, color.b());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterBlue(-1),
+                "alter-method throws exception when color value is below lower bound");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterBlue(256),
+                "alter-method throws exception when color value is above upper bound");
+    }
+
+    @Test
+    public void testSetBlue() {
         color = color.setBlue(72);
         assertEquals(72, color.b());
+
+        color = color.setBlue(-1);
+        assertEquals(0, color.b(), "set-method clamps when color value is below lower bound");
+
+        color = color.setBlue(256);
+        assertEquals(255, color.b(), "set-method clamps when color value is above upper bound");
     }
 
-    @Test
-    public void testAlterBlueThrowsWhenColorLessThanLowerBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setBlue(-1));
-    }
-
-    @Test
-    public void testAlterBlueThrowsWhenColorLargerThanUpperBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setBlue(256));
-    }
+    // -- ALPHA ----------------------------------------------------------------
 
     @Test
     public void testGetAlpha() {
@@ -99,20 +144,28 @@ public class ColorTest {
 
     @Test
     public void testAlterAlpha() {
+        color = color.alterAlpha(72);
+        assertEquals(72, color.a());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterAlpha(-1),
+                "alter-method throws exception when color value is below lower bound");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> color.alterAlpha(256),
+                "alter-method throws exception when color value is above upper bound");
+    }
+
+    @Test
+    public void testSetAlpha() {
         color = color.setAlpha(72);
         assertEquals(72, color.a());
-    }
 
-    @Test
-    public void testAlterAlphaThrowsWhenColorLessThanLowerBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setAlpha(-1));
-    }
+        color = color.setAlpha(-1);
+        assertEquals(0, color.a(), "set-method clamps when color value is below lower bound");
 
-    @Test
-    public void testAlterAlphaThrowsWhenColorLargerThanUpperBound() {
-        assertThrows(IllegalArgumentException.class,
-                () -> color.setAlpha(256));
+        color = color.setAlpha(256);
+        assertEquals(255, color.a(), "set-method clamps when color value is above upper bound");
     }
 
     @Test
