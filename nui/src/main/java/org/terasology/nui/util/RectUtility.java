@@ -6,23 +6,30 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 public final class RectUtility {
+
     private RectUtility() {
     }
 
     public static Rectanglei createFromMinAndSize(int minX, int minY, int width, int height) {
-        return new Rectanglei(minX, minY, minX + width, minY + height);
+        final int maxX = NUIMathUtil.addClampAtMax(minX, width);
+        final int maxY = NUIMathUtil.addClampAtMax(minY, height);
+        final Rectanglei rect = new Rectanglei(minX, minY, maxX, maxY);
+        return rect.isValid() ? rect : new Rectanglei();
     }
 
     public static Rectanglei createFromMinAndSize(Vector2i min, Vector2i size) {
-        return new Rectanglei(min, min.add(size, new Vector2i()));
+        return createFromMinAndSize(min.x, min.y, size.x, size.y);
     }
 
     public static Rectanglef createFromMinAndSize(float minX, float minY, float width, float height) {
-        return new Rectanglef(minX, minY, minX + width, minY + height);
+        final float maxX = NUIMathUtil.addClampAtMax(minX, width);
+        final float maxY = NUIMathUtil.addClampAtMax(minY, height);
+        final Rectanglef rect = new Rectanglef(minX, minY, maxX, maxY);
+        return rect.isValid() ? rect : new Rectanglef();
     }
 
     public static Rectanglef createFromMinAndSize(Vector2f min, Vector2f size) {
-        return new Rectanglef(min, min.add(size, new Vector2f()));
+        return createFromMinAndSize(min.x, min.y, size.x, size.y);
     }
 
     public static Rectanglef createFromCenterAndSize(Vector2f center, Vector2f size) {
