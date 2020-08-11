@@ -250,7 +250,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setRed(int value) {
-        return this.set(value << RED_OFFSET | (representation & RED_FILTER));
+        return this.set(Math.clamp(0, 255, value) << RED_OFFSET | (representation & RED_FILTER));
     }
 
     /**
@@ -259,7 +259,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setRed(float value) {
-        return setRed((byte) (value * MAX));
+        return setRed(value * MAX);
     }
 
     /**
@@ -268,7 +268,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setGreen(int value) {
-        return this.set(value << GREEN_OFFSET | (representation & GREEN_FILTER));
+        return this.set(Math.clamp(0, 255, value) << GREEN_OFFSET | (representation & GREEN_FILTER));
     }
 
 
@@ -278,7 +278,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setGreen(float value) {
-        return setGreen((byte) (value * MAX));
+        return setGreen(value * MAX);
     }
 
 
@@ -288,7 +288,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setBlue(int value) {
-        return this.set(value << BLUE_OFFSET | (representation & BLUE_FILTER));
+        return this.set(Math.clamp(0, 255, value) << BLUE_OFFSET | (representation & BLUE_FILTER));
     }
 
     /**
@@ -297,7 +297,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setBlue(float value) {
-        return setBlue((byte) (value * MAX));
+        return setBlue(value * MAX);
     }
 
     /**
@@ -306,7 +306,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setAlpha(int value) {
-        return this.set(value | (representation & ALPHA_FILTER));
+        return this.set(Math.clamp(0, 255, value) | (representation & ALPHA_FILTER));
     }
 
     /**
@@ -315,7 +315,7 @@ public class Color implements Colorc{
      * @return this
      */
     public Color setAlpha(float value) {
-        return setAlpha((byte) (value * MAX));
+        return setAlpha(value * MAX);
     }
 
 
