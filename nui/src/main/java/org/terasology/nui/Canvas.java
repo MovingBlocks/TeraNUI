@@ -170,7 +170,7 @@ public interface Canvas {
      * @param texture The texture to draw
      * @param color
      */
-    void drawTexture(UITextureRegion texture, Color color);
+    void drawTexture(UITextureRegion texture, Colorc color);
 
     /**
      * Draws a texture to the given region using the current style.
@@ -187,7 +187,7 @@ public interface Canvas {
      * @param region  The area to draw the texture in, in pixels
      * @param color   The color modifier for the texture
      */
-    void drawTexture(UITextureRegion texture, Rectanglei region, Color color);
+    void drawTexture(UITextureRegion texture, Rectanglei region, Colorc color);
 
     /**
      * Draws the background of the current style, filling the entire canvas.
@@ -261,7 +261,7 @@ public interface Canvas {
      * @param font  The font to use to draw text
      * @param color The color of to draw the text
      */
-    void drawTextRaw(String text, Font font, Color color);
+    void drawTextRaw(String text, Font font, Colorc color);
 
     /**
      * Draws text without using the current style. Text may include new lines.
@@ -273,7 +273,7 @@ public interface Canvas {
      * @param color  The color of to draw the text
      * @param region The region in which to draw the text
      */
-    void drawTextRaw(String text, Font font, Color color, Rectanglei region);
+    void drawTextRaw(String text, Font font, Colorc color, Rectanglei region);
 
     /**
      * Draws text without using the current style, aligned within the drawWidth.  Text may include new lines.
@@ -287,7 +287,7 @@ public interface Canvas {
      * @param hAlign The horizontal alignment or justification of the text
      * @param vAlign The vertical alignment of the text
      */
-    void drawTextRaw(String text, Font font, Color color, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
+    void drawTextRaw(String text, Font font, Colorc color, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
 
     /**
      * Draws text without using the current style, aligned within the drawWidth.  Text may include new lines.
@@ -302,7 +302,7 @@ public interface Canvas {
      * @param hAlign     The horizontal alignment or justification of the text
      * @param vAlign     The vertical alignment of the text
      */
-    void drawTextRaw(String text, Font font, Color color, boolean underlined, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
+    void drawTextRaw(String text, Font font, Colorc color, boolean underlined, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
 
     /**
      * Draws shadowed text without using the current style. Text may include new lines. This text will always be left-aligned.
@@ -312,7 +312,7 @@ public interface Canvas {
      * @param color       The color of to draw the text
      * @param shadowColor The color to draw the shadow
      */
-    void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor);
+    void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor);
 
     /**
      * raws shadowed text without using the current style. Text may include new lines. Additionally new lines will be added to prevent any given line exceeding drawWidth.
@@ -324,7 +324,7 @@ public interface Canvas {
      * @param shadowColor The color to draw the shadow
      * @param region      The region within which to draw this text. The text will be wrapped to new lines if it exceeds this width.
      */
-    void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, Rectanglei region);
+    void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, Rectanglei region);
 
     /**
      * Draws shadowed text without using the current style. Text may include new lines. Additionally new lines will be added to prevent any given line exceeding drawWidth.
@@ -338,7 +338,7 @@ public interface Canvas {
      * @param hAlign      The horizontal alignment or justification of the text
      * @param vAlign      The vertical alignment of the text
      */
-    void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
+    void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
 
     /**
      * Draws shadowed text without using the current style. Text may include new lines. Additionally new lines will be added to prevent any given line exceeding drawWidth.
@@ -353,7 +353,7 @@ public interface Canvas {
      * @param hAlign      The horizontal alignment or justification of the text
      * @param vAlign      The vertical alignment of the text
      */
-    void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, boolean underline, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
+    void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, boolean underline, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign);
 
     /**
      * Draws a texture to the given area without using the current style. If the texture is a different size to the area, it will be adapted according to the ScaleMode.
@@ -372,7 +372,7 @@ public interface Canvas {
      * @param color   The color modifier for drawing the texture
      * @param mode    The method for adapting this texture to the region
      */
-    void drawTextureRaw(UITextureRegion texture, Rectanglei region, Color color, ScaleMode mode);
+    void drawTextureRaw(UITextureRegion texture, Rectanglei region, Colorc color, ScaleMode mode);
 
     /**
      * Draws a sub-region of a texture to the given area. If the texture is a different size to the area, it will be adapted according to the ScaleMode.
@@ -412,7 +412,7 @@ public interface Canvas {
      * @param uw      The width of the sub-region of the texture to draw, relative to the texture size
      * @param uh      The height of the sub-region of the texture to draw, relative to the texture size
      */
-    void drawTextureRaw(UITextureRegion texture, Rectanglei region, Color color, ScaleMode mode, float ux, float uy, float uw, float uh);
+    void drawTextureRaw(UITextureRegion texture, Rectanglei region, Colorc color, ScaleMode mode, float ux, float uy, float uw, float uh);
 
     /**
      * Draws a texture with a border - allows the drawing of a texture to a wider area without distorting the edge of the texture.
@@ -530,7 +530,7 @@ public interface Canvas {
      */
     void addInteractionRegion(InteractionListener listener, String tooltip, Rectanglei region);
 
-    void drawLine(int startX, int startY, int endX, int endY, Color color);
+    void drawLine(int startX, int startY, int endX, int endY, Colorc color);
 
-    void drawFilledRectangle(Rectanglei region, Color color);
+    void drawFilledRectangle(Rectanglei region, Colorc color);
 }
