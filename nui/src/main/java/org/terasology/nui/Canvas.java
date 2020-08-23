@@ -19,6 +19,8 @@ package org.terasology.nui;
 * TODO: Should we keep the Mesh and Material methods here?
 */
 
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
 import org.terasology.nui.Border;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
@@ -474,9 +476,10 @@ public interface Canvas {
      * @param offset   Offset, in object space, for the mesh
      * @param scale    A relative scale for drawing the mesh
      */
-    //void drawMesh(Mesh mesh, Material material, Rectanglei region, Quat4f rotation, Vector3f offset, float scale);
+    void drawMesh(UIMesh mesh, UIMaterial material, Rectanglei region, Quaternionfc rotation, Vector3fc offset, float scale);
 
-    //void drawMesh(Mesh mesh, Texture texture, Rectanglei region, Quat4f rotation, Vector3f offset, float scale);
+
+//    void drawMesh(UIMesh mesh, UITextureRegion texture, Rectanglei region, Quaternionfc rotation, Vector3fc offset, float scale);
 
     /**
      * Adds an interaction region filling the region used to draw the current widget. The widget's margin is used to expand the interaction region to fill the

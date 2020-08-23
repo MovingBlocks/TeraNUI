@@ -15,15 +15,21 @@
  */
 package org.terasology.nui.canvas;
 
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
 import org.terasology.nui.Border;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
+import org.terasology.nui.UIMaterial;
+import org.terasology.nui.UIMesh;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.Color;
 import org.terasology.nui.HorizontalAlign;
 import org.terasology.nui.ScaleMode;
 import org.terasology.nui.VerticalAlign;
+
+import java.util.Vector;
 
 /**
  */
@@ -36,6 +42,8 @@ public interface CanvasRenderer {
     Vector2i getTargetSize();
 
     void crop(Rectanglei cropRegion);
+
+    void drawMesh(UIMesh mesh, UIMaterial material, Rectanglei drawRegion, Rectanglei cropRegion, Quaternionfc rotation, Vector3fc offset, float scale, float alpha);
 
     void drawLine(int sx, int sy, int ex, int ey, Color color);
 

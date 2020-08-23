@@ -26,6 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
+import org.terasology.nui.UIMaterial;
+import org.terasology.nui.UIMesh;
 import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.Border;
 import org.joml.Rectanglef;
@@ -171,6 +175,11 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
             // TODO: Error Handling
             return;
         }
+    }
+
+    @Override
+    public void drawMesh(UIMesh mesh, UIMaterial material, Rectanglei drawRegion, Rectanglei cropRegion, Quaternionfc rotation, Vector3fc offset, float scale, float alpha) {
+        //TODO: implement
     }
 
     @Override

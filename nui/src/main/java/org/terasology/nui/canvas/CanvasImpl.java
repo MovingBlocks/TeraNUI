@@ -19,12 +19,17 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseDevice;
 import org.terasology.nui.Border;
+import org.terasology.nui.UIMaterial;
+import org.terasology.nui.UIMesh;
+import org.terasology.nui.UITexture;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
@@ -671,6 +676,23 @@ public class CanvasImpl implements CanvasControl {
                 renderer.drawTextureBordered(texture, absoluteRegion, border, tile, ux, uy, uw, uh, state.getAlpha());
             }
         }
+    }
+
+    @Override
+    public void drawMesh(UIMesh mesh, UIMaterial material, Rectanglei region, Quaternionfc rotation, Vector3fc offset, float scale) {
+        if (material == null) {
+            logger.warn("Attempted to draw with nonexistent material");
+            return;
+        }
+        if (mesh == null) {
+            logger.warn("Attempted to draw nonexistent mesh");
+            return;
+        }
+        Rectanglei drawRegion = relativeToAbsolute(region);
+        if (!state.cropRegion.intersectsRectangle(drawRegion)) {
+            return;
+        }
+        renderer.drawMesh(mesh, material, drawRegion, drawRegion.intersection(state.cropRegion), rotation, offset, scale, state.getAlpha());
     }
 
     @Override
