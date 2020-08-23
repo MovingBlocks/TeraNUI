@@ -43,9 +43,9 @@ public class UIStyle {
     private ScaleMode textureScaleMode = ScaleMode.STRETCH;
 
     private Font font;
-    private Color textColor = Color.WHITE;
-    private Color textShadowColor = Color.BLACK;
-    private Color hintTextColor = Color.GREY;
+    private Color textColor = new Color(Color.white);
+    private Color textShadowColor = new Color(Color.black);
+    private Color hintTextColor = new Color(Color.grey);
     private HorizontalAlign textAlignmentH = HorizontalAlign.CENTER;
     private VerticalAlign textAlignmentV = VerticalAlign.MIDDLE;
     private boolean textShadowed;

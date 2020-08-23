@@ -25,6 +25,7 @@ import org.terasology.input.MouseInput;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseDevice;
 import org.terasology.nui.Border;
+import org.terasology.nui.Colorc;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
@@ -477,7 +478,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawTexture(UITextureRegion texture, Color color) {
+    public void drawTexture(UITextureRegion texture, Colorc color) {
         drawTexture(texture, state.getRelativeRegion(), color);
     }
 
@@ -487,7 +488,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawTexture(UITextureRegion texture, Rectanglei region, Color color) {
+    public void drawTexture(UITextureRegion texture, Rectanglei region, Colorc color) {
         drawTextureRaw(texture, region, color, getCurrentStyle().getTextureScaleMode());
     }
 
@@ -560,42 +561,42 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawTextRaw(String text, Font font, Color color) {
-        drawTextRawShadowed(text, font, color, Color.TRANSPARENT);
+    public void drawTextRaw(String text, Font font, Colorc color) {
+        drawTextRawShadowed(text, font, color, Color.transparent);
     }
 
     @Override
-    public void drawTextRaw(String text, Font font, Color color, Rectanglei region) {
-        drawTextRawShadowed(text, font, color, Color.TRANSPARENT, region);
+    public void drawTextRaw(String text, Font font, Colorc color, Rectanglei region) {
+        drawTextRawShadowed(text, font, color, Color.transparent, region);
     }
 
     @Override
-    public void drawTextRaw(String text, Font font, Color color, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
-        drawTextRawShadowed(text, font, color, Color.TRANSPARENT, region, hAlign, vAlign);
+    public void drawTextRaw(String text, Font font, Colorc color, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
+        drawTextRawShadowed(text, font, color, Color.transparent, region, hAlign, vAlign);
     }
 
     @Override
-    public void drawTextRaw(String text, Font font, Color color, boolean underlined, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
-        drawTextRawShadowed(text, font, color, Color.TRANSPARENT, underlined, region, hAlign, vAlign);
+    public void drawTextRaw(String text, Font font, Colorc color, boolean underlined, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
+        drawTextRawShadowed(text, font, color, Color.transparent, underlined, region, hAlign, vAlign);
     }
 
     @Override
-    public void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor) {
+    public void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor) {
         drawTextRawShadowed(text, font, color, shadowColor, state.drawRegion);
     }
 
     @Override
-    public void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, Rectanglei region) {
+    public void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, Rectanglei region) {
         drawTextRawShadowed(text, font, color, shadowColor, region, HorizontalAlign.LEFT, VerticalAlign.TOP);
     }
 
     @Override
-    public void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
+    public void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
         drawTextRawShadowed(text, font, color, shadowColor, false, region, hAlign, vAlign);
     }
 
     @Override
-    public void drawTextRawShadowed(String text, Font font, Color color, Color shadowColor, boolean underline, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
+    public void drawTextRawShadowed(String text, Font font, Colorc color, Colorc shadowColor, boolean underline, Rectanglei region, HorizontalAlign hAlign, VerticalAlign vAlign) {
         Rectanglei absoluteRegion = relativeToAbsolute(region);
         Rectanglei cropRegion = absoluteRegion.intersection(state.cropRegion, new Rectanglei());
         if (cropRegion.isValid()) {
@@ -613,7 +614,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawTextureRaw(UITextureRegion texture, Rectanglei region, Color color, ScaleMode mode) {
+    public void drawTextureRaw(UITextureRegion texture, Rectanglei region, Colorc color, ScaleMode mode) {
         drawTextureRaw(texture, region, color, mode, 0f, 0f, 1f, 1f);
     }
 
@@ -630,7 +631,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawTextureRaw(UITextureRegion texture, Rectanglei region, Color color, ScaleMode mode, float ux, float uy, float uw, float uh) {
+    public void drawTextureRaw(UITextureRegion texture, Rectanglei region, Colorc color, ScaleMode mode, float ux, float uy, float uw, float uh) {
         if (!state.cropRegion.intersectsRectangle(relativeToAbsolute(region))) {
             return;
         }
@@ -714,7 +715,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawLine(int startX, int startY, int endX, int endY, Color color) {
+    public void drawLine(int startX, int startY, int endX, int endY, Colorc color) {
         Line.LineCoordinates lc = Line.getLineCoordinates(startX, startY, endX, endY, state.drawRegion, state.cropRegion);
 
         if (lc != null) {
@@ -727,7 +728,7 @@ public class CanvasImpl implements CanvasControl {
     }
 
     @Override
-    public void drawFilledRectangle(Rectanglei region, Color color) {
+    public void drawFilledRectangle(Rectanglei region, Colorc color) {
         drawTextureRaw(whiteTexture, region, color, ScaleMode.STRETCH);
 
     }
@@ -885,9 +886,9 @@ public class CanvasImpl implements CanvasControl {
         private float uh;
         private float alpha;
 
-        public DrawTextureOperation(UITextureRegion texture, Color color, ScaleMode mode, Rectanglei absoluteRegion,
+        public DrawTextureOperation(UITextureRegion texture, Colorc color, ScaleMode mode, Rectanglei absoluteRegion,
                                      Rectanglei cropRegion, float ux, float uy, float uw, float uh, float alpha) {
-            this.color = color;
+            this.color = new Color(color);
             this.mode = mode;
             this.texture = texture;
             this.absoluteRegion = absoluteRegion;
@@ -948,9 +949,9 @@ public class CanvasImpl implements CanvasControl {
         private int y0;
         private int x1;
         private int y1;
-        private Color color;
+        private Colorc color;
 
-        public DrawLineOperation(int x0, int y0, int x1, int y1, Color color) {
+        public DrawLineOperation(int x0, int y0, int x1, int y1, Colorc color) {
             this.x0 = x0;
             this.y0 = y0;
             this.x1 = x1;
@@ -971,13 +972,13 @@ public class CanvasImpl implements CanvasControl {
         private final HorizontalAlign hAlign;
         private final VerticalAlign vAlign;
         private final Rectanglei cropRegion;
-        private final Color shadowColor;
-        private final Color color;
+        private final Colorc shadowColor;
+        private final Colorc color;
         private final float alpha;
         private final boolean underline;
 
         public DrawTextOperation(String text, Font font, HorizontalAlign hAlign, VerticalAlign vAlign, Rectanglei absoluteRegion, Rectanglei cropRegion,
-                                  Color color, Color shadowColor, float alpha, boolean underline) {
+                                  Colorc color, Colorc shadowColor, float alpha, boolean underline) {
             this.text = text;
             this.font = font;
             this.absoluteRegion = absoluteRegion;

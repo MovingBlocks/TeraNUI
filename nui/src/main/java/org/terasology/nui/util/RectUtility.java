@@ -4,6 +4,7 @@ import org.joml.Rectanglef;
 import org.joml.Rectanglei;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 public final class RectUtility {
 
@@ -12,16 +13,15 @@ public final class RectUtility {
 
     /**
      * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
-     *
+     * <p>
      * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
      * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
      * into the range is returned.
      *
-     * @param minX the x-coordinate of the bottom-left corner
-     * @param minY the y-coordinate of the bottom-left corner
-     * @param width the width (x-direction)
+     * @param minX   the x-coordinate of the bottom-left corner
+     * @param minY   the y-coordinate of the bottom-left corner
+     * @param width  the width (x-direction)
      * @param height the height (y-direction)
-     *
      * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
      */
     public static Rectanglei createFromMinAndSize(int minX, int minY, int width, int height) {
@@ -33,12 +33,12 @@ public final class RectUtility {
 
     /**
      * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
-     *
+     * <p>
      * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
      * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
      * into the range is returned.
      *
-     * @param min the coordinates of the bottom-left corner
+     * @param min  the coordinates of the bottom-left corner
      * @param size the size of the rectangle
      * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
      */
@@ -48,16 +48,15 @@ public final class RectUtility {
 
     /**
      * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
-     *
+     * <p>
      * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
      * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
      * into the range is returned.
      *
-     * @param minX the x-coordinate of the bottom-left corner
-     * @param minY the y-coordinate of the bottom-left corner
-     * @param width the width (x-direction)
+     * @param minX   the x-coordinate of the bottom-left corner
+     * @param minY   the y-coordinate of the bottom-left corner
+     * @param width  the width (x-direction)
      * @param height the height (y-direction)
-     *
      * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
      */
     public static Rectanglef createFromMinAndSize(float minX, float minY, float width, float height) {
@@ -69,12 +68,12 @@ public final class RectUtility {
 
     /**
      * Create a 2D axis-aligned rectangle at bottom-left anchor position with given size.
-     *
+     * <p>
      * The result is guaranteed to be valid. If either width or height are negative an empty rectangle is returned.
      * If creating a rectangle of requested size would exceed the integer range the maximal rectangle that still fits
      * into the range is returned.
      *
-     * @param min the coordinates of the bottom-left corner
+     * @param min  the coordinates of the bottom-left corner
      * @param size the size of the rectangle
      * @return a 2D axis-aligned rectangle as specified, or an empty rectangle if either width or height are negative
      */
@@ -100,6 +99,20 @@ public final class RectUtility {
 
     public static boolean contains(Rectanglei rect, Vector2i point) {
         return point.x >= rect.minX && point.x < rect.maxX && point.y >= rect.minY && point.y < rect.maxY;
+    }
+
+    public static Rectanglei map(Rectanglei from, Rectanglei to, Rectanglei rect, Rectanglei dest) {
+        dest.minX = (int) (to.minX + ((float) (rect.minX - from.minX) * ((float) to.lengthX() / (float) from.lengthX())));
+        dest.maxX = (int) (to.minX + ((float) (rect.maxX - from.minX) * ((float) to.lengthX() / (float) from.lengthX())));
+        dest.minX = (int) (to.minY + ((float) (rect.minY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
+        dest.maxX = (int) (to.minY + ((float) (rect.maxY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
+        return dest;
+    }
+
+    public static Vector2i map(Rectanglei from, Rectanglei to, Vector2ic point, Vector2i dest) {
+        return dest.set(
+            (int) (to.minX + ((float) (point.x() - from.minX) * ((float) to.lengthX() / (float) from.lengthX()))),
+            (int) (to.minY + ((float) (point.y() - from.minY) * ((float) to.lengthY() / (float) from.lengthY()))));
     }
 
     public static Rectanglei expand(Rectanglei rect, Vector2i amount) {

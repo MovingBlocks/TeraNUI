@@ -16,6 +16,7 @@
 package org.terasology.nui.backends.libgdx;
 
 import org.terasology.nui.Color;
+import org.terasology.nui.Colorc;
 
 public final class GdxColorUtil {
     private GdxColorUtil() {
@@ -25,7 +26,7 @@ public final class GdxColorUtil {
         return new Color(color.r, color.g, color.b, color.a);
     }
 
-    public static com.badlogic.gdx.graphics.Color terasologyToGDXColor(Color color) {
+    public static com.badlogic.gdx.graphics.Color terasologyToGDXColor(Colorc color) {
         return new com.badlogic.gdx.graphics.Color(color.rf(), color.gf(), color.bf(), color.af());
     }
 }
