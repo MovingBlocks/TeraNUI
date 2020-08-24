@@ -104,8 +104,8 @@ public final class RectUtility {
     public static Rectanglei map(Rectanglei from, Rectanglei to, Rectanglei rect, Rectanglei dest) {
         dest.minX = (int) (to.minX + ((float) (rect.minX - from.minX) * ((float) to.lengthX() / (float) from.lengthX())));
         dest.maxX = (int) (to.minX + ((float) (rect.maxX - from.minX) * ((float) to.lengthX() / (float) from.lengthX())));
-        dest.minX = (int) (to.minY + ((float) (rect.minY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
-        dest.maxX = (int) (to.minY + ((float) (rect.maxY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
+        dest.minY = (int) (to.minY + ((float) (rect.minY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
+        dest.maxY = (int) (to.minY + ((float) (rect.maxY - from.minY) * ((float) to.lengthY() / (float) from.lengthY())));
         return dest;
     }
 
