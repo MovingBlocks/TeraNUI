@@ -283,10 +283,10 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
                 scaledHeight - absoluteRegion.minY - SHADOW_VERTICAL_OFFSET
                         - vAlign.getOffset(Math.abs((int)gdxFont.getGlyphLayout().height), absoluteRegion.lengthY()));
 
-        Deque<Color> colorStack = new LinkedList<Color>();
-        colorStack.push(new Color(color));
+        Deque<Colorc> colorStack = new LinkedList<>();
+        colorStack.push(color);
 
-        List<Map.Entry<String, Color>> textSegments = new ArrayList<>();
+        List<Map.Entry<String, Colorc>> textSegments = new ArrayList<>();
         StringBuilder currentSegment = new StringBuilder();
         for (char character : text.toCharArray()) {
             if (FontColor.isValid(character)) {
@@ -311,9 +311,9 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
 
         int lineHeight = Math.abs(gdxFont.getLineHeight());
 
-        for (Map.Entry<String, Color> textSegment : textSegments) {
+        for (Map.Entry<String, Colorc> textSegment : textSegments) {
             String contents = FontColor.stripColor(textSegment.getKey());
-            Color segmentColor = textSegment.getValue();
+            Colorc segmentColor = textSegment.getValue();
 
             if (contents.startsWith("\n")) {
                 textX = absoluteRegion.minX;
