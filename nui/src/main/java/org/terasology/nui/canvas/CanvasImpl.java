@@ -875,7 +875,7 @@ public class CanvasImpl implements CanvasControl {
 
     protected final class DrawTextureOperation implements DrawOperation {
 
-        private Color color;
+        private Colorc color;
         private ScaleMode mode;
         private UITextureRegion texture;
         private Rectanglei absoluteRegion;
@@ -888,7 +888,7 @@ public class CanvasImpl implements CanvasControl {
 
         public DrawTextureOperation(UITextureRegion texture, Colorc color, ScaleMode mode, Rectanglei absoluteRegion,
                                      Rectanglei cropRegion, float ux, float uy, float uw, float uh, float alpha) {
-            this.color = new Color(color);
+            this.color = color;
             this.mode = mode;
             this.texture = texture;
             this.absoluteRegion = absoluteRegion;
