@@ -205,6 +205,7 @@ public class ColorTest {
         Color c2 = new Color(0, 1.0f, 0);
         Color c3 = new Color(0, 0, 1.0f);
         Color c4 = new Color(1.5f, 0, 1.0f);
+        Color c5 = new Color(0, .5f, 1.0f);
 
         assertEquals(255, c1.r());
         assertEquals(0, c1.g());
@@ -228,6 +229,11 @@ public class ColorTest {
         assertEquals(c4.b(), 255);
         assertEquals(c4.a(), 255);
         assertEquals(Color.magenta, c4);
+
+        assertEquals(c5.r(), 0);
+        assertEquals(c5.g(), 127);
+        assertEquals(c5.b(), 255);
+        assertEquals(c5.a(), 255);
     }
 
     @Test
