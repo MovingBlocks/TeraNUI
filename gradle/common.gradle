@@ -15,7 +15,7 @@ repositories {
     jcenter()
     mavenCentral()
 
-    // MovingBlocks Artifactory instance for libs not readily available elsewhere plus our own libs
+    // Terasology Artifactory instance for libs not readily available elsewhere plus our own libs
     maven {
         def repoViaEnv = System.getenv()["RESOLUTION_REPO"]
         if (rootProject.hasProperty("alternativeResolutionRepo")) {
@@ -112,8 +112,4 @@ publishing {
             }
         }
     }
-}
-
-static def isMaster(gitBranch) {
-    return gitBranch != null && gitBranch.equals("master");
 }
