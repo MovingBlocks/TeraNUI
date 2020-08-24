@@ -1,13 +1,11 @@
 package org.terasology.nui;
 
-import org.junit.jupiter.api.Test;
-
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
+import org.junit.jupiter.api.Test;
 import org.terasology.nui.util.RectUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RectUtilityTest {
 
