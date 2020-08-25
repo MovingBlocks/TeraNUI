@@ -43,7 +43,7 @@ import java.util.Objects;
  *
  */
 @API
-public class Color implements Colorc{
+public class Color implements Colorc {
 
     @Deprecated
     public static final Color BLACK = new Color(0x000000FF);
@@ -98,6 +98,7 @@ public class Color implements Colorc{
 
     /**
      * range between 0x00000000 to 0xFFFFFFFF
+     *
      * @param representation color in hex format
      */
     public Color(int representation) {
@@ -106,6 +107,7 @@ public class Color implements Colorc{
 
     /**
      * set the color source
+     *
      * @param src color source
      */
     public Color(Colorc src) {
@@ -120,7 +122,7 @@ public class Color implements Colorc{
      * @param b blue in the range of 0.0f to 1.0f
      */
     public Color(float r, float g, float b) {
-        this((byte) (r * MAX), (byte) (g * MAX), (byte) (b * MAX));
+        this((int) (r * MAX), (int) (g * MAX), (int) (b * MAX));
     }
 
     /**
@@ -132,7 +134,7 @@ public class Color implements Colorc{
      * @param a alpha in the range of 0.0f to 1.0f
      */
     public Color(float r, float g, float b, float a) {
-        this((byte) (r * MAX), (byte) (g * MAX), (byte) (b * MAX), (byte) (a * MAX));
+        this((int) (r * MAX), (int) (g * MAX), (int) (b * MAX), (int) (a * MAX));
     }
 
     /**
@@ -226,7 +228,7 @@ public class Color implements Colorc{
             (byte) representation.w());
     }
 
-    public Color set(int representation){
+    public Color set(int representation) {
         this.representation = representation;
         return this;
     }
@@ -246,6 +248,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the red channel
+     *
      * @param value color range between 0-255
      * @return this
      */
@@ -255,6 +258,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the red channel
+     *
      * @param value color range between 0.0f to 1.0f
      * @return this
      */
@@ -264,6 +268,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the green channel
+     *
      * @param value color range between 0-255
      * @return this
      */
@@ -274,6 +279,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the green channel
+     *
      * @param value color range between 0.0f to 1.0f
      * @return this
      */
@@ -284,6 +290,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the blue channel
+     *
      * @param value blue range between 0-255
      * @return this
      */
@@ -293,6 +300,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the blue channel
+     *
      * @param value blue range between 0.0f to 1.0f
      * @return this
      */
@@ -302,6 +310,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the alpha channel
+     *
      * @param value alpha range between 0-255
      * @return this
      */
@@ -311,6 +320,7 @@ public class Color implements Colorc{
 
     /**
      * set the value of the alpha channel
+     *
      * @param value alpha range between 0.0f to 1.0f
      * @return this
      */
@@ -320,7 +330,6 @@ public class Color implements Colorc{
 
 
     /**
-     *
      * @param value
      * @return
      * @deprecated use {@link #setRed(int)} instead
@@ -332,7 +341,6 @@ public class Color implements Colorc{
     }
 
     /**
-     *
      * @param value
      * @return
      * @deprecated use {@link #setBlue(int)} instead
@@ -344,7 +352,6 @@ public class Color implements Colorc{
     }
 
     /**
-     *
      * @param value
      * @return
      * @deprecated use {@link #setBlue(int)} instead
@@ -368,6 +375,7 @@ public class Color implements Colorc{
 
     /**
      * 255 Subtract from all components except alpha
+     *
      * @return new instance of inverted {@link Color}
      * @deprecated use {@link #invert()} instead
      */
@@ -378,6 +386,7 @@ public class Color implements Colorc{
 
     /**
      * 255 Subtract from all components except alpha;
+     *
      * @return this
      */
     public Color invert() {
@@ -437,7 +446,7 @@ public class Color implements Colorc{
     }
 
     /**
-     * @deprecated  use {@link #rgba()} instead
+     * @deprecated use {@link #rgba()} instead
      */
     @Deprecated
     public int getRepresentation() {

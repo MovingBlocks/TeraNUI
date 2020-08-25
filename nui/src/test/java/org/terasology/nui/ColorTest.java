@@ -18,11 +18,11 @@ public class ColorTest {
 
     private static Stream<Arguments> nextGameNamesProvider() {
         return Stream.of(
-                Arguments.arguments("Custom", "Custom 1"),
-                Arguments.arguments("Custom 1", "Custom 2"),
-                Arguments.arguments("Custom 2", "Custom 3"),
-                Arguments.arguments("Custom 9", "Custom 10"),
-                Arguments.arguments("Custom 19", "Custom 20")
+            Arguments.arguments("Custom", "Custom 1"),
+            Arguments.arguments("Custom 1", "Custom 2"),
+            Arguments.arguments("Custom 2", "Custom 3"),
+            Arguments.arguments("Custom 9", "Custom 10"),
+            Arguments.arguments("Custom 19", "Custom 20")
         );
     }
 
@@ -49,12 +49,12 @@ public class ColorTest {
         assertEquals(72, color.r());
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterRed(-1),
-                "alter-method throws exception when color value is below lower bound");
+            () -> color.alterRed(-1),
+            "alter-method throws exception when color value is below lower bound");
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterRed(256),
-                "alter-method throws exception when color value is above upper bound");
+            () -> color.alterRed(256),
+            "alter-method throws exception when color value is above upper bound");
     }
 
     @Test
@@ -82,12 +82,12 @@ public class ColorTest {
         assertEquals(72, color.g());
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterGreen(-1),
-                "alter-method throws exception when color value is below lower bound");
+            () -> color.alterGreen(-1),
+            "alter-method throws exception when color value is below lower bound");
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterGreen(256),
-                "alter-method throws exception when color value is above upper bound");
+            () -> color.alterGreen(256),
+            "alter-method throws exception when color value is above upper bound");
     }
 
     @Test
@@ -115,12 +115,12 @@ public class ColorTest {
         assertEquals(72, color.b());
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterBlue(-1),
-                "alter-method throws exception when color value is below lower bound");
+            () -> color.alterBlue(-1),
+            "alter-method throws exception when color value is below lower bound");
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterBlue(256),
-                "alter-method throws exception when color value is above upper bound");
+            () -> color.alterBlue(256),
+            "alter-method throws exception when color value is above upper bound");
     }
 
     @Test
@@ -148,12 +148,12 @@ public class ColorTest {
         assertEquals(72, color.a());
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterAlpha(-1),
-                "alter-method throws exception when color value is below lower bound");
+            () -> color.alterAlpha(-1),
+            "alter-method throws exception when color value is below lower bound");
 
         assertThrows(IllegalArgumentException.class,
-                () -> color.alterAlpha(256),
-                "alter-method throws exception when color value is above upper bound");
+            () -> color.alterAlpha(256),
+            "alter-method throws exception when color value is above upper bound");
     }
 
     @Test
@@ -169,34 +169,111 @@ public class ColorTest {
     }
 
     @Test
-    public void testColor() {
+    public void testColorR() {
         Color c1 = new Color(255, 0, 0);
-        Color c2 = new Color(0, 255, 0);
-        Color c3 = new Color(0, 0, 255);
-        Color c4 = new Color(300, 0, 255);
 
         assertEquals(255, c1.r());
         assertEquals(0, c1.g());
         assertEquals(0, c1.b());
         assertEquals(255, c1.a());
         assertEquals(Color.red, c1);
+    }
+
+    @Test
+    public void testColorG() {
+        Color c2 = new Color(0, 255, 0);
 
         assertEquals(c2.r(), 0);
         assertEquals(c2.g(), 255);
         assertEquals(c2.b(), 0);
         assertEquals(c2.a(), 255);
         assertEquals(Color.green, c2);
+    }
+
+    @Test
+    public void testColorB() {
+        Color c3 = new Color(0, 0, 255);
 
         assertEquals(c3.r(), 0);
         assertEquals(c3.g(), 0);
         assertEquals(c3.b(), 255);
         assertEquals(Color.blue, c3);
+    }
+
+    @Test
+    public void testColorRWithOverflow() {
+        Color c4 = new Color(300, 0, 255);
 
         assertEquals(c4.r(), 255);
         assertEquals(c4.g(), 0);
         assertEquals(c4.b(), 255);
         assertEquals(c4.a(), 255);
         assertEquals(Color.magenta, c4);
+    }
+
+    @Test
+    public void testFloatColorR() {
+        Color c1 = new Color(1.0f, 0, 0);
+
+        assertEquals(255, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(255, c1.a());
+        assertEquals(Color.red, c1);
+    }
+
+
+    @Test
+    public void testFloatColorG() {
+        Color c2 = new Color(0, 1.0f, 0);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), 255);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+        assertEquals(Color.green, c2);
+    }
+
+    @Test
+    public void testFloatColorB() {
+        Color c3 = new Color(0, 0, 1.0f);
+
+        assertEquals(c3.r(), 0);
+        assertEquals(c3.g(), 0);
+        assertEquals(c3.b(), 255);
+        assertEquals(Color.blue, c3);
+    }
+
+    @Test
+    public void testFloatColorRWithOverflow() {
+        Color c4 = new Color(1.5f, 0, 1.0f);
+
+        assertEquals(c4.r(), 255);
+        assertEquals(c4.g(), 0);
+        assertEquals(c4.b(), 255);
+        assertEquals(c4.a(), 255);
+        assertEquals(Color.magenta, c4);
+    }
+
+    @Test
+    public void testFloatHalfRedColor() {
+        Color c5 = new Color(0, .5f, 1.0f);
+
+
+        assertEquals(c5.r(), 0);
+        assertEquals(c5.g(), 127);
+        assertEquals(c5.b(), 255);
+        assertEquals(c5.a(), 255);
+    }
+
+    @Test
+    public void testFloatAlpha() {
+        Color c5 = new Color(0, .5f, 1.0f, .5f);
+
+        assertEquals(c5.r(), 0);
+        assertEquals(c5.g(), 127);
+        assertEquals(c5.b(), 255);
+        assertEquals(c5.a(), 127);
     }
 
     @Test
