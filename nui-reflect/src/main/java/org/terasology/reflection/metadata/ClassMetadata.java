@@ -133,8 +133,18 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     /**
      * @param id The previously set id of the field
      * @return The field identified by the given id, or null if there is no such field
+     * @deprecated use getField(byte) or change fieldsById to support a larger type if needed
      */
+    @Deprecated
     public FIELD getField(int id) {
+        return getField((byte) id);
+    }
+
+    /**
+     * @param id The previously set id of the field
+     * @return The field identified by the given id, or null if there is no such field
+     */
+    public FIELD getField(byte id) {
         return fieldsById.get(id);
     }
 
