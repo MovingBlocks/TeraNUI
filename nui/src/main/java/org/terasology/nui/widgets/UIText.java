@@ -23,6 +23,7 @@ import org.terasology.input.Keyboard;
 import org.terasology.input.Keyboard.KeyId;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.KeyboardDevice;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
@@ -399,13 +400,6 @@ public class UIText extends WidgetWithOrder {
                         listener.onActivated(this);
                     }
                     eventHandled = true;
-                } else if (event.getKeyCharacter() != 0 && lastFont.hasCharacter(event.getKeyCharacter())) {
-                    String fullText = text.get();
-                    String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
-                    String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
-                    setText(before + event.getKeyCharacter() + after);
-                    setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
-                    eventHandled = true;
                 }
             } else {
                 String fullText = text.get();
@@ -511,13 +505,6 @@ public class UIText extends WidgetWithOrder {
                                     break;
                                 }
                             }
-                            if (event.getKeyCharacter() != 0 && lastFont.hasCharacter(event.getKeyCharacter())) {
-                                String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
-                                String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
-                                setText(before + event.getKeyCharacter() + after);
-                                setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
-                                eventHandled = true;
-                            }
                             break;
                         }
                     }
@@ -527,6 +514,25 @@ public class UIText extends WidgetWithOrder {
         updateOffset();
         return eventHandled;
     }
+
+    @Override
+    public boolean onCharEvent(NUICharEvent event) {
+        correctCursor();
+        boolean eventHandled = false;
+        if (isEnabled() && lastFont != null) {
+            if (event.getCharacter() != 0 && lastFont.hasCharacter(event.getCharacter())) {
+                String fullText = text.get();
+                String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
+                String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
+                setText(before + event.getCharacter() + after);
+                setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
+                eventHandled = true;
+            }
+        }
+        return eventHandled;
+    }
+
+
 
     /**
      * Updates the cursor offset.

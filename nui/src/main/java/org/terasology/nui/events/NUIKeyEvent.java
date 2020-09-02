@@ -25,22 +25,16 @@ import org.terasology.input.device.MouseDevice;
  */
 public class NUIKeyEvent extends NUIInputEvent {
     private Input key;
-    private char keyCharacter;
     private ButtonState state;
 
-    public NUIKeyEvent(MouseDevice mouse, KeyboardDevice keyboard, Input key, char keyChar, ButtonState state) {
+    public NUIKeyEvent(MouseDevice mouse, KeyboardDevice keyboard, Input key, ButtonState state) {
         super(mouse, keyboard);
         this.key = key;
-        this.keyCharacter = keyChar;
         this.state = state;
     }
 
     public Input getKey() {
         return key;
-    }
-
-    public char getKeyCharacter() {
-        return keyCharacter;
     }
 
     public ButtonState getState() {

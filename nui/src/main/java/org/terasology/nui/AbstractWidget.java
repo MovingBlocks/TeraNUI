@@ -25,6 +25,7 @@ import org.terasology.input.MouseInput;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 import org.terasology.nui.databinding.ReadOnlyBinding;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
@@ -307,6 +308,11 @@ public abstract class AbstractWidget implements UIWidget {
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
         return onTabbingInput(event.getKey(), event.getState());
+    }
+
+    @Override
+    public boolean onCharEvent(NUICharEvent nuiEvent) {
+        return false;
     }
 
     @Override

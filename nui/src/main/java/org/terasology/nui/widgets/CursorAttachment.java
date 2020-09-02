@@ -76,26 +76,26 @@ public class CursorAttachment extends CoreWidget {
         int top;
         switch (style.getVerticalAlignment()) {
             case TOP:
-                top = mouse.getMousePosition().y - attachmentSize.y;
+                top = mouse.getPosition().y - attachmentSize.y;
                 break;
             case MIDDLE:
-                top = mouse.getMousePosition().y - attachmentSize.y / 2;
+                top = mouse.getPosition().y - attachmentSize.y / 2;
                 break;
             default:
-                top = mouse.getMousePosition().y + MOUSE_CURSOR_HEIGHT;
+                top = mouse.getPosition().y + MOUSE_CURSOR_HEIGHT;
                 break;
         }
         top = NUIMathUtil.clamp(top, 0, canvas.size().y - attachmentSize.y);
         int left;
         switch (style.getHorizontalAlignment()) {
             case RIGHT:
-                left = mouse.getMousePosition().x - attachmentSize.x;
+                left = mouse.getPosition().x - attachmentSize.x;
                 break;
             case CENTER:
-                left = mouse.getMousePosition().x - attachmentSize.x / 2;
+                left = mouse.getPosition().x - attachmentSize.x / 2;
                 break;
             default:
-                left = mouse.getMousePosition().x;
+                left = mouse.getPosition().x;
                 break;
         }
         left = NUIMathUtil.clamp(left, 0, canvas.size().x - attachmentSize.x);
