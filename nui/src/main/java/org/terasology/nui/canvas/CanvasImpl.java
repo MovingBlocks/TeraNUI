@@ -1,54 +1,41 @@
-/*
- * Copyright 2014 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.canvas;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terasology.input.MouseInput;
-import org.terasology.input.device.KeyboardDevice;
-import org.terasology.input.device.MouseDevice;
-import org.terasology.nui.Border;
-import org.terasology.nui.Colorc;
-import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
-import org.terasology.nui.FocusManager;
-import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.UITextureRegion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.nui.BaseInteractionListener;
+import org.terasology.nui.Border;
 import org.terasology.nui.Color;
+import org.terasology.nui.Colorc;
+import org.terasology.nui.FocusManager;
 import org.terasology.nui.HorizontalAlign;
 import org.terasology.nui.InteractionListener;
 import org.terasology.nui.ScaleMode;
 import org.terasology.nui.SubRegion;
 import org.terasology.nui.TabbingManager;
+import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.UIWidget;
 import org.terasology.nui.VerticalAlign;
+import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseOverEvent;
 import org.terasology.nui.events.NUIMouseReleaseEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
+import org.terasology.nui.input.MouseInput;
+import org.terasology.nui.input.device.KeyboardDevice;
+import org.terasology.nui.input.device.MouseDevice;
 import org.terasology.nui.skin.UISkin;
 import org.terasology.nui.skin.UIStyle;
+import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.UILabel;
 import org.terasology.nui.widgets.UITooltip;
@@ -793,7 +780,7 @@ public class CanvasImpl implements CanvasControl {
     protected class SubRegionImpl implements SubRegion {
 
         public boolean croppingRegion;
-        private CanvasState previousState;
+        private final CanvasState previousState;
         private boolean disposed;
 
         public SubRegionImpl(Rectanglei region, boolean crop) {
@@ -875,19 +862,19 @@ public class CanvasImpl implements CanvasControl {
 
     protected final class DrawTextureOperation implements DrawOperation {
 
-        private Colorc color;
-        private ScaleMode mode;
-        private UITextureRegion texture;
-        private Rectanglei absoluteRegion;
-        private Rectanglei cropRegion;
-        private float ux;
-        private float uy;
-        private float uw;
-        private float uh;
-        private float alpha;
+        private final Colorc color;
+        private final ScaleMode mode;
+        private final UITextureRegion texture;
+        private final Rectanglei absoluteRegion;
+        private final Rectanglei cropRegion;
+        private final float ux;
+        private final float uy;
+        private final float uw;
+        private final float uh;
+        private final float alpha;
 
         public DrawTextureOperation(UITextureRegion texture, Colorc color, ScaleMode mode, Rectanglei absoluteRegion,
-                                     Rectanglei cropRegion, float ux, float uy, float uw, float uh, float alpha) {
+                                    Rectanglei cropRegion, float ux, float uy, float uw, float uh, float alpha) {
             this.color = color;
             this.mode = mode;
             this.texture = texture;
@@ -910,19 +897,21 @@ public class CanvasImpl implements CanvasControl {
 
     protected final class DrawBorderedTextureOperation implements DrawOperation {
 
-        private UITextureRegion texture;
-        private Border border;
-        private boolean tile;
-        private Rectanglei absoluteRegion;
-        private Rectanglei cropRegion;
-        private float ux;
-        private float uy;
-        private float uw;
-        private float uh;
-        private float alpha;
+        private final UITextureRegion texture;
+        private final Border border;
+        private final boolean tile;
+        private final Rectanglei absoluteRegion;
+        private final Rectanglei cropRegion;
+        private final float ux;
+        private final float uy;
+        private final float uw;
+        private final float uh;
+        private final float alpha;
 
-        public DrawBorderedTextureOperation(UITextureRegion texture, Rectanglei absoluteRegion, Border border, boolean tile,
-                                             Rectanglei cropRegion, float ux, float uy, float uw, float uh, float alpha) {
+        public DrawBorderedTextureOperation(UITextureRegion texture, Rectanglei absoluteRegion, Border border,
+                                            boolean tile,
+                                            Rectanglei cropRegion, float ux, float uy, float uw, float uh,
+                                            float alpha) {
             this.texture = texture;
             this.tile = tile;
             this.absoluteRegion = absoluteRegion;
@@ -945,11 +934,11 @@ public class CanvasImpl implements CanvasControl {
 
     protected final class DrawLineOperation implements DrawOperation {
 
-        private int x0;
-        private int y0;
-        private int x1;
-        private int y1;
-        private Colorc color;
+        private final int x0;
+        private final int y0;
+        private final int x1;
+        private final int y1;
+        private final Colorc color;
 
         public DrawLineOperation(int x0, int y0, int x1, int y1, Colorc color) {
             this.x0 = x0;

@@ -1,50 +1,37 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terasology.input.Keyboard;
-import org.terasology.input.Keyboard.KeyId;
-import org.terasology.input.MouseInput;
-import org.terasology.input.device.KeyboardDevice;
-import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
-import org.terasology.nui.FontColor;
-import org.terasology.nui.FontUnderline;
-import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.UITextureRegion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.Color;
+import org.terasology.nui.FontColor;
+import org.terasology.nui.FontUnderline;
 import org.terasology.nui.InteractionListener;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.SubRegion;
 import org.terasology.nui.TextLineBuilder;
+import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.WidgetWithOrder;
+import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseClickEvent;
+import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseReleaseEvent;
-import org.terasology.nui.events.NUIMouseDoubleClickEvent;
+import org.terasology.nui.input.Keyboard;
+import org.terasology.nui.input.Keyboard.KeyId;
+import org.terasology.nui.input.MouseInput;
+import org.terasology.nui.input.device.KeyboardDevice;
+import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.util.RectUtility;
 
 import java.awt.Toolkit;
@@ -170,7 +157,7 @@ public class UIText extends WidgetWithOrder {
 
     /* The placeholder hint text. */
     @LayoutConfig
-    private String hintText = "";
+    private final String hintText = "";
 
     /* Whether the box is currently showing the hint text. */
     private boolean isShowingHintText = true;
@@ -180,7 +167,7 @@ public class UIText extends WidgetWithOrder {
 
     private float blinkCounter;
 
-    private UITextureRegion cursorTexture;
+    private final UITextureRegion cursorTexture;
 
     public static UITextureRegion DEFAULT_CURSOR_TEXTURE;
 

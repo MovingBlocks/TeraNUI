@@ -1,25 +1,9 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import org.terasology.input.Keyboard;
-import org.terasology.input.MouseInput;
-import org.terasology.input.device.KeyboardDevice;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.BaseInteractionListener;
@@ -36,6 +20,9 @@ import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseOverEvent;
 import org.terasology.nui.events.NUIMouseReleaseEvent;
+import org.terasology.nui.input.Keyboard;
+import org.terasology.nui.input.MouseInput;
+import org.terasology.nui.input.device.KeyboardDevice;
 import org.terasology.nui.itemRendering.ItemRenderer;
 import org.terasology.nui.itemRendering.ToStringTextRenderer;
 import org.terasology.nui.util.RectUtility;
@@ -74,16 +61,16 @@ public class UITreeView<T> extends CoreWidget {
      * The horizontal indentation, in pixels, corresponding to one level in the tree.
      */
     @LayoutConfig
-    private Binding<Integer> levelIndent = new DefaultBinding<>(25);
+    private final Binding<Integer> levelIndent = new DefaultBinding<>(25);
     /**
      * The underlying tree model - a wrapper around a {@code Tree<T>}.
      */
-    private Binding<TreeModel<T>> model = new DefaultBinding<>(new TreeModel<>());
+    private final Binding<TreeModel<T>> model = new DefaultBinding<>(new TreeModel<>());
     /**
      * The state of the tree - includes session-specific information about the currently selected node, copied node etc.
      * See the documentation {@link TreeViewState} for information concerning specific state variables.
      */
-    private TreeViewState<T> state = new TreeViewState<>();
+    private final TreeViewState<T> state = new TreeViewState<>();
     /**
      * The item renderer used for drawing the values of the tree.
      */
@@ -99,19 +86,19 @@ public class UITreeView<T> extends CoreWidget {
     /**
      * Listeners fired when the model of the tree is updated.
      */
-    private List<UpdateListener> updateListeners = Lists.newArrayList();
+    private final List<UpdateListener> updateListeners = Lists.newArrayList();
     /**
      * Listeners fired when a node is clicked. Can be subscribed to.
      */
-    private List<TreeMouseClickListener> nodeClickListeners = Lists.newArrayList();
+    private final List<TreeMouseClickListener> nodeClickListeners = Lists.newArrayList();
     /**
      * Listeners fired when a node is double-clicked. Can be subscribed to.
      */
-    private List<TreeMouseClickListener> nodeDoubleClickListeners = Lists.newArrayList();
+    private final List<TreeMouseClickListener> nodeDoubleClickListeners = Lists.newArrayList();
     /**
      * Listeners fired when a key is pressed. Can be subscribed to.
      */
-    private List<TreeKeyEventListener> keyEventListeners = Lists.newArrayList();
+    private final List<TreeKeyEventListener> keyEventListeners = Lists.newArrayList();
 
     public UITreeView() {
     }
@@ -552,7 +539,7 @@ public class UITreeView<T> extends CoreWidget {
     }
 
     private class ExpandButtonInteractionListener extends BaseInteractionListener {
-        private int index;
+        private final int index;
 
         ExpandButtonInteractionListener(int index) {
             this.index = index;
@@ -583,7 +570,7 @@ public class UITreeView<T> extends CoreWidget {
     }
 
     private class NodeTopListener extends BaseInteractionListener {
-        private int index;
+        private final int index;
 
         NodeTopListener(int index) {
             this.index = index;
@@ -623,7 +610,7 @@ public class UITreeView<T> extends CoreWidget {
     }
 
     private class NodeCenterListener extends BaseInteractionListener {
-        private int index;
+        private final int index;
 
         NodeCenterListener(int index) {
             this.index = index;
@@ -662,7 +649,7 @@ public class UITreeView<T> extends CoreWidget {
     }
 
     private class NodeBottomListener extends BaseInteractionListener {
-        private int index;
+        private final int index;
 
         NodeBottomListener(int index) {
             this.index = index;
@@ -708,15 +695,15 @@ public class UITreeView<T> extends CoreWidget {
         /**
          * The top listener.
          */
-        private NodeTopListener topListener;
+        private final NodeTopListener topListener;
         /**
          * The central listener.
          */
-        private NodeCenterListener centerListener;
+        private final NodeCenterListener centerListener;
         /**
          * The bottom listener.
          */
-        private NodeBottomListener bottomListener;
+        private final NodeBottomListener bottomListener;
 
         private TreeViewListenerSet(NodeTopListener topListener, NodeCenterListener centerListener, NodeBottomListener bottomListener) {
             this.topListener = topListener;

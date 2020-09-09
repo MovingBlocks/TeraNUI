@@ -1,20 +1,7 @@
-/*
- * Copyright 2015 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
-package org.terasology.input;
+package org.terasology.nui.input;
 
 import java.util.Locale;
 
@@ -48,10 +35,10 @@ public enum ControllerInput implements Input {
     BUTTON_10(InputType.CONTROLLER_BUTTON, ControllerId.TEN, "BUTTON_10", "Controller Button 10"),
     BUTTON_11(InputType.CONTROLLER_BUTTON, ControllerId.ELEVEN, "BUTTON_11", "Controller Button 11");
 
-    private int id;
-    private String displayName;
-    private String name;
-    private InputType type;
+    private final int id;
+    private final String displayName;
+    private final String name;
+    private final InputType type;
 
     ControllerInput(InputType type, int id, String name, String displayName) {
         this.type = type;

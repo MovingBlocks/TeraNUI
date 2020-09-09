@@ -1,26 +1,11 @@
-/*
- * Copyright 2017 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.layouts;
 
 import com.google.common.collect.Lists;
-import org.terasology.input.Keyboard;
 import org.joml.Rectanglei;
-import org.terasology.nui.util.NUIMathUtil;
-import org.joml.Vector2i;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.CoreLayout;
@@ -31,6 +16,8 @@ import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseOverEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
+import org.terasology.nui.input.Keyboard;
+import org.terasology.nui.util.NUIMathUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +28,7 @@ import java.util.List;
  *
  */
 public class ZoomableLayout extends CoreLayout {
-    private List<PositionalWidget> widgets = Lists.newArrayList();
+    private final List<PositionalWidget> widgets = Lists.newArrayList();
     private Vector2f pixelSize;
     private Vector2i screenSize;
     private Vector2f windowPosition = new Vector2f();
@@ -49,7 +36,7 @@ public class ZoomableLayout extends CoreLayout {
 
     private Vector2i last;
 
-    private InteractionListener dragListener = new BaseInteractionListener() {
+    private final InteractionListener dragListener = new BaseInteractionListener() {
         @Override
         public void onMouseOver(NUIMouseOverEvent event) {
             last = new Vector2i(event.getRelativeMousePosition());
@@ -174,7 +161,7 @@ public class ZoomableLayout extends CoreLayout {
     @Override
     public Iterator<UIWidget> iterator() {
         return new Iterator<UIWidget>() {
-            private Iterator<PositionalWidget> delegate = widgets.iterator();
+            private final Iterator<PositionalWidget> delegate = widgets.iterator();
 
             @Override
             public boolean hasNext() {

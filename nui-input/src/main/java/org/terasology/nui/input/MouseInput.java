@@ -1,20 +1,7 @@
-/*
- * Copyright 2013 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 
-package org.terasology.input;
+package org.terasology.nui.input;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -35,13 +22,13 @@ public enum MouseInput implements Input {
     WHEEL_UP(InputType.MOUSE_WHEEL, 1, "MOUSE_WHEEL_UP", "Mouse Wheel Up", "MWHEEL_UP"),
     WHEEL_DOWN(InputType.MOUSE_WHEEL, -1, "MOUSE_WHEEL_DOWN", "Mouse Wheel Down", "MWHEEL_DOWN");
 
-    private static Map<String, MouseInput> lookup = Maps.newHashMap();
+    private static final Map<String, MouseInput> lookup = Maps.newHashMap();
 
-    private InputType type;
-    private int id;
-    private String displayName;
-    private String name;
-    private Set<String> identifiers;
+    private final InputType type;
+    private final int id;
+    private final String displayName;
+    private final String name;
+    private final Set<String> identifiers;
 
     static {
         for (MouseInput value : values()) {

@@ -1,29 +1,13 @@
-/*
- * Copyright 2016 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.widgets;
 
 import com.google.common.collect.Lists;
-import org.terasology.input.Keyboard;
-import org.terasology.input.MouseInput;
-import org.terasology.nui.itemRendering.ToStringTextRenderer;
-import org.terasology.nui.Border;
 import org.joml.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.ActivatableWidget;
 import org.terasology.nui.BaseInteractionListener;
+import org.terasology.nui.Border;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
@@ -31,7 +15,10 @@ import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseOverEvent;
+import org.terasology.nui.input.Keyboard;
+import org.terasology.nui.input.MouseInput;
 import org.terasology.nui.itemRendering.ItemRenderer;
+import org.terasology.nui.itemRendering.ToStringTextRenderer;
 import org.terasology.nui.util.RectUtility;
 
 import java.util.ArrayList;
@@ -47,16 +34,16 @@ public class UIList<T> extends ActivatableWidget {
 
     private final List<ItemActivateEventListener<T>> activateListeners = Lists.newArrayList();
     private final List<ItemSelectEventListener<T>> selectionListeners = Lists.newArrayList();
-    private Binding<Boolean> interactive = new DefaultBinding<>(true);
+    private final Binding<Boolean> interactive = new DefaultBinding<>(true);
     private Binding<Boolean> selectable = new DefaultBinding<>(true);
     private Binding<T> selection = new DefaultBinding<>();
     private Binding<List<T>> list = new DefaultBinding<>(new ArrayList<>());
     private ItemRenderer<T> itemRenderer = new ToStringTextRenderer<>();
-    private Binding<Boolean> canBeFocus = new DefaultBinding<>(true);
+    private final Binding<Boolean> canBeFocus = new DefaultBinding<>(true);
     private int itemSize;
     private int canvasSize;
 
-    private List<ItemInteractionListener> optionListeners = Lists.newArrayList();
+    private final List<ItemInteractionListener> optionListeners = Lists.newArrayList();
 
 
     public UIList() {
@@ -297,7 +284,7 @@ public class UIList<T> extends ActivatableWidget {
     }
 
     private class ItemInteractionListener extends BaseInteractionListener {
-        private int index;
+        private final int index;
 
         ItemInteractionListener(int index) {
             this.index = index;
