@@ -1,0 +1,98 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+package org.terasology.nui.reflection;
+
+import org.terasology.gestalt.module.sandbox.API;
+
+import java.lang.reflect.Type;
+
+/**
+ * Represents the type {@link T}. The type information generated is more comprehensive than {@link Class},
+ * and {@link #type} correctly represents {@link T} regardless of whether it is generic or a wildcard type.
+ *
+ * <p>
+ * Clients must create a subclass so that the proper {@link Type} can be retrieved at run-time:
+ *
+ * <p>
+ * {@code TypeInfo<List<String>> list = new TypeInfo<List<String>>() {}; }
+ *
+ * <p>
+ * However, if the {@link Type} for the given type is already available, {@link TypeInfo#of(Type)}
+ * can be used:
+ *
+ * <p>
+ * {@code TypeInfo fieldType = TypeInfo.of(field.getGenericType()); }
+ *
+ * <p>
+ * Alternatively, if the type is a simple class, {@link TypeInfo#of(Class)} will suffice:
+ *
+ * <p>
+ * {@code TypeInfo<String> string = TypeInfo.of(String.class); }
+ *
+ * @param <T> The type for which type information is to be generated.
+ */
+@API
+public abstract class TypeInfo<T> {
+    private final Class<T> rawType;
+    private final Type type;
+    private final int hashCode;
+
+    /**
+     * Constructs a new {@link TypeInfo} where the represented type is derived from the type parameter.
+     */
+    @SuppressWarnings("unchecked")
+    protected TypeInfo() {
+        this.type = ReflectionUtil.getTypeParameterForSuper(getClass(), TypeInfo.class, 0);
+        this.rawType = (Class<T>) ReflectionUtil.getRawType(type);
+        this.hashCode = type.hashCode();
+    }
+
+    /**
+     * Constructs a new {@link TypeInfo} directly from the type.
+     */
+    @SuppressWarnings("unchecked")
+    protected TypeInfo(Type type) {
+        this.type = type;
+        this.rawType = (Class<T>) ReflectionUtil.getRawType(type);
+        this.hashCode = type.hashCode();
+    }
+
+    /**
+     * Creates a {@link TypeInfo} for the given type.
+     */
+    public static TypeInfo<?> of(Type type) {
+        return new TypeInfo<Object>(type) {};
+    }
+
+    /**
+     * Creates a {@link TypeInfo} for the given {@link Class}.
+     */
+    public static <T> TypeInfo<T> of(Class<T> type) {
+        return new TypeInfo<T>(type) {};
+    }
+
+    public final Class<T> getRawType() {
+        return rawType;
+    }
+
+    public final Type getType() {
+        return type;
+    }
+
+    @Override
+    public final int hashCode() {
+        return this.hashCode;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        return o instanceof TypeInfo<?>
+                && ReflectionUtil.typeEquals(type, ((TypeInfo<?>) o).type);
+    }
+
+    @Override
+    public final String toString() {
+        return type.toString();
+    }
+}
