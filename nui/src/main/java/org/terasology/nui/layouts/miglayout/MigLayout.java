@@ -114,7 +114,7 @@ public class MigLayout extends CoreLayout<MigLayout.CCHint> implements Container
 
     public void setRowConstraints(String constraint) {
         rowConstraints = constraint;
-        setRc(ConstraintParser.parseColumnConstraints(ConstraintParser.prepare(constraint)));
+        setRc(ConstraintParser.parseRowConstraints(ConstraintParser.prepare(constraint)));
     }
 
     @Override
