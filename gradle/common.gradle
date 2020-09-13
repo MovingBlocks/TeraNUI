@@ -41,12 +41,6 @@ repositories {
             allowInsecureProtocol true  // 😱
         }
     }
-
-    maven {
-        name "snowplow (pre-0.9)"
-        url "http://maven.snplow.com/releases"
-        allowInsecureProtocol true  // 😱
-    }
 }
 
 // Extra details provided for unit tests

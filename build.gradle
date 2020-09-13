@@ -43,7 +43,7 @@ repositories {
     }
 }
 
-// Define configurations for natives and config
+// Define configurations for analytics config
 configurations {
     codeAnalyticsConfig
 }

@@ -32,9 +32,9 @@ pipeline {
                 recordIssues tool: javaDoc()
                 //Note: Javadoc archiver only works for one directory :-(
                 step([$class: 'JavadocArchiver', javadocDir: 'nui/build/docs/javadoc', keepAll: false])
-                //recordIssues tool: checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
-                //recordIssues tool: spotBugs(pattern: '**/build/reports/spotbugs/main/*.xml', useRankAsPriority: true)
-                //recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
+                recordIssues tool: checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
+                recordIssues tool: spotBugs(pattern: '**/build/reports/spotbugs/main/*.xml', useRankAsPriority: true)
+                recordIssues tool: pmdParser(pattern: '**/build/reports/pmd/*.xml')
                 recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.groovy,**/*.gradle', lowTags: 'WIBNIF', normalTags: 'TODO', highTags: 'ASAP')
             }
         }
