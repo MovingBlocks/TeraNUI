@@ -16,8 +16,9 @@
 package org.terasology.nui.backends.libgdx;
 
 import com.badlogic.gdx.Gdx;
-import org.terasology.input.device.KeyboardAction;
+import org.terasology.input.device.CharKeyboardAction;
 import org.terasology.input.device.KeyboardDevice;
+import org.terasology.input.device.RawKeyboardAction;
 
 import java.util.Queue;
 
@@ -27,8 +28,13 @@ public class LibGDXKeyboardDevice implements KeyboardDevice {
     }
 
     @Override
-    public Queue<KeyboardAction> getInputQueue() {
+    public Queue<RawKeyboardAction> getInputQueue() {
         return NUIInputProcessor.getInstance().getKeyboardInputQueue();
+    }
+
+    @Override
+    public Queue<CharKeyboardAction> getCharInputQueue() {
+        return NUIInputProcessor.getInstance().getKeyboardCharQueue();
     }
 
     /**
