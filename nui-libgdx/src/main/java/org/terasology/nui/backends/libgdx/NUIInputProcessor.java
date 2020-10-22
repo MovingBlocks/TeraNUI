@@ -22,15 +22,17 @@ import com.badlogic.gdx.InputProcessor;
 import org.terasology.input.ButtonState;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
-import org.terasology.input.device.KeyboardAction;
+import org.terasology.input.device.CharKeyboardAction;
 import org.terasology.input.device.MouseAction;
+import org.terasology.input.device.RawKeyboardAction;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class NUIInputProcessor implements InputProcessor {
     private Keyboard.Key lastKey;
-    private Queue<KeyboardAction> keyboardActionQueue = new LinkedList<>();
+    private Queue<RawKeyboardAction> keyboardActionQueue = new LinkedList<>();
+    private Queue<CharKeyboardAction> keyboardCharQueue = new LinkedList<>();
     private Queue<MouseAction> mouseActionQueue = new LinkedList<>();
     private static NUIInputProcessor instance = new NUIInputProcessor();
 
@@ -63,8 +65,14 @@ public class NUIInputProcessor implements InputProcessor {
         return instance;
     }
 
-    public Queue<KeyboardAction> getKeyboardInputQueue() {
-        Queue<KeyboardAction> copy = new LinkedList<>(keyboardActionQueue);
+    public Queue<RawKeyboardAction> getKeyboardInputQueue() {
+        Queue<RawKeyboardAction> copy = new LinkedList<>(keyboardActionQueue);
+        keyboardActionQueue.clear();
+        return copy;
+    }
+
+    public Queue<CharKeyboardAction> getKeyboardCharQueue() {
+        Queue<CharKeyboardAction> copy = new LinkedList<>(keyboardCharQueue);
         keyboardActionQueue.clear();
         return copy;
     }
@@ -90,7 +98,7 @@ public class NUIInputProcessor implements InputProcessor {
             return false;
         }
 
-        keyboardActionQueue.add(new KeyboardAction(key, ButtonState.DOWN, keyChar));
+        keyboardActionQueue.add(new RawKeyboardAction(key, ButtonState.DOWN));
         return CONSUME_INPUT;
     }
 
@@ -109,7 +117,7 @@ public class NUIInputProcessor implements InputProcessor {
             return false;
         }
 
-        keyboardActionQueue.add(new KeyboardAction(key, ButtonState.UP, keyChar));
+        keyboardActionQueue.add(new RawKeyboardAction(key, ButtonState.UP));
         return CONSUME_INPUT;
     }
 
@@ -123,9 +131,7 @@ public class NUIInputProcessor implements InputProcessor {
         if (character == '\\') {
             lastKey = Keyboard.Key.BACKSLASH;
         }
-
-        keyboardActionQueue.add(new KeyboardAction(lastKey, ButtonState.DOWN, character));
-        keyboardActionQueue.add(new KeyboardAction(lastKey, ButtonState.UP, character));
+        keyboardCharQueue.add(new CharKeyboardAction(character));
         return CONSUME_INPUT;
     }
 
