@@ -38,18 +38,6 @@ public interface Input {
     int getId();
 
     /**
-     * Returns the char for the associated key else '\0' if doesn't map to a character
-     * @return a character
-     */
-    char getChar();
-
-    /**
-     * Returns true if it is a printable charcter
-     * @return is printable
-     */
-    boolean isCharacter();
-
-    /**
      * Returns the identifying name of the button, key, or other input represented.
      *
      * @return The input name.

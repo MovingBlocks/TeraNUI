@@ -344,7 +344,10 @@ public final class Keyboard {
             return id;
         }
 
-        @Override
+        /**
+         * Returns the char for the associated key else '\0' if doesn't map to a character
+         * @return a character
+         */
         public char getChar() {
             return character;
         }
@@ -369,7 +372,10 @@ public final class Keyboard {
             return name;
         }
 
-        @Override
+        /**
+         * Returns true if it is a printable charcter
+         * @return is printable
+         */
         public boolean isCharacter() {
             return this.character != 0;
         }
