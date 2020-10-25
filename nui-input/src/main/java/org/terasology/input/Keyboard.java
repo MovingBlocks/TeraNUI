@@ -171,64 +171,16 @@ public final class Keyboard {
      */
     public enum Key implements Input {
         NONE(KeyId.NONE, "KEY_NONE", ""),
+        // function keys
         ESCAPE(KeyId.ESCAPE, "KEY_ESCAPE", "Escape"),
-        KEY_1(KeyId.KEY_1, "KEY_1", "1"),
-        KEY_2(KeyId.KEY_2, "KEY_2", "2"),
-        KEY_3(KeyId.KEY_3, "KEY_3", "3"),
-        KEY_4(KeyId.KEY_4, "KEY_4", "4"),
-        KEY_5(KeyId.KEY_5, "KEY_5", "5"),
-        KEY_6(KeyId.KEY_6, "KEY_6", "6"),
-        KEY_7(KeyId.KEY_7, "KEY_7", "7"),
-        KEY_8(KeyId.KEY_8, "KEY_8", "8"),
-        KEY_9(KeyId.KEY_9, "KEY_9", "9"),
-        KEY_0(KeyId.KEY_0, "KEY_0", "0"),
-        MINUS(KeyId.MINUS, "KEY_MINUS", "-"),
-        EQUALS(KeyId.EQUALS, "KEY_EQUALS", "="),
         BACKSPACE(KeyId.BACKSPACE, "KEY_BACK", "Backspace"),
-        TAB(KeyId.TAB, "KEY_TAB", "Tab"),
-        Q(KeyId.Q, "KEY_Q", "Q"),
-        W(KeyId.W, "KEY_W", "W"),
-        E(KeyId.E, "KEY_E", "E"),
-        R(KeyId.R, "KEY_R", "R"),
-        T(KeyId.T, "KEY_T", "T"),
-        Y(KeyId.Y, "KEY_Y", "Y"),
-        U(KeyId.U, "KEY_U", "U"),
-        I(KeyId.I, "KEY_I", "I"),
-        O(KeyId.O, "KEY_O", "O"),
-        P(KeyId.P, "KEY_P", "P"),
-        LEFT_BRACKET(KeyId.LEFT_BRACKET, "KEY_LBRACKET", "["),
-        RIGHT_BRACKET(KeyId.RIGHT_BRACKET, "KEY_RBRACKET", "]"),
-        ENTER(KeyId.ENTER, "KEY_RETURN", "Enter"),
         LEFT_CTRL(KeyId.LEFT_CTRL, "KEY_LCONTROL", "Left Ctrl"),
-        A(KeyId.A, "KEY_A", "A"),
-        S(KeyId.S, "KEY_S", "S"),
-        D(KeyId.D, "KEY_D", "D"),
-        F(KeyId.F, "KEY_F", "F"),
-        G(KeyId.G, "KEY_G", "G"),
-        H(KeyId.H, "KEY_H", "H"),
-        J(KeyId.J, "KEY_J", "J"),
-        K(KeyId.K, "KEY_K", "K"),
-        L(KeyId.L, "KEY_L", "L"),
-        SEMICOLON(KeyId.SEMICOLON, "KEY_SEMICOLON", ";"),
-        APOSTROPHE(KeyId.APOSTROPHE, "KEY_APOSTROPHE", "'"),
-        GRAVE(KeyId.GRAVE, "KEY_GRAVE", "Grave"),
+        ENTER(KeyId.ENTER, "KEY_RETURN", "Enter"),
         LEFT_SHIFT(KeyId.LEFT_SHIFT, "KEY_LSHIFT", "Left Shift"),
-        BACKSLASH(KeyId.BACKSLASH, "KEY_BACKSLASH", "\\"),
-        Z(KeyId.Z, "KEY_Z", "Z"),
-        X(KeyId.X, "KEY_X", "X"),
-        C(KeyId.C, "KEY_C", "C"),
-        V(KeyId.V, "KEY_V", "V"),
-        B(KeyId.B, "KEY_B", "B"),
-        N(KeyId.N, "KEY_N", "N"),
-        M(KeyId.M, "KEY_M", "M"),
-        COMMA(KeyId.COMMA, "KEY_COMMA", ","),
-        PERIOD(KeyId.PERIOD, "KEY_PERIOD", "."),
-        SLASH(KeyId.SLASH, "KEY_SLASH", "/"),
+        BACKSLASH(KeyId.BACKSLASH, "KEY_BACKSLASH", "\\", '\\'),
         RIGHT_SHIFT(KeyId.RIGHT_SHIFT, "KEY_RSHIFT", "Right Shift"),
-        NUMPAD_MULTIPLY(KeyId.NUMPAD_MULTIPLY, "KEY_MULTIPLY", "Numpad *"),
-        LEFT_ALT(KeyId.LEFT_ALT, "KEY_LMENU", "Left Alt"),
-        SPACE(KeyId.SPACE, "KEY_SPACE", "Space"),
-        CAPS_LOCK(KeyId.CAPS_LOCK, "KEY_CAPITAL", "Caps Lock"),
+
+        // function keys
         F1(KeyId.F1, "KEY_F1", "F1"),
         F2(KeyId.F2, "KEY_F2", "F2"),
         F3(KeyId.F3, "KEY_F3", "F3"),
@@ -239,6 +191,69 @@ public final class Keyboard {
         F8(KeyId.F8, "KEY_F8", "F8"),
         F9(KeyId.F9, "KEY_F9", "F9"),
         F10(KeyId.F10, "KEY_F10", "F10"),
+        F11(KeyId.F11, "KEY_F11", "F11"),
+        F12(KeyId.F12, "KEY_F12", "F12"),
+        F13(KeyId.F13, "KEY_F13", "F13"),
+        F14(KeyId.F14, "KEY_F14", "F14"),
+        F15(KeyId.F15, "KEY_F15", "F15"),
+        F16(KeyId.F16, "KEY_F16", "F16"),
+        F17(KeyId.F17, "KEY_F17", "F17"),
+        F18(KeyId.F18, "KEY_F18", "F18"),
+        F19(KeyId.F19, "KEY_F19", "F19"),
+
+        // character keys
+        KEY_1(KeyId.KEY_1, "KEY_1", "1", '1'),
+        KEY_2(KeyId.KEY_2, "KEY_2", "2", '2'),
+        KEY_3(KeyId.KEY_3, "KEY_3", "3", '3'),
+        KEY_4(KeyId.KEY_4, "KEY_4", "4", '4'),
+        KEY_5(KeyId.KEY_5, "KEY_5", "5", '5'),
+        KEY_6(KeyId.KEY_6, "KEY_6", "6", '6'),
+        KEY_7(KeyId.KEY_7, "KEY_7", "7", '7'),
+        KEY_8(KeyId.KEY_8, "KEY_8", "8", '8'),
+        KEY_9(KeyId.KEY_9, "KEY_9", "9",'9'),
+        KEY_0(KeyId.KEY_0, "KEY_0", "0",'0'),
+        MINUS(KeyId.MINUS, "KEY_MINUS", "-", '-'),
+        EQUALS(KeyId.EQUALS, "KEY_EQUALS", "=", '='),
+        TAB(KeyId.TAB, "KEY_TAB", "Tab", '\t'),
+        LEFT_BRACKET(KeyId.LEFT_BRACKET, "KEY_LBRACKET", "[", '['),
+        RIGHT_BRACKET(KeyId.RIGHT_BRACKET, "KEY_RBRACKET", "]", ']'),
+        A(KeyId.A, "KEY_A", "A", 'A'),
+        B(KeyId.B, "KEY_B", "B", 'B'),
+        C(KeyId.C, "KEY_C", "C", 'C'),
+        D(KeyId.D, "KEY_D", "D", 'D'),
+        E(KeyId.E, "KEY_E", "E", 'E'),
+        F(KeyId.F, "KEY_F", "F", 'F'),
+        G(KeyId.G, "KEY_G", "G", 'G'),
+        H(KeyId.H, "KEY_H", "H", 'H'),
+        I(KeyId.I, "KEY_I", "I", 'I'),
+        J(KeyId.J, "KEY_J", "J", 'J'),
+        K(KeyId.K, "KEY_K", "K", 'K'),
+        L(KeyId.L, "KEY_L", "L", 'L'),
+        M(KeyId.M, "KEY_M", "M", 'M'),
+        N(KeyId.N, "KEY_N", "N", 'N'),
+        O(KeyId.O, "KEY_O", "O", 'O'),
+        P(KeyId.P, "KEY_P", "P", 'P'),
+        Q(KeyId.Q, "KEY_Q", "Q", 'Q'),
+        R(KeyId.R, "KEY_R", "R", 'R'),
+        S(KeyId.S, "KEY_S", "S", 'S'),
+        T(KeyId.T, "KEY_T", "T", 'T'),
+        U(KeyId.U, "KEY_U", "U", 'U'),
+        V(KeyId.V, "KEY_V", "V", 'V'),
+        W(KeyId.W, "KEY_W", "W", 'W'),
+        X(KeyId.X, "KEY_X", "X", 'X'),
+        Y(KeyId.Y, "KEY_Y", "Y", 'Y'),
+        Z(KeyId.Z, "KEY_Z", "Z", 'Z'),
+        SEMICOLON(KeyId.SEMICOLON, "KEY_SEMICOLON", ";", ';'),
+        APOSTROPHE(KeyId.APOSTROPHE, "KEY_APOSTROPHE", "'", '`'),
+        GRAVE(KeyId.GRAVE, "KEY_GRAVE", "Grave", '~'),
+        COMMA(KeyId.COMMA, "KEY_COMMA", ",", ','),
+        PERIOD(KeyId.PERIOD, "KEY_PERIOD", ".", '.'),
+        SLASH(KeyId.SLASH, "KEY_SLASH", "/", '/'),
+        SPACE(KeyId.SPACE, "KEY_SPACE", "Space", ' '),
+
+        NUMPAD_MULTIPLY(KeyId.NUMPAD_MULTIPLY, "KEY_MULTIPLY", "Numpad *"),
+        LEFT_ALT(KeyId.LEFT_ALT, "KEY_LMENU", "Left Alt"),
+        CAPS_LOCK(KeyId.CAPS_LOCK, "KEY_CAPITAL", "Caps Lock"),
         NUM_LOCK(KeyId.NUM_LOCK, "KEY_NUMLOCK", "Num Lock"),
         SCROLL_LOCK(KeyId.SCROLL_LOCK, "KEY_SCROLL", "Scroll Lock"),
         NUMPAD_7(KeyId.NUMPAD_7, "KEY_NUMPAD7", "Numpad 7"),
@@ -254,23 +269,15 @@ public final class Keyboard {
         NUMPAD_3(KeyId.NUMPAD_3, "KEY_NUMPAD3", "Numpad 3"),
         NUMPAD_0(KeyId.NUMPAD_0, "KEY_NUMPAD0", "Numpad 0"),
         NUMPAD_PERIOD(KeyId.NUMPAD_PERIOD, "KEY_DECIMAL", "Numpad ."),
-        F11(KeyId.F11, "KEY_F11", "F11"),
-        F12(KeyId.F12, "KEY_F12", "F12"),
-        F13(KeyId.F13, "KEY_F13", "F13"),
-        F14(KeyId.F14, "KEY_F14", "F14"),
-        F15(KeyId.F15, "KEY_F15", "F15"),
-        F16(KeyId.F16, "KEY_F16", "F16"),
-        F17(KeyId.F17, "KEY_F17", "F17"),
-        F18(KeyId.F18, "KEY_F18", "F18"),
+
         KANA(KeyId.KANA, "KEY_KANA", "Kana"), // Japanese Keyboard key (for switching between roman and japanese characters?
-        F19(KeyId.F19, "KEY_F19", "F19"),
         CONVERT(KeyId.CONVERT, "KEY_CONVERT", "Convert"), // Japanese Keyboard key (for converting Hiragana characters to Kanji?)
         NOCONVERT(KeyId.NOCONVERT, "KEY_NOCONVERT", "No Convert"), // Japanese Keyboard key
         YEN(KeyId.YEN, "KEY_YEN", "\u00A5"), // Japanese keyboard key for yen
         NUMPAD_EQUALS(KeyId.NUMPAD_EQUALS, "KEY_NUMPADEQUALS", "Numpad ="),
         CIRCUMFLEX(KeyId.CIRCUMFLEX, "KEY_CIRCUMFLEX", "^"), // Japanese keyboard
         AT(KeyId.AT, "KEY_AT", "@"), // (NEC PC98)
-        COLON(KeyId.COLON, "KEY_COLON", ":"), // (NEC PC98)
+        COLON(KeyId.COLON, "KEY_COLON", ":", ':'), // (NEC PC98)
         UNDERLINE(KeyId.UNDERLINE, "KEY_UNDERLINE", "_"), // (NEC PC98)
         KANJI(KeyId.KANJI, "KEY_KANJI", "Kanji"), // (Japanese keyboard)
         STOP(KeyId.STOP, "KEY_STOP", "Stop"), // (NEC PC98)
@@ -308,6 +315,7 @@ public final class Keyboard {
         private int id;
         private String name;
         private String displayName;
+        private char character = 0;
 
         static {
             lookupByName = Maps.newHashMapWithExpectedSize(Key.values().length);
@@ -316,6 +324,13 @@ public final class Keyboard {
                 lookupByName.put(key.getName(), key);
                 lookupById.put(key.getId(), key);
             }
+        }
+
+        Key(int id, String name, String displayName, char character) {
+            this.id = id;
+            this.name = name;
+            this.displayName = displayName;
+            this.character = character;
         }
 
         Key(int id, String name, String displayName) {
@@ -327,6 +342,11 @@ public final class Keyboard {
         @Override
         public int getId() {
             return id;
+        }
+
+        @Override
+        public char getChar() {
+            return character;
         }
 
         @Override
@@ -347,6 +367,11 @@ public final class Keyboard {
         @Override
         public String toString() {
             return name;
+        }
+
+        @Override
+        public boolean isCharacter() {
+            return this.character != 0;
         }
 
         /**
