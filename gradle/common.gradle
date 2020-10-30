@@ -1,3 +1,9 @@
+// Analytics
+apply plugin: 'project-report'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'com.github.spotbugs'
+
 java {
     withSourcesJar()
     withJavadocJar()
@@ -5,6 +11,9 @@ java {
     sourceCompatibility(JavaVersion.VERSION_1_8)
     targetCompatibility(JavaVersion.VERSION_1_8)
 }
+
+// Extract analytics config files if needed (note: does not help IDE execution or cases like 'gradlew spotbugsMain')
+check.dependsOn rootProject.extractAnalyticsConfig
 
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
 repositories {
@@ -32,12 +41,6 @@ repositories {
             allowInsecureProtocol true  // 😱
         }
     }
-
-    maven {
-        name "snowplow (pre-0.9)"
-        url "http://maven.snplow.com/releases"
-        allowInsecureProtocol true  // 😱
-    }
 }
 
 // Extra details provided for unit tests
@@ -59,6 +62,34 @@ test {
 // Note: In IntelliJ 2020.1+ running a javadoc Gradle task may still *look* alarming in the UI, but errors should be ignored
 javadoc {
     failOnError = false
+}
+
+checkstyle {
+    ignoreFailures = true
+    configFile = new File(rootDir, 'gradle/analytics/checkstyle/checkstyle.xml')
+    configProperties.samedir = checkstyle.configFile.parentFile
+}
+
+pmd {
+    ignoreFailures = true
+    ruleSetFiles = files("$rootDir/gradle/analytics/pmd/pmd.xml")
+    // By default, gradle uses both ruleset file AND the rulesets. Override the ruleSets to use only those from the file
+    ruleSets = []
+}
+
+spotbugs {
+    toolVersion = '4.0.0'
+    ignoreFailures = true
+    excludeFilter = new File(rootDir, "gradle/analytics/findbugs/findbugs-exclude.xml")
+}
+
+spotbugsMain {
+    reports {
+        xml {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
+        }
+    }
 }
 
 group = 'org.terasology.nui'

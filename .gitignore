@@ -11,9 +11,10 @@
 !.gitignore
 !.github
 
-# Ignore Gradle temp files
+# Ignore Gradle files we don't want committed
 build/
 /gradle.properties
+config/analytics
 
 # Ignore IntelliJ files
 */out/
@@ -55,4 +56,3 @@ local.properties
 
 # Ignore generated output of mdbook for Github Pages
 docs/book
-
