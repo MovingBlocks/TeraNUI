@@ -122,7 +122,7 @@ public final class WidgetUtil {
 
         UIButton expandButton = createExpanderButton(layoutToExpand, layoutExpander);
 
-        rowLayout.addWidget(expandButton, new RowLayoutHint().setUseContentWidth(true));
+        rowLayout.addWidget(expandButton, new RowLayoutHint().setUseContentWidth(false));
         rowLayout.addWidget(labelWidget, new RowLayoutHint());
         return rowLayout;
     }
