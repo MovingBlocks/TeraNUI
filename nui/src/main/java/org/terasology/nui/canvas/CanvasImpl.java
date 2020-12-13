@@ -27,7 +27,7 @@ import org.terasology.input.device.MouseDevice;
 import org.terasology.nui.Border;
 import org.terasology.nui.Colorc;
 import org.terasology.nui.util.NUIMathUtil;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.FocusManager;
 import org.terasology.nui.asset.font.Font;

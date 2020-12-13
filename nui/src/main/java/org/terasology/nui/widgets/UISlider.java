@@ -17,7 +17,7 @@ package org.terasology.nui.widgets;
 
 import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Vector2i;
 import org.terasology.nui.ActivatableWidget;

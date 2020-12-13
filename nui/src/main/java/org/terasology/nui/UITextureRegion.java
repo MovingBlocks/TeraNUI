@@ -15,8 +15,8 @@
  */
 package org.terasology.nui;
 
-import org.joml.Rectanglef;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglef;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 
 /**

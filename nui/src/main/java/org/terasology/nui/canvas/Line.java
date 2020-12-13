@@ -15,7 +15,7 @@
  */
 package org.terasology.nui.canvas;
 
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 
 import java.util.Objects;

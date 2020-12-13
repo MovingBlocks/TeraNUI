@@ -3,7 +3,7 @@
 
 package org.terasology.nui;
 
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

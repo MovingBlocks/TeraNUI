@@ -15,5 +15,11 @@ dependencies {
         }
     }
 
+    api ('org.joml:joml-primitives') {
+        version {
+            require jomlVersion
+        }
+    }
+
     implementation group: 'com.google.guava', name: 'guava', version: '23.0'
 }

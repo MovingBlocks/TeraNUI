@@ -18,6 +18,12 @@ dependencies {
         }
     }
 
+    api ('org.joml:joml-primitives') {
+        version {
+            require jomlVersion
+        }
+    }
+
     api project(':nui-input')
     api project(':nui-reflect')
 

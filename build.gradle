@@ -9,5 +9,5 @@ ext {
     nuiVersion = "1.4.0-SNAPSHOT"
 
     // JOML version we're tracking
-    jomlVersion = "1.9.25"
+    jomlVersion = "1.9.26-SNAPSHOT"
 }

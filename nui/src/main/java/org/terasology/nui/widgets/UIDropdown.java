@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 import org.terasology.input.Keyboard;
 import org.terasology.nui.itemRendering.ToStringTextRenderer;
 import org.terasology.nui.Border;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.ActivatableWidget;

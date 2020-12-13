@@ -17,8 +17,8 @@ package org.terasology.nui.backends.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.terasology.assets.AssetData;
-import org.joml.Rectanglef;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglef;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.util.RectUtility;

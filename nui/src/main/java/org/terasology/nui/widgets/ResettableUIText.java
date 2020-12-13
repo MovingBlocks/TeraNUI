@@ -16,7 +16,7 @@
 package org.terasology.nui.widgets;
 
 import org.terasology.input.MouseInput;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.InteractionListener;

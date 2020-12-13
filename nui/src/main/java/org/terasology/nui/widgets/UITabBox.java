@@ -18,7 +18,7 @@ package org.terasology.nui.widgets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.CoreWidget;

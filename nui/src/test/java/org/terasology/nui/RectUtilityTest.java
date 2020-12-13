@@ -1,6 +1,6 @@
 package org.terasology.nui;
 
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.junit.jupiter.api.Test;
 import org.terasology.nui.util.RectUtility;

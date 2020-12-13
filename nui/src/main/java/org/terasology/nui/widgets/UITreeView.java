@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 import org.terasology.input.Keyboard;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.KeyboardDevice;
-import org.joml.Rectanglei;
+import org.joml.primitives.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
