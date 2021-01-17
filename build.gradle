@@ -9,5 +9,6 @@ ext {
     nuiVersion = "1.4.0-SNAPSHOT"
 
     // JOML version we're tracking
-    jomlVersion = "1.9.25"
+    jomlVersion = "1.10.0"
+    geomVersion = "1.0.0-SNAPSHOT"
 }

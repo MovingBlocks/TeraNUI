@@ -24,7 +24,7 @@ import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.ContainerWrapper;
 import net.miginfocom.layout.Grid;
 import net.miginfocom.layout.LC;
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.Color;
