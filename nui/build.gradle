@@ -18,6 +18,12 @@ dependencies {
         }
     }
 
+    api ('org.terasology.joml-ext:joml-geometry') {
+        version {
+            require geomVersion
+        }
+    }
+
     api project(':nui-input')
     api project(':nui-reflect')
 

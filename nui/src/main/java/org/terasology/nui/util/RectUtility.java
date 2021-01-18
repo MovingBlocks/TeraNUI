@@ -1,11 +1,15 @@
 package org.terasology.nui.util;
 
-import org.joml.Rectanglef;
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglef;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
+/**
+ * TODO: move these methods into joml-ext.
+ */
+@Deprecated
 public final class RectUtility {
 
     private RectUtility() {

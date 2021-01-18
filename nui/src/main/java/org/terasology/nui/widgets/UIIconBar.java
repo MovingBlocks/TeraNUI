@@ -15,7 +15,7 @@
  */
 package org.terasology.nui.widgets;
 
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Vector2i;
 import org.terasology.nui.UITextureRegion;
