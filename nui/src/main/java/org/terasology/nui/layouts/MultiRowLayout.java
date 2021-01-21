@@ -17,7 +17,7 @@ package org.terasology.nui.layouts;
 
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.util.NUIMathUtil;
 import org.joml.Vector2i;
 import org.terasology.nui.Canvas;

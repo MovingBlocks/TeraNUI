@@ -15,7 +15,7 @@
  */
 package org.terasology.nui;
 
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 
 /**
  * Possible vertical alignments. Provides support for determining where to position something vertically, given its size and the size of the space.

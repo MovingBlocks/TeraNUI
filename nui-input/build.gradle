@@ -15,5 +15,11 @@ dependencies {
         }
     }
 
+    api ('org.terasology.joml-ext:joml-geometry') {
+        version {
+            require geomVersion
+        }
+    }
+
     implementation group: 'com.google.guava', name: 'guava', version: '23.0'
 }

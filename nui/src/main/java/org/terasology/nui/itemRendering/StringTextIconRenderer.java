@@ -15,7 +15,7 @@
  */
 package org.terasology.nui.itemRendering;
 
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.UITextureRegion;
