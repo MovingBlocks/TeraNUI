@@ -5,6 +5,11 @@ package org.terasology.nui.widgets.types;
 
 import java.util.List;
 
+/**
+ * This registry is basically a (shared) list of {@link TypeWidgetFactory}s.
+ *
+ * In contrast to the {@link TypeWidgetLibrary} the registry does not have any logic for creating widgets.
+ */
 public interface TypeWidgetFactoryRegistry {
     void add(TypeWidgetFactory factory);
 
