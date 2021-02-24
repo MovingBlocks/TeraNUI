@@ -4,7 +4,6 @@ package org.terasology.nui.widgets.types.math;
 
 import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.databinding.Binding;
-import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.types.RegisterTypeWidgetFactory;
 import org.terasology.nui.widgets.types.TypeWidgetBuilder;
 import org.terasology.nui.widgets.types.TypeWidgetFactory;
@@ -22,61 +21,65 @@ public class RectangleiWidgetFactory implements TypeWidgetFactory {
         }
 
         TypeWidgetBuilder<Rectanglei> builder =
-            new RectangleiWidgetBuilder(library)
-                .add("x",
-                    rectBinding -> new Binding<Integer>() {
-                        @Override
-                        public Integer get() {
-                            return rectBinding.get().minX;
-                        }
+                new RectangleiWidgetBuilder(library)
+                        .add("x",
+                                rectBinding -> new Binding<Integer>() {
+                                    @Override
+                                    public Integer get() {
+                                        return rectBinding.get().minX;
+                                    }
 
-                        @Override
-                        public void set(Integer value) {
-                            Rectanglei old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(value, old.minY, old.maxX - old.minX, old.maxY - old.minY));
-                        }
-                    })
-                .add("y",
-                    rectBinding -> new Binding<Integer>() {
-                        @Override
-                        public Integer get() {
-                            return rectBinding.get().minY;
-                        }
+                                    @Override
+                                    public void set(Integer value) {
+                                        Rectanglei old = rectBinding.get();
+                                        old.minX = value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("y",
+                                rectBinding -> new Binding<Integer>() {
+                                    @Override
+                                    public Integer get() {
+                                        return rectBinding.get().minY;
+                                    }
 
-                        @Override
-                        public void set(Integer value) {
-                            Rectanglei old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, value, old.maxX - old.minX, old.maxY - old.minY));
-                        }
-                    })
-                .add("w",
-                    rectBinding -> new Binding<Integer>() {
-                        @Override
-                        public Integer get() {
-                            Rectanglei rect = rectBinding.get();
-                            return rect.maxX - rect.minX;
-                        }
+                                    @Override
+                                    public void set(Integer value) {
+                                        Rectanglei old = rectBinding.get();
+                                        old.minY = value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("w",
+                                rectBinding -> new Binding<Integer>() {
+                                    @Override
+                                    public Integer get() {
+                                        Rectanglei rect = rectBinding.get();
+                                        return rect.maxX - rect.minX;
+                                    }
 
-                        @Override
-                        public void set(Integer value) {
-                            Rectanglei old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, old.minY, old.minX + value, old.maxY - old.minY));
-                        }
-                    })
-                .add("h",
-                    rectBinding -> new Binding<Integer>() {
-                        @Override
-                        public Integer get() {
-                            Rectanglei rect = rectBinding.get();
-                            return rect.maxY - rect.minY;
-                        }
+                                    @Override
+                                    public void set(Integer value) {
+                                        Rectanglei old = rectBinding.get();
+                                        old.maxX = old.minX + value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("h",
+                                rectBinding -> new Binding<Integer>() {
+                                    @Override
+                                    public Integer get() {
+                                        Rectanglei rect = rectBinding.get();
+                                        return rect.maxY - rect.minY;
+                                    }
 
-                        @Override
-                        public void set(Integer value) {
-                            Rectanglei old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, old.minY, old.maxX - old.minX,  old.minY + value));
-                        }
-                    });
+                                    @Override
+                                    public void set(Integer value) {
+                                        Rectanglei old = rectBinding.get();
+                                        old.maxY = old.minY + value;
+                                        rectBinding.set(old);
+                                    }
+                                });
 
         return Optional.of((TypeWidgetBuilder<T>) builder);
     }
@@ -92,7 +95,7 @@ public class RectangleiWidgetFactory implements TypeWidgetFactory {
             // When the initial rect is empty, editing any of the components will make no difference
             // since one of the size components will always be zero, making the factory methods always
             // return the empty rect
-            return RectUtility.createFromMinAndSize(0, 0, 1, 1);
+            return new Rectanglei(0, 0);
         }
     }
 }

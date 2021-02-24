@@ -4,7 +4,6 @@ package org.terasology.nui.widgets.types.math;
 
 import org.terasology.joml.geom.Rectanglef;
 import org.terasology.nui.databinding.Binding;
-import org.terasology.nui.util.RectUtility;
 import org.terasology.nui.widgets.types.RegisterTypeWidgetFactory;
 import org.terasology.nui.widgets.types.TypeWidgetBuilder;
 import org.terasology.nui.widgets.types.TypeWidgetFactory;
@@ -22,61 +21,65 @@ public class RectanglefWidgetFactory implements TypeWidgetFactory {
         }
 
         TypeWidgetBuilder<Rectanglef> builder =
-            new RectanglefWidgetBuilder(library)
-                .add("x",
-                    rectBinding -> new Binding<Float>() {
-                        @Override
-                        public Float get() {
-                            return rectBinding.get().minX;
-                        }
+                new RectanglefWidgetBuilder(library)
+                        .add("x",
+                                rectBinding -> new Binding<Float>() {
+                                    @Override
+                                    public Float get() {
+                                        return rectBinding.get().minX;
+                                    }
 
-                        @Override
-                        public void set(Float value) {
-                            Rectanglef old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(value, old.minY, old.maxX - old.minX, old.maxY - old.minY));
-                        }
-                    })
-                .add("y",
-                    rectBinding -> new Binding<Float>() {
-                        @Override
-                        public Float get() {
-                            return rectBinding.get().minY;
-                        }
+                                    @Override
+                                    public void set(Float value) {
+                                        Rectanglef old = rectBinding.get();
+                                        old.minX = value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("y",
+                                rectBinding -> new Binding<Float>() {
+                                    @Override
+                                    public Float get() {
+                                        return rectBinding.get().minY;
+                                    }
 
-                        @Override
-                        public void set(Float value) {
-                            Rectanglef old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, value, old.maxX - old.minX, old.maxY - old.minY));
-                        }
-                    })
-                .add("w",
-                    rectBinding -> new Binding<Float>() {
-                        @Override
-                        public Float get() {
-                            Rectanglef rect = rectBinding.get();
-                            return rect.maxX - rect.minX;
-                        }
+                                    @Override
+                                    public void set(Float value) {
+                                        Rectanglef old = rectBinding.get();
+                                        old.minY = value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("w",
+                                rectBinding -> new Binding<Float>() {
+                                    @Override
+                                    public Float get() {
+                                        Rectanglef rect = rectBinding.get();
+                                        return rect.maxX - rect.minX;
+                                    }
 
-                        @Override
-                        public void set(Float value) {
-                            Rectanglef old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, old.minY, old.minX + value, old.maxY - old.minY));
-                        }
-                    })
-                .add("h",
-                    rectBinding -> new Binding<Float>() {
-                        @Override
-                        public Float get() {
-                            Rectanglef rect = rectBinding.get();
-                            return rect.maxY - rect.minY;
-                        }
+                                    @Override
+                                    public void set(Float value) {
+                                        Rectanglef old = rectBinding.get();
+                                        old.maxX = old.minX + value;
+                                        rectBinding.set(old);
+                                    }
+                                })
+                        .add("h",
+                                rectBinding -> new Binding<Float>() {
+                                    @Override
+                                    public Float get() {
+                                        Rectanglef rect = rectBinding.get();
+                                        return rect.maxY - rect.minY;
+                                    }
 
-                        @Override
-                        public void set(Float value) {
-                            Rectanglef old = rectBinding.get();
-                            rectBinding.set(RectUtility.createFromMinAndSize(old.minX, old.minY, old.maxX - old.minX, old.minY + value));
-                        }
-                    });
+                                    @Override
+                                    public void set(Float value) {
+                                        Rectanglef old = rectBinding.get();
+                                        old.maxY = old.minY + value;
+                                        rectBinding.set(old);
+                                    }
+                                });
 
         return Optional.of((TypeWidgetBuilder<T>) builder);
     }
