@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui;
 
@@ -62,10 +62,29 @@ public final class WidgetUtil {
         }
     }
 
+    /**
+     * Wraps widget with indentation.
+     * <p>
+     * Uses {@link WidgetUtil#INDENT_SIZE} as identitaion size.
+     *     
+     * @param widget widget to wraping
+     * @return wrapped widget.
+     */
     public static UIWidget indent(UIWidget widget) {
+        return indent(widget, INDENT_SIZE);
+    }
+    
+    /**
+     * Wraps widget with indentation.
+     * 
+     * @param widget widget to wraping
+     * @param indentSize indent size
+     * @return wrapped widget.
+     */
+    public static UIWidget indent(UIWidget widget, int indentSize) {
         RowLayout layout = new RowLayout();
 
-        layout.addWidget(new UISpace(new Vector2i(INDENT_SIZE, 0)), new RowLayoutHint().setUseContentWidth(true));
+        layout.addWidget(new UISpace(new Vector2i(indentSize, 0)), new RowLayoutHint().setUseContentWidth(true));
         layout.addWidget(widget, new RowLayoutHint());
 
         return layout;
