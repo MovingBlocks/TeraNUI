@@ -92,7 +92,7 @@ public class RectanglefWidgetFactory implements TypeWidgetFactory {
             // When the initial rect is empty, editing any of the components will make no difference
             // since one of the size components will always be zero, making the factory methods always
             // return the empty rect
-            return RectUtility.createFromMinAndSize(0f, 0f, 1f, 1f);
+            return new Rectanglef(0, 0);
         }
     }
 }
