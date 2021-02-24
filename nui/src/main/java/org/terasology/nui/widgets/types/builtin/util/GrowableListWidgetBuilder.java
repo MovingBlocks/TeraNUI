@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.nui.widgets.types.builtin.util;
 
@@ -119,7 +119,9 @@ public abstract class GrowableListWidgetBuilder<C, E> implements TypeWidgetBuild
 
             Optional<UIWidget> elementLayout = createElementLayout(binding, elements.size() - 1, collectionLayout);
             elementLayouts.add(elementLayout);
+            collectionLayout.removeWidget(addElementButton);
             elementLayout.ifPresent(collectionLayout::addWidget);
+            collectionLayout.addWidget(addElementButton);
         });
 
         collectionLayout.addWidget(addElementButton);
