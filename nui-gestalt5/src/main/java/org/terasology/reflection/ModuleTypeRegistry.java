@@ -5,6 +5,10 @@ import org.terasology.module.ModuleEnvironment;
 import org.terasology.module.sandbox.ModuleClassLoader;
 
 public class ModuleTypeRegistry extends TypeRegistry {
+    public ModuleTypeRegistry() {
+        super();
+    }
+
     public ModuleTypeRegistry(ModuleEnvironment environment) {
         super();
         reload(environment);

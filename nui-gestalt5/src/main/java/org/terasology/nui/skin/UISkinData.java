@@ -15,25 +15,26 @@
  */
 package org.terasology.nui.skin;
 
-import com.google.common.collect.Maps;
 import org.terasology.assets.AssetData;
 import org.terasology.assets.format.AssetDataFile;
-
-import java.util.Map;
 
 /**
  */
 public class UISkinData implements AssetData {
-    Map<String, UIStyleFamily> skinFamilies;
+    private UISkin uiSkin;
 
     private transient AssetDataFile source;
 
-    public UISkinData(Map<String, UIStyleFamily> families) {
-        skinFamilies = Maps.newHashMap(families);
+    public UISkinData(UISkin uiSkin) {
+        this.uiSkin = uiSkin;
     }
 
     public UIStyleFamily getFamily(String familyName) {
-        return skinFamilies.get(familyName);
+        return uiSkin.getFamily(familyName);
+    }
+
+    public UISkin getUiSkin() {
+        return uiSkin;
     }
 
     /**

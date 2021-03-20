@@ -63,10 +63,14 @@ public class UISkinAsset extends Asset<UISkinData> {
     }
 
     public Iterable<? extends String> getFamilies() {
-        return skinData.skinFamilies.keySet();
+        return skinData.getUiSkin().getFamilies();
     }
 
     public AssetDataFile getSource() {
         return source;
+    }
+
+    public UISkin getSkin() {
+        return skinData.getUiSkin();
     }
 }
