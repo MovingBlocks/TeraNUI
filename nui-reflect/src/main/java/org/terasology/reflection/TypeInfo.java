@@ -15,7 +15,6 @@
  */
 package org.terasology.reflection;
 
-import org.terasology.module.sandbox.API;
 import org.terasology.reflection.ReflectionUtil;
 
 import java.lang.reflect.Type;
@@ -45,7 +44,6 @@ import java.lang.reflect.Type;
  *
  * @param <T> The type for which type information is to be generated.
  */
-@API
 public abstract class TypeInfo<T> {
     private final Class<T> rawType;
     private final Type type;

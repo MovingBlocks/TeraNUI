@@ -16,7 +16,6 @@
 package org.terasology.nui.widgets.treeView;
 
 import com.google.common.collect.Lists;
-import org.terasology.module.sandbox.API;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.Optional;
  * @param <T> Type of objects stored in the underlying tree.
  */
 @SuppressWarnings("unchecked")
-@API
 public class TreeModel<T> {
     /**
      * A list of nodes, fetched from a {@code Tree} iterator.

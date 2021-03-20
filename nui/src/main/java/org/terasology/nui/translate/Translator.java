@@ -16,15 +16,12 @@
 
 package org.terasology.nui.translate;
 
-import org.terasology.module.sandbox.API;
-
 import java.util.Locale;
 
 /**
  * A translation system that consists of different projects. An i18n string can either
  * contain a project URI or be used directly in a project.
  */
-@API
 public interface Translator {
     /**
      * If no perfect match is found for the default locale, fallback strategies will attempt to find the closest match.

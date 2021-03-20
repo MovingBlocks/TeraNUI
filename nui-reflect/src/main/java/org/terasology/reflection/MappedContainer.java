@@ -16,8 +16,6 @@
 
 package org.terasology.reflection;
 
-import org.terasology.module.sandbox.API;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,7 +29,6 @@ import java.lang.annotation.Target;
  * and must not depend on objects appearing multiple times in their structure
  * being the same object - when deserialized each object will be a separate instance.
  */
-@API
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MappedContainer {

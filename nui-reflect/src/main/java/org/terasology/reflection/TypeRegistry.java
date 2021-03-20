@@ -22,9 +22,6 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
-import org.terasology.module.Module;
-import org.terasology.module.ModuleEnvironment;
-import org.terasology.module.sandbox.ModuleClassLoader;
 import org.terasology.reflection.ReflectionUtil;
 
 import java.lang.annotation.Annotation;
@@ -33,14 +30,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class TypeRegistry {
     public static Set<String> WHITELISTED_CLASSES = new HashSet<>();
     public static Set<String> WHITELISTED_PACKAGES = new HashSet<>();
 
-    private Reflections reflections;
-    private ClassLoader[] classLoaders;
+    protected Reflections reflections;
+    protected ClassLoader[] classLoaders;
 
     /**
      * Creates an empty {@link TypeRegistry}. No types are loaded when this constructor
@@ -50,15 +48,15 @@ public class TypeRegistry {
 
     public TypeRegistry(ClassLoader classLoader) {
         this();
-        initializeReflections(classLoader);
+        initializeReflections(classLoader, loader -> true);
     }
 
-    public TypeRegistry(ModuleEnvironment environment) {
+    public TypeRegistry(ClassLoader classLoader, Predicate<ClassLoader> classLoaderFilter) {
         this();
-        reload(environment);
+        initializeReflections(classLoader, classLoaderFilter);
     }
 
-    private static boolean filterWhitelistedTypes(String typeName) {
+    protected static boolean filterWhitelistedTypes(String typeName) {
         if (typeName == null) {
             return false;
         }
@@ -75,13 +73,7 @@ public class TypeRegistry {
         return WHITELISTED_PACKAGES.contains(packageName) || WHITELISTED_CLASSES.contains(typeName);
     }
 
-    public void reload(ModuleEnvironment environment) {
-        // FIXME: Reflection -- may break with updates to gestalt-module
-        ClassLoader finalClassLoader = (ClassLoader) ReflectionUtil.readField(environment, "finalClassLoader");
-        initializeReflections(finalClassLoader, environment);
-    }
-
-    private void initializeReflections(ClassLoader classLoader) {
+    protected void initializeReflections(ClassLoader classLoader, Predicate<ClassLoader> classLoaderFilter) {
         List<ClassLoader> allClassLoaders = Lists.newArrayList();
 
         while (classLoader != null) {
@@ -106,24 +98,12 @@ public class TypeRegistry {
                 .addClassLoaders(allClassLoaders)
                 .addUrls(ClasspathHelper.forClassLoader(
                     allClassLoaders.stream()
-                        .filter(loader -> !(loader instanceof ModuleClassLoader))
+                        .filter(classLoaderFilter)
                         .toArray(ClassLoader[]::new)
                 ))
                 .filterInputsBy(TypeRegistry::filterWhitelistedTypes)
         );
 
-    }
-
-    private void initializeReflections(ClassLoader classLoader, ModuleEnvironment environment) {
-        initializeReflections(classLoader);
-
-        for (Module module : environment.getModulesOrderedByDependencies()) {
-            if (!module.isCodeModule()) {
-                continue;
-            }
-
-            reflections.merge(module.getReflectionsFragment());
-        }
     }
 
     public <T> Set<Class<? extends T>> getSubtypesOf(Class<T> type) {

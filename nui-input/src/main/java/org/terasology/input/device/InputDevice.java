@@ -15,11 +15,8 @@
  */
 package org.terasology.input.device;
 
-import org.terasology.module.sandbox.API;
-
 import java.util.Queue;
 
-@API
 @FunctionalInterface
 public interface InputDevice {
 

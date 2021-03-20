@@ -18,7 +18,6 @@ package org.terasology.nui.properties;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.terasology.assets.ResourceUrn;
 import org.joml.Vector3f;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
@@ -41,7 +40,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.reflections.ReflectionUtils.getAllFields;
+import org.reflections.ReflectionUtils;
 
 /**
  *
@@ -84,8 +83,8 @@ public class PropertyProvider {
             Class<?> type = target.getClass();
 
             CopyStrategyLibrary copyStrategies = new CopyStrategyLibrary(reflectFactory);
-            ClassMetadata<?, ?> classMetadata = new DefaultClassMetadata<>(new ResourceUrn("engine:empty"), type, reflectFactory, copyStrategies);
-            for (Field field : getAllFields(type)) {
+            ClassMetadata<?, ?> classMetadata = new DefaultClassMetadata<>("engine:empty", type, reflectFactory, copyStrategies);
+            for (Field field : ReflectionUtils.getAllFields(type)) {
                 Annotation annotation = getFactory(field);
                 if (annotation != null) {
                     FieldMetadata<Object, ?> fieldMetadata = (FieldMetadata<Object, ?>) classMetadata.getField(field.getName());

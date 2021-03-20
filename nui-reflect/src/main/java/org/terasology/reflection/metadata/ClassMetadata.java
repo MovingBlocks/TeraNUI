@@ -23,7 +23,6 @@ import com.google.common.collect.Maps;
 import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.InaccessibleFieldException;
 import org.terasology.reflection.reflect.ObjectConstructor;
@@ -52,7 +51,7 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
     private static final Permission CREATE_CLASS_METADATA = new RuntimePermission("createClassMetadata");
 
-    private final ResourceUrn uri;
+    private final String uri;
     private final Class<T> clazz;
     protected final ObjectConstructor<T> constructor;
     protected Map<String, FIELD> fields = Maps.newHashMap();
@@ -67,7 +66,7 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
      * @param copyStrategyLibrary A copy strategy library
      * @throws NoSuchMethodException If the class has no default constructor
      */
-    public ClassMetadata(ResourceUrn uri, Class<T> type, ReflectFactory factory,
+    public ClassMetadata(String uri, Class<T> type, ReflectFactory factory,
                          CopyStrategyLibrary copyStrategyLibrary, Predicate<Field> includedFieldPredicate)
             throws NoSuchMethodException {
         if (System.getSecurityManager() != null) {
@@ -85,7 +84,7 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
         addFields(copyStrategyLibrary, factory, includedFieldPredicate);
     }
 
-    public final ResourceUrn getUri() {
+    public final String getUri() {
         return uri;
     }
 
@@ -232,8 +231,8 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
 
     @Override
     public String toString() {
-        if (ResourceUrn.isValid(uri.toString())) {
-            return uri.toString();
+        if (!uri.isEmpty()) {
+            return uri;
         }
         return getType().toString();
     }

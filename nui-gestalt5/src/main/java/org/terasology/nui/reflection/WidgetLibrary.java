@@ -20,14 +20,14 @@ import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
 import org.terasology.module.ModuleEnvironment;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
-import org.terasology.reflection.metadata.AbstractClassLibrary;
 import org.terasology.reflection.metadata.ClassMetadata;
+import org.terasology.reflection.metadata.ModuleClassLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 import org.terasology.nui.UIWidget;
 
 /**
  */
-public class WidgetLibrary extends AbstractClassLibrary<UIWidget> {
+public class WidgetLibrary extends ModuleClassLibrary<UIWidget> {
 
     private static final Logger logger = LoggerFactory.getLogger(WidgetLibrary.class);
 
@@ -38,7 +38,7 @@ public class WidgetLibrary extends AbstractClassLibrary<UIWidget> {
     @Override
     protected <C extends UIWidget> ClassMetadata<C, ?> createMetadata(Class<C> type, ReflectFactory factory, CopyStrategyLibrary copyStrategies, ResourceUrn name) {
         try {
-            return new WidgetMetadata<>(name, type, factory, copyStrategies);
+            return new WidgetMetadata<>(name.toString(), type, factory, copyStrategies);
         } catch (NoSuchMethodException e) {
             logger.error("Unable to register class {}: Default Constructor Required", type.getSimpleName(), e);
             return null;

@@ -190,7 +190,7 @@ public class UISkinBuilder {
         return this;
     }
 
-    public UISkinData build() {
+    public UISkin build() {
         saveStyle();
         Map<String, UIStyleFamily> skinFamilies = Maps.newHashMap();
 
@@ -206,7 +206,7 @@ public class UISkinBuilder {
                     skinFamilies.put(family, baseSkin.getFamily(family));
                 }
             }
-            return new UISkinData(skinFamilies);
+            return new UISkin(skinFamilies);
         } else {
             UIStyle rootStyle = new UIStyle(currentStyle.getFont());
             baseStyles.get("").applyTo(rootStyle);
@@ -214,7 +214,7 @@ public class UISkinBuilder {
             for (String family : families) {
                 skinFamilies.put(family, buildFamily(family, rootStyle));
             }
-            return new UISkinData(skinFamilies);
+            return new UISkin(skinFamilies);
         }
     }
 

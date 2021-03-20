@@ -20,7 +20,6 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.assets.ResourceUrn;
@@ -39,9 +38,9 @@ import java.util.Set;
  * Abstract base implement of ClassLibrary.
  *
  */
-public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
+public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractClassLibrary.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModuleClassLibrary.class);
 
     protected final CopyStrategyLibrary copyStrategyLibrary;
 
@@ -51,13 +50,13 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
     private Map<Class<? extends T>, ClassMetadata<? extends T, ?>> classLookup = Maps.newHashMap();
     private Table<Name, Name, ClassMetadata<? extends T, ?>> uriLookup = HashBasedTable.create();
 
-    public AbstractClassLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    public ModuleClassLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         this.environment = environment;
         this.reflectFactory = reflectFactory;
         this.copyStrategyLibrary = copyStrategyLibrary;
     }
 
-    public AbstractClassLibrary(AbstractClassLibrary<T> factory, CopyStrategyLibrary copyStrategies) {
+    public ModuleClassLibrary(ModuleClassLibrary<T> factory, CopyStrategyLibrary copyStrategies) {
         this.reflectFactory = factory.reflectFactory;
         this.copyStrategyLibrary = copyStrategies;
         for (Table.Cell<Name, Name, ClassMetadata<? extends T, ?>> cell: factory.uriLookup.cellSet()) {
@@ -65,7 +64,7 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
             Name moduleName = cell.getColumnKey();
             ClassMetadata<? extends T, ?> oldMetaData = cell.getValue();
             Class<? extends T> clazz = oldMetaData.getType();
-            ResourceUrn uri = oldMetaData.getUri();
+            ResourceUrn uri = new ResourceUrn(oldMetaData.getUri());
             ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, factory.reflectFactory, copyStrategies, uri);
 
             if (metadata != null) {
@@ -86,6 +85,10 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
     protected abstract <C extends T> ClassMetadata<C, ?> createMetadata(Class<C> type, ReflectFactory factory, CopyStrategyLibrary copyStrategies, ResourceUrn name);
 
     @Override
+    public void register(String uri, Class<? extends T> clazz) {
+        register(new ResourceUrn(uri), clazz);
+    }
+
     public void register(ResourceUrn uri, Class<? extends T> clazz) {
         ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, reflectFactory, copyStrategyLibrary, uri);
 
@@ -126,6 +129,10 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
     }
 
     @Override
+    public ClassMetadata<? extends T, ?> getMetadata(String uri) {
+        return getMetadata(new ResourceUrn(uri));
+    }
+
     public ClassMetadata<? extends T, ?> getMetadata(ResourceUrn uri) {
         return uriLookup.get(uri.getResourceName(), uri.getModuleName());
     }
@@ -135,17 +142,10 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
         return classLookup.values().iterator();
     }
 
-    @Override
-    public List<ClassMetadata<? extends T, ?>> getMetadata(String name) {
-        return getMetadata(new Name(name));
-    }
-
-    @Override
     public List<ClassMetadata<? extends T, ?>> getMetadata(Name name) {
         return Lists.newArrayList(uriLookup.row(name).values());
     }
 
-    @Override
     public ClassMetadata<? extends T, ?> resolve(String name, Name context) {
         Module moduleContext = environment.get(context);
         if (moduleContext != null) {
@@ -159,19 +159,18 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
         if (ResourceUrn.isValid(name)) {
             return getMetadata(new ResourceUrn(name));
         }
-        List<ClassMetadata<? extends T, ?>> possibilities = getMetadata(name);
+        List<ClassMetadata<? extends T, ?>> possibilities = getMetadata(new Name(name));
         if (possibilities.size() == 1) {
             return possibilities.get(0);
         }
         return null;
     }
 
-    @Override
     public ClassMetadata<? extends T, ?> resolve(String name, Module context) {
         if (ResourceUrn.isValid(name)) {
             return getMetadata(new ResourceUrn(name));
         }
-        List<ClassMetadata<? extends T, ?>> possibilities = getMetadata(name);
+        List<ClassMetadata<? extends T, ?>> possibilities = getMetadata(new Name(name));
         switch (possibilities.size()) {
             case 0:
                 return null;
@@ -184,10 +183,11 @@ public abstract class AbstractClassLibrary<T> implements ClassLibrary<T> {
                     Iterator<ClassMetadata<? extends T, ?>> iterator = possibilities.iterator();
                     while (iterator.hasNext()) {
                         ClassMetadata<? extends T, ?> metadata = iterator.next();
-                        if (context.getId().equals(metadata.getUri().getModuleName())) {
+                        ResourceUrn urn = new ResourceUrn(metadata.getUri());
+                        if (context.getId().equals(urn.getModuleName())) {
                             return metadata;
                         }
-                        if (!dependencies.contains(metadata.getUri().getModuleName())) {
+                        if (!dependencies.contains(urn.getModuleName())) {
                             iterator.remove();
                         }
                     }

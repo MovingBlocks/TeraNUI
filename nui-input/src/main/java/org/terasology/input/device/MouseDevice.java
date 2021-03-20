@@ -18,12 +18,10 @@ package org.terasology.input.device;
 import java.util.Queue;
 
 import org.joml.Vector2d;
-import org.terasology.module.sandbox.API;
 import org.joml.Vector2i;
 
 /**
  */
-@API
 public interface MouseDevice extends InputDevice {
 
     /**

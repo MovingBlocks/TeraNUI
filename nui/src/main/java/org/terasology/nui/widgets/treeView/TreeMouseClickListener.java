@@ -15,12 +15,10 @@
  */
 package org.terasology.nui.widgets.treeView;
 
-import org.terasology.module.sandbox.API;
 import org.terasology.nui.events.NUIMouseClickEvent;
 
 
 @FunctionalInterface
-@API
 public interface TreeMouseClickListener {
     void onMouseClick(NUIMouseClickEvent event, Tree node);
 }

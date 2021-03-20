@@ -16,7 +16,6 @@
 package org.terasology.reflection.metadata;
 
 import com.google.common.base.Predicates;
-import org.terasology.assets.ResourceUrn;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.InaccessibleFieldException;
 import org.terasology.reflection.reflect.ReflectFactory;
@@ -37,7 +36,7 @@ public class DefaultClassMetadata<T> extends ClassMetadata<T, FieldMetadata<T, ?
      * @param copyStrategyLibrary A copy strategy library
      * @throws NoSuchMethodException If the class has no default constructor
      */
-    public DefaultClassMetadata(ResourceUrn uri, Class<T> type, ReflectFactory factory,
+    public DefaultClassMetadata(String uri, Class<T> type, ReflectFactory factory,
                                 CopyStrategyLibrary copyStrategyLibrary) throws NoSuchMethodException {
         super(uri, type, factory, copyStrategyLibrary, Predicates.<Field>alwaysTrue());
     }

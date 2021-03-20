@@ -16,10 +16,6 @@
 
 package org.terasology.reflection.metadata;
 
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.Module;
-import org.terasology.naming.Name;
-
 import java.util.List;
 
 /**
@@ -35,7 +31,7 @@ public interface ClassLibrary<T> extends Iterable<ClassMetadata<? extends T, ?>>
      * @param uri   The uri to use to find this class
      * @param clazz The class to register with this library
      */
-    void register(ResourceUrn uri, Class<? extends T> clazz);
+    void register(String uri, Class<? extends T> clazz);
 
     /**
      * @param clazz The class to retrieve metadata for
@@ -64,13 +60,7 @@ public interface ClassLibrary<T> extends Iterable<ClassMetadata<? extends T, ?>>
      * @param uri The uri identifying the class to look up
      * @return The metadata for the given class, or null if not registered.
      */
-    ClassMetadata<? extends T, ?> getMetadata(ResourceUrn uri);
-
-    /**
-     * @param name The object name of the class to look up
-     * @return A list of ClassMetadata identified by this name.
-     */
-    List<ClassMetadata<? extends T, ?>> getMetadata(String name);
+    ClassMetadata<? extends T, ?> getMetadata(String uri);
 
     /**
      * Resolves metadata for a class given a string that may either be a uri or just a name. T
@@ -80,37 +70,5 @@ public interface ClassLibrary<T> extends Iterable<ClassMetadata<? extends T, ?>>
      * @return The metadata for the given class, or null if it couldn't be resolved to a single option.
      */
     ClassMetadata<? extends T, ?> resolve(String name);
-
-    List<ClassMetadata<? extends T, ?>> getMetadata(Name name);
-
-    /**
-     * Resolves a name referring to a component. This may be a uri ('engine:component') or just the name ('component').
-     * The process used for resolution is:
-     * <ol>
-     * <li>If the name is a uri, return the component metadata linked to that uri</li>
-     * <li>Find within the context module</li>
-     * <li>Find within the context module's dependencies</li>
-     * </ol>
-     *
-     * @param name    The name of the component. This may be the full uri, or just part of it.
-     * @param context The module from which it has been referred
-     * @return The resolved component metadata, or null if it could not be resolve (or multiple matches were found)
-     */
-    ClassMetadata<? extends T, ?> resolve(String name, Name context);
-
-    /**
-     * Resolves a name referring to a component. This may be a uri ('engine:component') or just the component name ('component').
-     * The process used for resolution is:
-     * <ol>
-     * <li>If the name is a uri, return the component metadata linked to that uri</li>
-     * <li>Find within the context module</li>
-     * <li>Find within the context module's dependencies</li>
-     * </ol>
-     *
-     * @param name    The name of the component. This may be the full uri, or just part of it.
-     * @param context The module from which it has been referred
-     * @return The resolved component metadata, or null if it could not be resolve (or multiple matches were found)
-     */
-    ClassMetadata<? extends T, ?> resolve(String name, Module context);
 
 }

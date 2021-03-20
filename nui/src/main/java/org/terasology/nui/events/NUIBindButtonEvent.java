@@ -16,7 +16,6 @@
 
 package org.terasology.nui.events;
 
-import org.terasology.assets.ResourceUrn;
 import org.terasology.input.ButtonState;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.input.device.MouseDevice;
@@ -25,17 +24,17 @@ import org.terasology.input.device.MouseDevice;
  */
 public class NUIBindButtonEvent extends NUIInputEvent {
 
-    private ResourceUrn id;
+    private String id;
     private ButtonState state;
 
-    public NUIBindButtonEvent(MouseDevice mouseDevice, KeyboardDevice keyboardDevice, ResourceUrn buttonId, ButtonState newState) {
+    public NUIBindButtonEvent(MouseDevice mouseDevice, KeyboardDevice keyboardDevice, String buttonId, ButtonState newState) {
         super(mouseDevice, keyboardDevice);
 
         this.id = buttonId;
         this.state = newState;
     }
 
-    public ResourceUrn getId() {
+    public String getId() {
         return id;
     }
 
