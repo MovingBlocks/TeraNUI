@@ -17,11 +17,12 @@ package org.terasology.reflection.metadata;
 
 import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
+import org.terasology.reflection.ReflectionUtil;
 import org.terasology.reflection.copy.CopyStrategy;
+import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.FieldAccessor;
 import org.terasology.reflection.reflect.InaccessibleFieldException;
 import org.terasology.reflection.reflect.ReflectFactory;
-import org.terasology.reflection.ReflectionUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -38,22 +39,23 @@ public class FieldMetadata<T, U> {
     private final Class<U> type;
     private final Field field;
     private final FieldAccessor<T, U> accessor;
-    private final CopyStrategy<U> copyStrategy;
+    protected final CopyStrategy<U> copyStrategy;
 
     private final String serializationName;
 
     private byte id;
 
     /**
-     * @param owner        The ClassMetadata that owns this field
-     * @param field        The field this metadata is for
-     * @param copyStrategy The CopyStrategy appropriate for the type of the field
-     * @param factory      The reflection provider
+     * @param owner The ClassMetadata that owns this field
+     * @param field The field this metadata is for
+     * @param copyStrategyLibrary Something to provide a CopyStrategy appropriate for the type of the field
+     * @param factory The reflection provider
      */
     @SuppressWarnings("unchecked")
-    public FieldMetadata(ClassMetadata<T, ?> owner, Field field, CopyStrategy<U> copyStrategy, ReflectFactory factory) throws InaccessibleFieldException {
+    public FieldMetadata(ClassMetadata<T, ?> owner, Field field, CopyStrategyLibrary copyStrategyLibrary,
+                         ReflectFactory factory) throws InaccessibleFieldException {
         this.owner = owner;
-        this.copyStrategy = copyStrategy;
+        this.copyStrategy = (CopyStrategy<U>) copyStrategyLibrary.getStrategy(field.getGenericType());
         this.type = (Class<U>) determineType(field, owner.getType());
         this.accessor = factory.createFieldAccessor(owner.getType(), field, type);
         this.field = field;
@@ -139,8 +141,8 @@ public class FieldMetadata<T, U> {
     }
 
     /**
-     * Obtains the value of the field from a object which is an instance of the owning type.
-     * This method is checked to conform to the generic parameters of the FieldMetadata
+     * Obtains the value of the field from a object which is an instance of the owning type. This method is checked to
+     * conform to the generic parameters of the FieldMetadata
      *
      * @param from The object to obtain the value of this field from
      * @return The value of the field
@@ -150,8 +152,8 @@ public class FieldMetadata<T, U> {
     }
 
     /**
-     * For types that need to be copied (e.g. Vector3f) for safe usage, this method will create a new copy of a field from an object.
-     * Otherwise it behaves the same as getValue
+     * For types that need to be copied (e.g. Vector3f) for safe usage, this method will create a new copy of a field
+     * from an object. Otherwise it behaves the same as getValue
      *
      * @param from The object to copy the field from
      * @return A safe to use copy of the value of this field in the given object
@@ -161,9 +163,9 @@ public class FieldMetadata<T, U> {
     }
 
     /**
-     * For types that need to be copied (e.g. Vector3f) for safe usage, this method will create a new copy of a field from an object.
-     * Otherwise it behaves the same as getValue
-     * This method is checked to conform to the generic parameters of the FieldMetadata
+     * For types that need to be copied (e.g. Vector3f) for safe usage, this method will create a new copy of a field
+     * from an object. Otherwise it behaves the same as getValue This method is checked to conform to the generic
+     * parameters of the FieldMetadata
      *
      * @param from The object to copy the field from
      * @return A safe to use copy of the value of this field in the given object
@@ -176,7 +178,7 @@ public class FieldMetadata<T, U> {
      * Sets the value of this field in a target object
      *
      * @param target The object to set the field of
-     * @param value  The value to set the field to
+     * @param value The value to set the field to
      */
     @SuppressWarnings("unchecked")
     public void setValue(Object target, Object value) {
@@ -184,11 +186,11 @@ public class FieldMetadata<T, U> {
     }
 
     /**
-     * Sets the value of this field in a target object
-     * This method is checked to conform to the generic parameters of the FieldMetadata
+     * Sets the value of this field in a target object This method is checked to conform to the generic parameters of
+     * the FieldMetadata
      *
      * @param target The object to set the field of
-     * @param value  The value to set the field to
+     * @param value The value to set the field to
      */
     public void setValueChecked(T target, U value) {
         accessor.setValue(target, value);

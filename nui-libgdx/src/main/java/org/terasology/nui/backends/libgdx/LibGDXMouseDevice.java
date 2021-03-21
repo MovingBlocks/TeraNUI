@@ -16,6 +16,7 @@
 package org.terasology.nui.backends.libgdx;
 
 import com.badlogic.gdx.Gdx;
+import org.joml.Vector2d;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
 import org.joml.Vector2i;
@@ -42,7 +43,7 @@ public class LibGDXMouseDevice implements MouseDevice {
      * @return The current position of the mouse in screen space
      */
     @Override
-    public Vector2i getMousePosition() {
+    public Vector2i getPosition() {
         return GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(), Gdx.input.getY());
     }
 
@@ -50,8 +51,8 @@ public class LibGDXMouseDevice implements MouseDevice {
      * @return The change in mouse position over the last update
      */
     @Override
-    public Vector2i getDelta() {
-        return new Vector2i(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+    public Vector2d getDelta() {
+        return new Vector2d(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
     }
 
     /**
@@ -61,6 +62,11 @@ public class LibGDXMouseDevice implements MouseDevice {
     @Override
     public boolean isButtonDown(int button) {
         return Gdx.input.isButtonPressed(GDXInputUtil.NuiToGDXMouseButton(button));
+    }
+
+    @Override
+    public void update() {
+
     }
 
     /**

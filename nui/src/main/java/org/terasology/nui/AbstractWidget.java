@@ -25,6 +25,7 @@ import org.terasology.input.MouseInput;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
 import org.terasology.nui.databinding.ReadOnlyBinding;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseWheelEvent;
@@ -46,6 +47,9 @@ public abstract class AbstractWidget implements UIWidget {
 
     @LayoutConfig
     private UISkin skin;
+
+    @LayoutConfig
+    private boolean overrideChildEnabledProp = true;
 
     @LayoutConfig
     private Binding<String> family = new DefaultBinding<>();
@@ -74,6 +78,14 @@ public abstract class AbstractWidget implements UIWidget {
 
     public AbstractWidget(String id) {
         this.id = id;
+    }
+
+    public boolean isOverrideChildEnabledProp() {
+        return overrideChildEnabledProp;
+    }
+
+    public void setOverrideChildEnabledProp(boolean overrideChildEnabledProp) {
+        this.overrideChildEnabledProp = overrideChildEnabledProp;
     }
 
     @Override
@@ -175,12 +187,13 @@ public abstract class AbstractWidget implements UIWidget {
         this.enabled.set(enabled);
 
         for (UIWidget child : this) {
-            if (child instanceof AbstractWidget) {
-                AbstractWidget widget = (AbstractWidget) child;
-                widget.setEnabled(this.isEnabled());
+            if (overrideChildEnabledProp) {
+                if (child instanceof AbstractWidget) {
+                    AbstractWidget widget = (AbstractWidget) child;
+                    widget.setEnabled(this.isEnabled());
+                }
             }
         }
-
     }
 
     public void bindEnabled(Binding<Boolean> binding) {
@@ -307,6 +320,11 @@ public abstract class AbstractWidget implements UIWidget {
     @Override
     public boolean onKeyEvent(NUIKeyEvent event) {
         return onTabbingInput(event.getKey(), event.getState());
+    }
+
+    @Override
+    public boolean onCharEvent(NUICharEvent nuiEvent) {
+        return false;
     }
 
     @Override

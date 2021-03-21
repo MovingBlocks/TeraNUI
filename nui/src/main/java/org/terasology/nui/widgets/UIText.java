@@ -17,34 +17,35 @@ package org.terasology.nui.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.terasology.joml.geom.Rectanglei;
+import org.joml.Vector2i;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.input.Keyboard;
 import org.terasology.input.Keyboard.KeyId;
 import org.terasology.input.MouseInput;
 import org.terasology.input.device.KeyboardDevice;
-import org.terasology.nui.util.NUIMathUtil;
-import org.joml.Rectanglei;
-import org.joml.Vector2i;
-import org.terasology.nui.FontColor;
-import org.terasology.nui.FontUnderline;
-import org.terasology.nui.asset.font.Font;
-import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.Color;
+import org.terasology.nui.FontColor;
+import org.terasology.nui.FontUnderline;
 import org.terasology.nui.InteractionListener;
 import org.terasology.nui.LayoutConfig;
 import org.terasology.nui.SubRegion;
 import org.terasology.nui.TextLineBuilder;
+import org.terasology.nui.UITextureRegion;
 import org.terasology.nui.WidgetWithOrder;
+import org.terasology.nui.asset.font.Font;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.databinding.DefaultBinding;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseClickEvent;
+import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseReleaseEvent;
-import org.terasology.nui.events.NUIMouseDoubleClickEvent;
+import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.util.RectUtility;
 
 import java.awt.Toolkit;
@@ -399,13 +400,6 @@ public class UIText extends WidgetWithOrder {
                         listener.onActivated(this);
                     }
                     eventHandled = true;
-                } else if (event.getKeyCharacter() != 0 && lastFont.hasCharacter(event.getKeyCharacter())) {
-                    String fullText = text.get();
-                    String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
-                    String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
-                    setText(before + event.getKeyCharacter() + after);
-                    setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
-                    eventHandled = true;
                 }
             } else {
                 String fullText = text.get();
@@ -417,7 +411,6 @@ public class UIText extends WidgetWithOrder {
                         } else if (getCursorPosition() > 0) {
                             decreaseCursorPosition(1, !isSelectionModifierActive(event.getKeyboard()));
                         }
-                        eventHandled = true;
                         break;
                     }
                     case KeyId.RIGHT: {
@@ -426,18 +419,15 @@ public class UIText extends WidgetWithOrder {
                         } else if (getCursorPosition() < fullText.length()) {
                             increaseCursorPosition(1, !isSelectionModifierActive(event.getKeyboard()));
                         }
-                        eventHandled = true;
                         break;
                     }
                     case KeyId.HOME: {
                         setCursorPosition(0, !isSelectionModifierActive(event.getKeyboard()));
                         offset = 0;
-                        eventHandled = true;
                         break;
                     }
                     case KeyId.END: {
                         setCursorPosition(fullText.length(), !isSelectionModifierActive(event.getKeyboard()));
-                        eventHandled = true;
                         break;
                     }
                     default: {
@@ -445,7 +435,6 @@ public class UIText extends WidgetWithOrder {
                                 || event.getKeyboard().isKeyDown(KeyId.RIGHT_CTRL)) {
                             if (event.getKey() == Keyboard.Key.C) {
                                 copySelection();
-                                eventHandled = true;
                                 break;
                             }
                         }
@@ -467,7 +456,6 @@ public class UIText extends WidgetWithOrder {
 
                                 setText(before + after);
                             }
-                            eventHandled = true;
                             break;
                         }
                         case KeyId.DELETE: {
@@ -478,7 +466,6 @@ public class UIText extends WidgetWithOrder {
                                 String after = fullText.substring(getCursorPosition() + 1);
                                 setText(before + after);
                             }
-                            eventHandled = true;
                             break;
                         }
                         case KeyId.ENTER:
@@ -493,7 +480,6 @@ public class UIText extends WidgetWithOrder {
                             for (ActivateEventListener listener : activationListeners) {
                                 listener.onActivated(this);
                             }
-                            eventHandled = true;
                             break;
                         }
                         default: {
@@ -502,31 +488,44 @@ public class UIText extends WidgetWithOrder {
                                 if (event.getKey() == Keyboard.Key.V) {
                                     removeSelection();
                                     paste();
-                                    eventHandled = true;
                                     break;
                                 } else if (event.getKey() == Keyboard.Key.X) {
                                     copySelection();
                                     removeSelection();
-                                    eventHandled = true;
                                     break;
                                 }
-                            }
-                            if (event.getKeyCharacter() != 0 && lastFont.hasCharacter(event.getKeyCharacter())) {
-                                String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
-                                String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
-                                setText(before + event.getKeyCharacter() + after);
-                                setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
-                                eventHandled = true;
                             }
                             break;
                         }
                     }
                 }
             }
+            if (event.getKey().getId() != KeyId.ESCAPE) {
+                eventHandled = true;
+            }
         }
         updateOffset();
         return eventHandled;
     }
+
+    @Override
+    public boolean onCharEvent(NUICharEvent event) {
+        correctCursor();
+        boolean eventHandled = false;
+        if (isEnabled() && isVisible() && lastFont != null) {
+            if (event.getCharacter() != 0 && lastFont.hasCharacter(event.getCharacter())) {
+                String fullText = text.get();
+                String before = fullText.substring(0, Math.min(getCursorPosition(), selectionStart));
+                String after = fullText.substring(Math.max(getCursorPosition(), selectionStart));
+                setText(before + event.getCharacter() + after);
+                setCursorPosition(Math.min(getCursorPosition(), selectionStart) + 1);
+                eventHandled = true;
+            }
+        }
+        return eventHandled;
+    }
+
+
 
     /**
      * Updates the cursor offset.

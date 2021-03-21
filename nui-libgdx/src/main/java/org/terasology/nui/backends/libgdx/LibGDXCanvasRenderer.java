@@ -26,10 +26,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import org.terasology.nui.Colorc;
 import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.Border;
-import org.joml.Rectanglef;
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglef;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
 import org.terasology.nui.Color;
 import org.terasology.nui.FontColor;
@@ -174,7 +175,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
     }
 
     @Override
-    public void drawLine(int sx, int sy, int ex, int ey, Color color) {
+    public void drawLine(int sx, int sy, int ex, int ey, Colorc color) {
         spriteBatch.flush();
         spriteBatch.end();
 
@@ -199,7 +200,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
     }
 
     @Override
-    public void drawTexture(UITextureRegion texture, Color color, ScaleMode mode, Rectanglei absoluteRegion, float ux, float uy, float uw, float uh, float alpha) {
+    public void drawTexture(UITextureRegion texture, Colorc color, ScaleMode mode, Rectanglei absoluteRegion, float ux, float uy, float uw, float uh, float alpha) {
         if (!(texture instanceof LibGDXTexture)) {
             // TODO: Wrong rendering back-end ?
             return;
@@ -241,7 +242,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
     }
 
     @Override
-    public void drawText(String text, Font font, HorizontalAlign hAlign, VerticalAlign vAlign, Rectanglei absoluteRegion, Color color, Color shadowColor, float alpha, boolean underlined) {
+    public void drawText(String text, Font font, HorizontalAlign hAlign, VerticalAlign vAlign, Rectanglei absoluteRegion, Colorc color, Colorc shadowColor, float alpha, boolean underlined) {
         if (!(font instanceof LibGDXFont)) {
             return;
         }
@@ -282,10 +283,10 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
                 scaledHeight - absoluteRegion.minY - SHADOW_VERTICAL_OFFSET
                         - vAlign.getOffset(Math.abs((int)gdxFont.getGlyphLayout().height), absoluteRegion.lengthY()));
 
-        Deque<Color> colorStack = new LinkedList<Color>();
+        Deque<Colorc> colorStack = new LinkedList<>();
         colorStack.push(color);
 
-        List<Map.Entry<String, Color>> textSegments = new ArrayList<>();
+        List<Map.Entry<String, Colorc>> textSegments = new ArrayList<>();
         StringBuilder currentSegment = new StringBuilder();
         for (char character : text.toCharArray()) {
             if (FontColor.isValid(character)) {
@@ -310,9 +311,9 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
 
         int lineHeight = Math.abs(gdxFont.getLineHeight());
 
-        for (Map.Entry<String, Color> textSegment : textSegments) {
+        for (Map.Entry<String, Colorc> textSegment : textSegments) {
             String contents = FontColor.stripColor(textSegment.getKey());
-            Color segmentColor = textSegment.getValue();
+            Colorc segmentColor = textSegment.getValue();
 
             if (contents.startsWith("\n")) {
                 textX = absoluteRegion.minX;
@@ -342,7 +343,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
 
         Vector2i textureSize = new Vector2i(NUIMathUtil.ceilToInt(texture.getWidth() * uw), NUIMathUtil.ceilToInt(texture.getHeight() * uh));
         // Draw texture without borders
-        drawTexture(texture, Color.WHITE, tile ? ScaleMode.TILED : ScaleMode.STRETCH, absoluteRegion,
+        drawTexture(texture, Color.white, tile ? ScaleMode.TILED : ScaleMode.STRETCH, absoluteRegion,
                 ux + (float)border.getLeft() / textureSize.x, uy + (float)border.getTop() / textureSize.y,
                 uw - (float)border.getTotalWidth() / textureSize.x,
                 uh - (float)border.getTotalHeight() / textureSize.y, alpha);
@@ -350,23 +351,23 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
         // Draw borders around texture
 
         // Left border
-        drawTexture(texture, Color.WHITE, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.minY, border.getLeft(), absoluteRegion.lengthY()),
+        drawTexture(texture, Color.white, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.minY, border.getLeft(), absoluteRegion.lengthY()),
                 ux, uy,(float)border.getLeft() / textureSize.x, uh, alpha);
 
         // Right border
-        drawTexture(texture, Color.WHITE, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.maxX - border.getRight(), absoluteRegion.minY, border.getRight(), absoluteRegion.lengthY()),
+        drawTexture(texture, Color.white, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.maxX - border.getRight(), absoluteRegion.minY, border.getRight(), absoluteRegion.lengthY()),
                 ux + uw - ((float)border.getRight() / textureSize.x), uy,
                 (float)border.getRight() / textureSize.x,
                 uh, alpha);
 
         // Top border
-        drawTexture(texture, Color.WHITE, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.minY, absoluteRegion.lengthX(), border.getTop()),
+        drawTexture(texture, Color.white, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.minY, absoluteRegion.lengthX(), border.getTop()),
                 ux, uy,
                 uw,
                 (float)border.getTop() / textureSize.y, alpha);
 
         // Bottom border
-        drawTexture(texture, Color.WHITE, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.maxY - border.getBottom(), absoluteRegion.lengthX(), border.getBottom()),
+        drawTexture(texture, Color.white, tile ? ScaleMode.TILED : ScaleMode.STRETCH, RectUtility.createFromMinAndSize(absoluteRegion.minX, absoluteRegion.maxY - border.getBottom(), absoluteRegion.lengthX(), border.getBottom()),
                 ux, uy + uh - ((float)border.getBottom() / textureSize.y),
                 uw,
                 (float)border.getBottom() / textureSize.y, alpha);

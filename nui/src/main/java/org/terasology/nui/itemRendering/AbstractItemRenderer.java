@@ -15,7 +15,7 @@
  */
 package org.terasology.nui.itemRendering;
 
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.terasology.nui.Canvas;
 import org.terasology.nui.SubRegion;
 

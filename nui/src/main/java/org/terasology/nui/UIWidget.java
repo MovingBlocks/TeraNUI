@@ -18,6 +18,7 @@ package org.terasology.nui;
 import org.terasology.nui.events.NUIBindButtonEvent;
 import org.joml.Vector2i;
 import org.terasology.nui.databinding.Binding;
+import org.terasology.nui.events.NUICharEvent;
 import org.terasology.nui.events.NUIKeyEvent;
 import org.terasology.nui.events.NUIMouseButtonEvent;
 import org.terasology.nui.events.NUIMouseClickEvent;
@@ -96,10 +97,23 @@ public interface UIWidget extends Iterable<UIWidget> {
 
 
     /**
-     *
+     * Handle raw input events. Raw keys, case-independency, keyboard layout indepencency.
+     * Use this method for handle actions like "Press X to Win" or "Hold X key to Win" 
+     * If you needs to fill text field, or send chat, use  {@link UIWidget#onCharEvent(NUICharEvent)} instead.
+     * 
+     * @param event raw input event
      * @return Whether the input should be consumed, and thus not propagated to other interaction regions
      */
     boolean onKeyEvent(NUIKeyEvent event);
+
+    /**
+     * Handle text input events. UTF-8 characters.
+     * Use this method for handle text input. 
+     * 
+     * @param nuiEvent text input event
+     * @return whether the input should be consumed, and thus not propagted to other interaction regions
+     */
+    boolean onCharEvent(NUICharEvent nuiEvent);
 
     /**
      * Executed when a registered input-bind is activated (e.g. when a key or mouse button is pressed)

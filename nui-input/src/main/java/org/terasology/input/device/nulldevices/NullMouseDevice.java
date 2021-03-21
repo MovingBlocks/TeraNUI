@@ -17,6 +17,7 @@ package org.terasology.input.device.nulldevices;
 
 import com.google.common.collect.Queues;
 
+import org.joml.Vector2d;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
 import org.joml.Vector2i;
@@ -27,18 +28,23 @@ import java.util.Queue;
  */
 public class NullMouseDevice implements MouseDevice {
     @Override
-    public Vector2i getMousePosition() {
+    public Vector2i getPosition() {
         return new Vector2i();
     }
 
     @Override
-    public Vector2i getDelta() {
-        return new Vector2i();
+    public Vector2d getDelta() {
+        return new Vector2d();
     }
 
     @Override
     public boolean isButtonDown(int button) {
         return false;
+    }
+
+    @Override
+    public void update() {
+
     }
 
     @Override

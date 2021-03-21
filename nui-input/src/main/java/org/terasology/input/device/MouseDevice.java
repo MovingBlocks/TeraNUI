@@ -15,10 +15,11 @@
  */
 package org.terasology.input.device;
 
-import java.util.Queue;
-
+import org.joml.Vector2d;
 import org.joml.Vector2i;
 import org.terasology.gestalt.module.sandbox.API;
+
+import java.util.Queue;
 
 /**
  */
@@ -34,18 +35,20 @@ public interface MouseDevice extends InputDevice {
     /**
      * @return The current position of the mouse in screen space
      */
-    Vector2i getMousePosition();
+    Vector2i getPosition();
 
     /**
      * @return The change in mouse position over the last update
      */
-    Vector2i getDelta();
+    Vector2d getDelta();
 
     /**
      * @param button
      * @return The current state of the given button
      */
     boolean isButtonDown(int button);
+
+    void update();
 
     /**
      * @return Whether the mouse cursor is visible

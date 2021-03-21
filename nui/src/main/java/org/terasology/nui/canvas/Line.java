@@ -15,9 +15,8 @@
  */
 package org.terasology.nui.canvas;
 
-import org.joml.Rectanglei;
+import org.terasology.joml.geom.Rectanglei;
 import org.joml.Vector2i;
-import org.terasology.nui.util.RectUtility;
 
 import java.util.Objects;
 
@@ -30,9 +29,10 @@ public final class Line {
 
     }
 
-    public static LineCoordinates getLineCoordinates(int startX, int startY, int endX, int endY, Rectanglei baseRegion, Rectanglei cropRegion) {
+    public static LineCoordinates getLineCoordinates(int startX, int startY, int endX, int endY,
+                                                     Rectanglei baseRegion, Rectanglei cropRegion) {
         Rectanglei region = new Rectanglei(Math.min(startX, endX), Math.min(startY, endY),
-            Math.max(startX, endX), Math.max(startY, endY));
+                Math.max(startX, endX), Math.max(startY, endY));
         Rectanglei absoluteRegion = relativeToAbsolute(region, baseRegion);
         Rectanglei finalRegion = intersect(cropRegion, absoluteRegion);
 
@@ -49,8 +49,8 @@ public final class Line {
     }
 
     /**
-     * JOML considers Rectangles with a width or height of 0 to be invalid.
-     * Lines can have either value as 0 but not both, so the method needs to be redefined without that restriction
+     * JOML considers Rectangles with a width or height of 0 to be invalid. Lines can have either value as 0 but not
+     * both, so the method needs to be redefined without that restriction
      */
     private static Rectanglei intersect(Rectanglei a, Rectanglei b) {
         Rectanglei result = new Rectanglei();
@@ -63,7 +63,11 @@ public final class Line {
     }
 
     public static Rectanglei relativeToAbsolute(Rectanglei region, Rectanglei baseRegion) {
-        return RectUtility.createFromMinAndSize(region.minX + baseRegion.minX, region.minY + baseRegion.minY, region.lengthX(), region.lengthY());
+        // Explicitly compute the rectangle from min and size here, as we don't want to ensure
+        // that the rectangle has positive dimensions and to avoid the fallback to the empty rectangle.
+        final int minX = region.minX + baseRegion.minX;
+        final int minY = region.minY + baseRegion.minY;
+        return new Rectanglei(minX, minY, minX + region.lengthX(), minY + region.lengthY());
     }
 
     /**

@@ -12,7 +12,6 @@ repositories {
     mavenLocal()
 
     // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
-    jcenter()
     mavenCentral()
 
     // Google's Maven repository - Needed for com.android.support:support-annotations, which gestalt 7 uses
@@ -115,8 +114,4 @@ publishing {
             }
         }
     }
-}
-
-static def isMaster(gitBranch) {
-    return gitBranch != null && gitBranch.equals("master");
 }
