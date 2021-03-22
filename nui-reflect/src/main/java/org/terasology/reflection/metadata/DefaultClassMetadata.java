@@ -30,15 +30,15 @@ public class DefaultClassMetadata<T> extends ClassMetadata<T, FieldMetadata<T, ?
     /**
      * Creates a class metatdata
      *
-     * @param uri The uri that identifies this class
+     * @param id The id that identifies this class
      * @param type The type to create the metadata for
      * @param factory A reflection library to provide class construction and field get/set functionality
      * @param copyStrategyLibrary A copy strategy library
      * @throws NoSuchMethodException If the class has no default constructor
      */
-    public DefaultClassMetadata(String uri, Class<T> type, ReflectFactory factory,
+    public DefaultClassMetadata(String id, Class<T> type, ReflectFactory factory,
                                 CopyStrategyLibrary copyStrategyLibrary) throws NoSuchMethodException {
-        super(uri, type, factory, copyStrategyLibrary, Predicates.<Field>alwaysTrue());
+        super(id, type, factory, copyStrategyLibrary, Predicates.<Field>alwaysTrue());
     }
 
     @Override

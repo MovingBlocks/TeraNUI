@@ -51,7 +51,7 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     private static final Logger logger = LoggerFactory.getLogger(ClassMetadata.class);
     private static final Permission CREATE_CLASS_METADATA = new RuntimePermission("createClassMetadata");
 
-    private final String uri;
+    private final String classId;
     private final Class<T> clazz;
     protected final ObjectConstructor<T> constructor;
     protected Map<String, FIELD> fields = Maps.newHashMap();
@@ -60,20 +60,20 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
     /**
      * Creates a class metatdata
      *
-     * @param uri The uri that identifies this type
+     * @param id The id that identifies this type
      * @param type The type to create the metadata for
      * @param factory A reflection library to provide class construction and field get/set functionality
      * @param copyStrategyLibrary A copy strategy library
      * @throws NoSuchMethodException If the class has no default constructor
      */
-    public ClassMetadata(String uri, Class<T> type, ReflectFactory factory,
+    public ClassMetadata(String id, Class<T> type, ReflectFactory factory,
                          CopyStrategyLibrary copyStrategyLibrary, Predicate<Field> includedFieldPredicate)
             throws NoSuchMethodException {
         if (System.getSecurityManager() != null) {
             System.getSecurityManager().checkPermission(CREATE_CLASS_METADATA);
         }
 
-        this.uri = uri;
+        this.classId = id;
         this.clazz = type;
         if (!type.isInterface() && !Modifier.isAbstract(type.getModifiers())) {
             this.constructor = factory.createConstructor(type);
@@ -84,8 +84,22 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
         addFields(copyStrategyLibrary, factory, includedFieldPredicate);
     }
 
+    /**
+     * @deprecated Renamed to {@link #getId()}
+     * @return The id that identifies this type
+     */
+    @Deprecated
     public final String getUri() {
-        return uri;
+        return classId;
+    }
+
+    /**
+     * Returns the id that identifies this type.
+     *
+     * @return The id that identifies this type
+     */
+    public final String getId() {
+        return classId;
     }
 
     /**
@@ -231,8 +245,8 @@ public abstract class ClassMetadata<T, FIELD extends FieldMetadata<T, ?>> {
 
     @Override
     public String toString() {
-        if (!uri.isEmpty()) {
-            return uri;
+        if (!classId.isEmpty()) {
+            return classId;
         }
         return getType().toString();
     }

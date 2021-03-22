@@ -16,8 +16,6 @@
 
 package org.terasology.reflection.metadata;
 
-import java.util.List;
-
 /**
  * The interface for a class library. These store metadata on a type of class, and provide the ability to copy them.
  *
@@ -57,10 +55,10 @@ public interface ClassLibrary<T> extends Iterable<ClassMetadata<? extends T, ?>>
     <TYPE extends T> TYPE copy(TYPE object);
 
     /**
-     * @param uri The uri identifying the class to look up
+     * @param id The id identifying the class to look up
      * @return The metadata for the given class, or null if not registered.
      */
-    ClassMetadata<? extends T, ?> getMetadata(String uri);
+    ClassMetadata<? extends T, ?> getMetadata(String id);
 
     /**
      * Resolves metadata for a class given a string that may either be a uri or just a name. T

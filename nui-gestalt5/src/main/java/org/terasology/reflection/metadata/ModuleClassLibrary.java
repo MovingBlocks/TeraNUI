@@ -48,7 +48,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     private ModuleEnvironment environment;
 
     private Map<Class<? extends T>, ClassMetadata<? extends T, ?>> classLookup = Maps.newHashMap();
-    private Table<Name, Name, ClassMetadata<? extends T, ?>> uriLookup = HashBasedTable.create();
+    private Table<Name, Name, ClassMetadata<? extends T, ?>> urnLookup = HashBasedTable.create();
 
     public ModuleClassLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         this.environment = environment;
@@ -59,17 +59,17 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     public ModuleClassLibrary(ModuleClassLibrary<T> factory, CopyStrategyLibrary copyStrategies) {
         this.reflectFactory = factory.reflectFactory;
         this.copyStrategyLibrary = copyStrategies;
-        for (Table.Cell<Name, Name, ClassMetadata<? extends T, ?>> cell: factory.uriLookup.cellSet()) {
+        for (Table.Cell<Name, Name, ClassMetadata<? extends T, ?>> cell: factory.urnLookup.cellSet()) {
             Name objectName = cell.getRowKey();
             Name moduleName = cell.getColumnKey();
             ClassMetadata<? extends T, ?> oldMetaData = cell.getValue();
             Class<? extends T> clazz = oldMetaData.getType();
-            ResourceUrn uri = new ResourceUrn(oldMetaData.getUri());
-            ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, factory.reflectFactory, copyStrategies, uri);
+            ResourceUrn urn = new ResourceUrn(oldMetaData.getId());
+            ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, factory.reflectFactory, copyStrategies, urn);
 
             if (metadata != null) {
                 classLookup.put(clazz, metadata);
-                uriLookup.put(objectName, moduleName, metadata);
+                urnLookup.put(objectName, moduleName, metadata);
             } else {
                 throw new RuntimeException("Failed to create copy of class library");
             }
@@ -89,14 +89,14 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
         register(new ResourceUrn(uri), clazz);
     }
 
-    public void register(ResourceUrn uri, Class<? extends T> clazz) {
-        ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, reflectFactory, copyStrategyLibrary, uri);
+    public void register(ResourceUrn urn, Class<? extends T> clazz) {
+        ClassMetadata<? extends T, ?> metadata = createMetadata(clazz, reflectFactory, copyStrategyLibrary, urn);
 
         if (metadata != null) {
             classLookup.put(clazz, metadata);
-            ClassMetadata<? extends T, ?> prev = uriLookup.put(uri.getResourceName(), uri.getModuleName(), metadata);
+            ClassMetadata<? extends T, ?> prev = urnLookup.put(urn.getResourceName(), urn.getModuleName(), metadata);
             if (prev != null && !prev.equals(metadata)) {
-                logger.warn("Duplicate entry for '{}': {} and {}", uri, prev.getType(), metadata.getType());
+                logger.warn("Duplicate entry for '{}': {} and {}", urn, prev.getType(), metadata.getType());
             }
         }
     }
@@ -129,12 +129,12 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     }
 
     @Override
-    public ClassMetadata<? extends T, ?> getMetadata(String uri) {
-        return getMetadata(new ResourceUrn(uri));
+    public ClassMetadata<? extends T, ?> getMetadata(String urn) {
+        return getMetadata(new ResourceUrn(urn));
     }
 
-    public ClassMetadata<? extends T, ?> getMetadata(ResourceUrn uri) {
-        return uriLookup.get(uri.getResourceName(), uri.getModuleName());
+    public ClassMetadata<? extends T, ?> getMetadata(ResourceUrn urn) {
+        return urnLookup.get(urn.getResourceName(), urn.getModuleName());
     }
 
     @Override
@@ -143,7 +143,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     }
 
     public List<ClassMetadata<? extends T, ?>> getMetadata(Name name) {
-        return Lists.newArrayList(uriLookup.row(name).values());
+        return Lists.newArrayList(urnLookup.row(name).values());
     }
 
     public ClassMetadata<? extends T, ?> resolve(String name, Name context) {
@@ -183,7 +183,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
                     Iterator<ClassMetadata<? extends T, ?>> iterator = possibilities.iterator();
                     while (iterator.hasNext()) {
                         ClassMetadata<? extends T, ?> metadata = iterator.next();
-                        ResourceUrn urn = new ResourceUrn(metadata.getUri());
+                        ResourceUrn urn = new ResourceUrn(metadata.getId());
                         if (context.getId().equals(urn.getModuleName())) {
                             return metadata;
                         }
