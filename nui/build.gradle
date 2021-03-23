@@ -6,9 +6,6 @@ plugins {
 apply from: "$rootDir/gradle/common.gradle"
 
 dependencies {
-    api group: 'org.terasology', name: 'gestalt-module', version: '5.1.5'
-    api group: 'org.terasology', name: 'gestalt-asset-core', version: '5.1.5'
-
     api group: 'org.abego.treelayout', name: 'org.abego.treelayout.core', version: '1.0.3'
     api group: 'com.miglayout', name: 'miglayout-core', version: '5.0'
 

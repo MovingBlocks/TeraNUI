@@ -8,7 +8,6 @@ import org.joml.Vector3fc;
 import org.joml.Vector3ic;
 import org.joml.Vector4fc;
 import org.joml.Vector4ic;
-import org.terasology.module.sandbox.API;
 
 import java.nio.ByteBuffer;
 import java.util.Locale;
@@ -29,7 +28,6 @@ import java.util.Objects;
  * </ul>
  *
  */
-@API
 public class Color implements Colorc {
 
     @Deprecated

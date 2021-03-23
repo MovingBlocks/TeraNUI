@@ -16,14 +16,12 @@
 package org.terasology.nui.properties;
 
 import com.google.common.collect.Maps;
-import org.terasology.module.sandbox.API;
 import org.terasology.nui.databinding.Binding;
 import org.terasology.nui.itemRendering.ItemRenderer;
 
 import java.util.List;
 import java.util.Map;
 
-@API
 public class OneOfProviderFactory {
     private Map<String, Binding<?>> provider = Maps.newHashMap();
     private Map<String, ItemRenderer<?>> itemRenderers = Maps.newHashMap();

@@ -15,8 +15,6 @@
  */
 
 /**
- * See javadoc of {@link org.terasology.rendering.nui.events.NUIInputEvent}.
+ * See javadoc of {@link org.terasology.nui.events.NUIInputEvent}.
  */
-@API package org.terasology.nui.events;
-
-import org.terasology.module.sandbox.API;
+package org.terasology.nui.events;

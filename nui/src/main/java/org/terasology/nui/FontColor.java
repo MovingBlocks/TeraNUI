@@ -16,7 +16,6 @@
 
 package org.terasology.nui;
 
-import org.terasology.module.sandbox.API;
 import org.terasology.nui.Color;
 
 /**
@@ -26,7 +25,6 @@ import org.terasology.nui.Color;
  * <br>
  * <b>Note:</b> The resolution is only 4 bit per channel (not 8 as usual).
  */
-@API
 public final class FontColor {
     private static final char FIRST_COLOR = 0xE000; // Unicode 6 specs: "Private Use Area: U+E000 -- U+F8FF"
     private static final char LAST_COLOR  = 0xEFFF;

@@ -16,12 +16,9 @@
 
 package org.terasology.nui;
 
-import org.terasology.module.sandbox.API;
-
 /**
  * Defines a set of special characters that mark contents of a string to be underlined
  */
-@API
 public final class FontUnderline {
     private static final char START_UNDERLINE = 0xF001;
     private static final char END_UNDERLINE = 0xF002;

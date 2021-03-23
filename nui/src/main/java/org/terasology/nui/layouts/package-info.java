@@ -17,6 +17,4 @@
 /**
  * A selection of basic layouts. Each layout can be used to describe how to position a set of nested widgets.
  */
-@API package org.terasology.nui.layouts;
-
-import org.terasology.module.sandbox.API;
+package org.terasology.nui.layouts;

@@ -17,6 +17,5 @@
 /**
  * This package contains a simple data binding framework for use in nui (or elsewhere).
  */
-@API package org.terasology.nui.databinding;
+package org.terasology.nui.databinding;
 
-import org.terasology.module.sandbox.API;

@@ -15,6 +15,9 @@ repositories {
     jcenter()
     mavenCentral()
 
+    // Used for gestalt 7 - Android annotations
+    google()
+
     // Terasology Artifactory instance for libs not readily available elsewhere plus our own libs
     maven {
         def repoViaEnv = System.getenv()["RESOLUTION_REPO"]

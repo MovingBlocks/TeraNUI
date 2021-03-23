@@ -15,18 +15,14 @@
  */
 package org.terasology.nui.properties;
 
-import org.terasology.module.sandbox.API;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@API
 public interface OneOf {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    @API
     public @interface Enum {
         String label() default "";
 
@@ -35,7 +31,6 @@ public interface OneOf {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    @API
     public @interface List {
         String label() default "";
 
@@ -46,7 +41,6 @@ public interface OneOf {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    @API
     public @interface Provider {
         String label() default "";
 

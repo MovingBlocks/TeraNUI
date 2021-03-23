@@ -27,6 +27,5 @@
  *  <li>Databinding support</li>
  * </ul>
  */
-@API package org.terasology.nui;
+package org.terasology.nui;
 
-import org.terasology.module.sandbox.API;

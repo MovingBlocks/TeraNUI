@@ -16,30 +16,28 @@
 
 package org.terasology.nui.asset.font;
 
-import org.terasology.module.sandbox.API;
 import org.joml.Vector2i;
 
 import java.util.List;
 
 /**
  */
-@API
 public interface Font {
-    public abstract int getWidth(String text);
+    int getWidth(String text);
 
-    public abstract int getWidth(Character c);
+    int getWidth(Character c);
 
-    public abstract int getHeight(String text);
+    int getHeight(String text);
 
-    public abstract int getLineHeight();
+    int getLineHeight();
 
-    public abstract int getBaseHeight();
+    int getBaseHeight();
 
-    public abstract Vector2i getSize(List<String> lines);
+    Vector2i getSize(List<String> lines);
 
-    public abstract boolean hasCharacter(Character c);
+    boolean hasCharacter(Character c);
 
-    public abstract int getUnderlineOffset();
+    int getUnderlineOffset();
 
-    public abstract int getUnderlineThickness();
+    int getUnderlineThickness();
 }

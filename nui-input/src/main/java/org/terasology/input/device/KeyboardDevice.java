@@ -4,11 +4,8 @@ package org.terasology.input.device;
 
 import java.util.Queue;
 
-import org.terasology.module.sandbox.API;
-
 /**
  */
-@API
 public interface KeyboardDevice extends InputDevice {
 
     @Override

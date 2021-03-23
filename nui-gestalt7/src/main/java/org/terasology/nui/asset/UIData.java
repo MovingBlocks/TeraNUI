@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 MovingBlocks
+ * Copyright 2016 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.nui.skin;
+package org.terasology.nui.asset;
 
-import com.google.common.collect.Maps;
-import org.terasology.assets.AssetData;
-import org.terasology.assets.format.AssetDataFile;
-
-import java.util.Map;
+import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.format.AssetDataFile;
+import org.terasology.gestalt.module.sandbox.API;
+import org.terasology.nui.UIWidget;
 
 /**
+ * UIData contains a UI widget that has been loaded from a UI asset.
  */
-public class UISkinData implements AssetData {
-    Map<String, UIStyleFamily> skinFamilies;
+@API
+public class UIData implements AssetData {
+    private UIWidget rootWidget;
 
     private transient AssetDataFile source;
 
-    public UISkinData(Map<String, UIStyleFamily> families) {
-        skinFamilies = Maps.newHashMap(families);
+    public UIData(UIWidget rootWidget) {
+        this.rootWidget = rootWidget;
     }
 
-    public UIStyleFamily getFamily(String familyName) {
-        return skinFamilies.get(familyName);
+    /**
+     * @return The root widget loaded from the UI asset.
+     */
+    public UIWidget getRootWidget() {
+        return rootWidget;
     }
 
     /**

@@ -17,6 +17,5 @@
 /**
  * This package contains a collection of basic UIWidgets
  */
-@API package org.terasology.nui.widgets;
+package org.terasology.nui.widgets;
 
-import org.terasology.module.sandbox.API;

@@ -17,6 +17,4 @@
 /**
  * This package contains the RelativeLayout and related classes. This layout allows contents to be positioned relative to each other or the area in which it is rendered.
  */
-@API package org.terasology.nui.layouts.relative;
-
-import org.terasology.module.sandbox.API;
+package org.terasology.nui.layouts.relative;

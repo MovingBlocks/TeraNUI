@@ -17,6 +17,5 @@
 /**
  * This package contains support for skinning nui - a UIStyle provides generic information on how to draw a widget, and a UISkin provides a hierarchy of styles.
  */
-@API package org.terasology.nui.skin;
+package org.terasology.nui.skin;
 
-import org.terasology.module.sandbox.API;

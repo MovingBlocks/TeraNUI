@@ -73,7 +73,7 @@ public class NUIInputProcessor implements InputProcessor {
 
     public Queue<CharKeyboardAction> getKeyboardCharQueue() {
         Queue<CharKeyboardAction> copy = new LinkedList<>(keyboardCharQueue);
-        keyboardActionQueue.clear();
+        keyboardCharQueue.clear();
         return copy;
     }
 

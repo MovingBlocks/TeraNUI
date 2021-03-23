@@ -15,29 +15,18 @@
  */
 package org.terasology.nui.skin;
 
-import org.terasology.assets.Asset;
-import org.terasology.assets.AssetType;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.assets.format.AssetDataFile;
 import org.terasology.nui.UIWidget;
+
+import java.util.Map;
 
 /**
  */
-public class UISkin extends Asset<UISkinData> {
+public class UISkin {
 
-    private UISkinData skinData;
+    private Map<String, UIStyleFamily> skinFamilies;
 
-    private transient AssetDataFile source;
-
-    public UISkin(ResourceUrn urn, AssetType<?, UISkinData> assetType, UISkinData data) {
-        super(urn, assetType);
-        reload(data);
-    }
-
-    @Override
-    protected void doReload(UISkinData data) {
-        this.skinData = data;
-        this.source = data.getSource();
+    public UISkin(Map<String, UIStyleFamily> skinFamilies) {
+        this.skinFamilies = skinFamilies;
     }
 
     public UIStyle getDefaultStyle() {
@@ -73,18 +62,14 @@ public class UISkin extends Asset<UISkinData> {
     }
 
     public UIStyleFamily getFamily(String family) {
-        UIStyleFamily styleFamily = skinData.getFamily(family);
+        UIStyleFamily styleFamily = skinFamilies.get(family);
         if (styleFamily == null) {
-            return skinData.getFamily("");
+            return skinFamilies.get("");
         }
         return styleFamily;
     }
 
     public Iterable<? extends String> getFamilies() {
-        return skinData.skinFamilies.keySet();
-    }
-
-    public AssetDataFile getSource() {
-        return source;
+        return skinFamilies.keySet();
     }
 }

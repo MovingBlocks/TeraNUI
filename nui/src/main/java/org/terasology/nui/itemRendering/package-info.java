@@ -17,6 +17,4 @@
 /**
  * This package contains classes for defining how to render an item
  */
-@API package org.terasology.nui.itemRendering;
-
-import org.terasology.module.sandbox.API;
+package org.terasology.nui.itemRendering;
