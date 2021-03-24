@@ -36,8 +36,9 @@ of the code. However, we maintain two versions of TeraNUI for [gestalt] v5 and v
 
 | Branch         | Version | gestalt | Projects |
 | -------------- |:-------:|:-------:| -------- |
-| `master`       | v2.x    | v7      | [DestinationSol] |
-| `release/v1.x` | v1.x    | v5      | [Terasology]
+| `master`       | v3.x    | \*      | Terasology 4.4+ |
+| `release/v2.x` | v2.x    | v7      | [DestinationSol] |
+| `release/v1.x` | v1.x    | v5      | [Terasology] prior to 4.4.0 |
 
 Porting changes from one branch to the other should be possible by _cherry picking_ the respective commits as there are
 no differences in the code (yet). **Make sure to adjust the version number to the respective branch when porting a change.**
