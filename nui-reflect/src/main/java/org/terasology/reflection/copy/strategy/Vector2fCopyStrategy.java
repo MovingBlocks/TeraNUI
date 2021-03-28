@@ -17,11 +17,9 @@ package org.terasology.reflection.copy.strategy;
 
 import org.joml.Vector2f;
 import org.terasology.reflection.copy.CopyStrategy;
-import org.terasology.reflection.copy.RegisterCopyStrategy;
 
 /**
  */
-@RegisterCopyStrategy
 public class Vector2fCopyStrategy implements CopyStrategy<Vector2f> {
 
     @Override
