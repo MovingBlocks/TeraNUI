@@ -23,15 +23,22 @@ PR with your changes. You can start right away by using the Gitpod online worksp
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/MovingBlocks/TeraNUI)
 
 In Terasology, you can test easily locally until you're ready for a snapshot or release. To do so, you'll need to re-embed TeraNUI into Terasology as source which has priority over any binary version. You can get the TeraNUI library as source into your local Terasology workspace as follows:
+
 ```sh
 groovyw lib get TeraNUI
 ```
+
 This will place the TeraNUI source code into `/libs/TeraNUI`. Please note, that you may need to reload/refresh your gradle workspace in Intellij IDEA.
 
 ## 🤖 Maintenance
 
 The main development of TeraNUI happens on the `master` branch, a strong main branch that always has the latest version
-of the code. However, we maintain two versions of TeraNUI for [gestalt] v5 and v7, respectively. As the two code lines are nearly identical most changes to either version should be [ported back 🔗](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops#port-changes-back-to-the-main-branch) to the other. 
+of the code. 
+With TeraNUI v3 we can support both versions of [gestalt] in a single release (v5 and v7, respectively).
+
+We keep _release branches_ for TeraNUI's major versions.
+Note that new features will only be implemented for the latest version on `master`.
+The following table shows release branches and known projects using them.
  
 
 | Branch         | Version | gestalt | Projects |
@@ -40,8 +47,7 @@ of the code. However, we maintain two versions of TeraNUI for [gestalt] v5 and v
 | `release/v2.x` | v2.x    | v7      | [DestinationSol] |
 | `release/v1.x` | v1.x    | v5      | [Terasology] prior to 4.4.0 |
 
-Porting changes from one branch to the other should be possible by _cherry picking_ the respective commits as there are
-no differences in the code (yet). **Make sure to adjust the version number to the respective branch when porting a change.**
+We may port back changes made to the main line of the code to release branches by _cherry picking_ them to the respective branches.
 
 ## 🚀 Release Management
 
@@ -57,9 +63,6 @@ in [`build.gradle`](./build.gradle).
 The exact build steps for this library are defined in the [Jenkinsfile](./Jenkinsfile).
 
 🗄 [**Snapshots**][artifactory-nui-snapshot] ▪ [**Releases**][artifactory-nui-release]
-
-
-> 🚧 TODO: how to consume TeraNUI from the Terasology Artifactory (e.g., gradle dependency snippet)
 
 ### Release Process
 
@@ -96,10 +99,6 @@ non-snapshot release for any version is as follows:
      change with the following message:_
     
     > `chore: prepare next snapshot for {{version}}`
-
-
-> 💚 We try to keep v1 and v2 in sync, thus this relase process should usually be executed for both branches,
-> respectively.
 
 ## License
 
