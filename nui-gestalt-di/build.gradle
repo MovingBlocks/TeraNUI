@@ -1,6 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'io.github.classgraph:classgraph:4.8.104'
+    }
+}
+
 plugins {
     id 'java-library'
     id 'maven-publish'
+}
+
+ext {
+    // classes, interfaces, annotations, which should be adds to index for gestalt's ClassIndex
+    indexingClasses = ["org.terasology.nui.UIWidget", "org.terasology.nui.UILayout"]
 }
 
 apply from: "$rootDir/gradle/common.gradle"
@@ -21,3 +35,74 @@ dependencies {
     api project(':nui')
     api project(':nui-reflect')
 }
+
+
+import io.github.classgraph.ClassGraph
+import io.github.classgraph.ClassInfo
+
+task index {
+
+    inputs.files(sourceSets.main.compileClasspath.files)
+    inputs.files(sourceSets.main.output.classesDirs.files)
+    inputs.files(sourceSets.main.output.resourcesDir)
+
+    dependsOn(tasks.classes)
+    doLast {
+        def scanResultDir = sourceSets.main.output.resourcesDir
+
+        def inputs = inputs.files.files.toArray(new File[0])
+
+        new ClassGraph()
+                .overrideClasspath(inputs)
+                .enableClassInfo()
+                .acceptJars("nui-*.jar", "gestalt-*.jar")
+                .enableAnnotationInfo()
+                .verbose()
+                .enableRealtimeLogging()
+                .scan()
+                .withCloseable { scanResult ->
+                    def indexClasses = []
+                    indexClasses << scanResult.getClassesWithAnnotation("org.terasology.context.annotation.Index").directOnly()
+                    indexClasses << scanResult.getClassesWithAnnotation("org.terasology.context.annotation.IndexInherited").directOnly()
+                    indexClasses << indexingClasses.collect { scanResult.getClassInfo(it) }
+
+                    file("$scanResultDir/META-INF/subtypes/").mkdirs()
+                    file("$scanResultDir/META-INF/annotations/").mkdirs()
+
+                    indexClasses.flatten().each { ClassInfo classInfo ->
+                        if (classInfo.interface) {
+                            def file = file("$scanResultDir/META-INF/subtypes/$classInfo.name")
+
+                            file.newWriter().withCloseable { writer ->
+                                classInfo.classesImplementing.each {
+                                    writer.writeLine(it.name)
+                                }
+                            }
+                        } else if (classInfo.standardClass) {
+                            file("$scanResultDir/META-INF/subtypes/$classInfo.name")
+                                    .newWriter().withCloseable { writer ->
+                                classInfo.subclasses.each {
+                                    writer.writeLine(it.name)
+                                }
+                            }
+                        } else if (classInfo.annotation) {
+                            file("$scanResultDir/META-INF/annotations/$classInfo.name")
+                                    .newWriter().withCloseable { writer ->
+
+                                classInfo.classesWithAnnotation.each {
+                                    writer.writeLine(it.name)
+                                }
+                            }
+                        }
+                    }
+                    file("$scanResultDir/META-INF/resources")
+                            .newWriter().withCloseable { writer ->
+                        scanResult.allResources.filter {!it.path.startsWith("META-INF")}.nonClassFilesOnly().each { resource ->
+                            writer.writeLine(resource.getPath())
+                        }
+                    }
+                }
+    }
+}
+
+tasks.classes.finalizedBy(tasks.named("index"))
