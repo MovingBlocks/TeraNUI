@@ -14,7 +14,11 @@ plugins {
 
 ext {
     // classes, interfaces, annotations, which should be adds to index for gestalt's ClassIndex
-    indexingClasses = ["org.terasology.nui.UIWidget", "org.terasology.nui.UILayout"]
+    indexingClasses = [
+            "org.terasology.nui.UIWidget",
+            "org.terasology.nui.UILayout",
+            "org.terasology.reflection.copy.CopyStrategy"
+    ]
 }
 
 apply from: "$rootDir/gradle/common.gradle"
