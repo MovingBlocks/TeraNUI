@@ -1,5 +1,3 @@
-# Summary
-
 - [Introduction](introduction/README.md)
   - [Concepts](concepts/README.md)
 - [Widgets](widgets/README.md)

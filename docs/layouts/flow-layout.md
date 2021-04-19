@@ -5,8 +5,10 @@ very much like words wrap at the end of a line when writing a text. The children
 row in the flow direction, each widget sized by its preferred size. The individual elements are
 top-aligned, and wrapped at the first element that does not fit in the row.
 
+
+
 <figure id="fig:layouts-flow-ltr">
-  <img src="./nui_layout_flow-ltr.svg" />
+  <img src="/layouts/nui_layout_flow-ltr.svg" />
   <figcaption>
     Arrangement of widgets in Flow layout with left-to-right alignment.
   </figcaption>
@@ -18,7 +20,7 @@ children won't be rendered but will take up space. The layout may be styled as o
 
 Example of a _Flow_ layout:
 
-```json
+```json5
 {
   "type": "FlowLayout",
   "verticalSpacing": 8,
@@ -33,7 +35,7 @@ Example of a _Flow_ layout:
 ## Implementation
 
 <figure id="fig:layouts-flow-internal">
-  <img src="./nui_layout_flow-internal.svg" />
+  <img src="layouts/nui_layout_flow-internal.svg" />
   <figcaption>
     Internal fields and measures of the Flow layout.
   </figcaption>
