@@ -34,6 +34,8 @@ import org.terasology.nui.util.RectUtility;
 public class UIIconBar extends CoreWidget {
 
     private static final String ICON_PART = "icon";
+    private int animationTimer = 0;
+    private AnimationMode animationMode = AnimationMode.NONE;
 
     @LayoutConfig
     private HalfIconMode halfIconMode = HalfIconMode.SPLIT;
@@ -66,9 +68,20 @@ public class UIIconBar extends CoreWidget {
             } else if (ratio - fullIcons > 0) {
                 halfIcon = true;
             }
-            Vector2i offset = new Vector2i();
+            Vector2i barOffset = new Vector2i();
+
+
             for (int i = 0; i < maxIcons; ++i) {
-                Rectanglei iconRegion = RectUtility.createFromMinAndSize(offset, iconSize);
+                // Animations
+                Vector2i iconOffset = new Vector2i();
+                switch (animationMode) {
+                    case SHAKING:
+                        double waveY = Math.sin((animationTimer * 1.5f + i) / 2f) * 2;
+                        barOffset.y = (int) waveY;
+                        break;
+                }
+
+                Rectanglei iconRegion = RectUtility.createFromMinAndSize(barOffset, iconSize);
                 canvas.drawBackground(iconRegion);
                 if (ratio - i >= 0.5f) {
                     canvas.drawTexture(icon, iconRegion);
@@ -79,12 +92,12 @@ public class UIIconBar extends CoreWidget {
                             halfSize.x /= 2;
                             halfSize.y /= 2;
                             canvas.drawTexture(icon,
-                                    RectUtility.createFromMinAndSize(new Vector2i(offset.x + halfSize.x / 2,
-                                            offset.y + halfSize.y / 2), halfSize));
+                                    RectUtility.createFromMinAndSize(new Vector2i(barOffset.x + iconOffset.x + halfSize.x / 2,
+                                            barOffset.y + iconOffset.y + halfSize.y / 2), halfSize));
                             break;
                         case SPLIT:
                             canvas.drawTextureRaw(icon,
-                                    RectUtility.createFromMinAndSize(offset, new Vector2i(iconSize.x / 2, iconSize.y)),
+                                    RectUtility.createFromMinAndSize(new Vector2i(barOffset.x + iconOffset.x, barOffset.y + iconOffset.y), new Vector2i(iconSize.x / 2, iconSize.y)),
                                     ScaleMode.STRETCH, 0f, 0f, (float) (iconSize.x / 2) / iconSize.x, 1.0f);
                             break;
                         default:
@@ -92,13 +105,16 @@ public class UIIconBar extends CoreWidget {
                             break;
                     }
                 }
-                offset.x += iconSize.x + spacing;
-                if (offset.x + iconSize.x > canvas.size().x) {
-                    offset.x = 0;
-                    offset.y += iconSize.y + spacing;
+                barOffset.x += iconSize.x + spacing;
+
+                if (barOffset.x + iconSize.x > canvas.size().x) {
+                    barOffset.x = 0;
+                    barOffset.y += iconSize.y + spacing;
                 }
             }
         }
+
+        animationTimer++;
     }
 
     @Override
@@ -207,9 +223,20 @@ public class UIIconBar extends CoreWidget {
         this.halfIconMode = halfIconMode;
     }
 
+    /**
+     * @param animationMode The new type of animation to use.
+     */
+    public void setAnimationMode(AnimationMode animationMode) {
+        this.animationMode = animationMode;
+    }
+
     public enum HalfIconMode {
         NONE,
         SPLIT,
         SHRINK,
+    }
+    public enum AnimationMode {
+        NONE,
+        SHAKING
     }
 }
