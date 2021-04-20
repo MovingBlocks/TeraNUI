@@ -75,6 +75,10 @@ public class FlowLayout extends CoreLayout<LayoutHint> {
     @LayoutConfig
     private Binding<Boolean> rightToLeftAlign = new DefaultBinding<>(false);
 
+    // vertical alignment code addition
+    @LayoutConfig
+    private Binding<Boolean> topToBottomAlign = new DefaultBinding<>(false);
+
     @Override
     public void addWidget(UIWidget element, LayoutHint hint) {
         contents.add(element);
@@ -125,32 +129,63 @@ public class FlowLayout extends CoreLayout<LayoutHint> {
         int heightOffset = 0;
         // local maximum for row height
         int rowHeight = 0;
+        // local maximum for row width
+        int rowWidth = 0;
 
-        for (UIWidget widget : contents) {
-            Vector2i size = canvas.calculatePreferredSize(widget);
 
-            if (widthOffset != 0 && widthOffset + horizontalSpacing + size.x <= boundingSize.x) {
-                // place widget in the current row
-                widthOffset += horizontalSpacing;
-            } else if (widthOffset != 0) {
-                // wrap the row
-                result.x = Math.max(result.x, widthOffset);
-                result.y += rowHeight + verticalSpacing;
-                heightOffset = result.y;
-                widthOffset = 0;
-                rowHeight = 0;
+        if (isTopToBottomAlign()) {
+            for (UIWidget widget : contents) {
+                Vector2i size = canvas.calculatePreferredSize(widget);
+
+                if (heightOffset != 0 && heightOffset + verticalSpacing + size.y <= boundingSize.y) {
+                    // place widget in current column
+                    heightOffset += verticalSpacing;
+                } else if (heightOffset != 0) {
+                    // wrap the column
+                    result.x += rowWidth + horizontalSpacing;
+                    result.y = Math.max(result.y, heightOffset);
+                    widthOffset = result.x;
+                    heightOffset = 0;
+                    rowWidth = 0;
+                }
+
+                if (draw) {
+                    int xPosition = isRightToLeftAlign() ? canvas.size().x - widthOffset - size.x : widthOffset;
+                    canvas.drawWidget(widget, RectUtility.createFromMinAndSize(xPosition, heightOffset, size.x, size.y));
+                }
+                heightOffset += size.y;
+                rowWidth = Math.max(rowWidth, size.x);
             }
 
-            if (draw) {
-                int xPosition = isRightToLeftAlign() ? canvas.size().x - widthOffset - size.x : widthOffset;
-                canvas.drawWidget(widget, RectUtility.createFromMinAndSize(xPosition, heightOffset, size.x, size.y));
+            result.x += rowWidth;
+            result.y = Math.max(result.y, heightOffset);
+        } else {
+            for (UIWidget widget : contents) {
+                Vector2i size = canvas.calculatePreferredSize(widget);
+
+                if (widthOffset != 0 && widthOffset + horizontalSpacing + size.x <= boundingSize.x) {
+                    // place widget in the current row
+                    widthOffset += horizontalSpacing;
+                } else if (widthOffset != 0) {
+                    // wrap the row
+                    result.x = Math.max(result.x, widthOffset);
+                    result.y += rowHeight + verticalSpacing;
+                    heightOffset = result.y;
+                    widthOffset = 0;
+                    rowHeight = 0;
+                }
+
+                if (draw) {
+                    int xPosition = isRightToLeftAlign() ? canvas.size().x - widthOffset - size.x : widthOffset;
+                    canvas.drawWidget(widget, RectUtility.createFromMinAndSize(xPosition, heightOffset, size.x, size.y));
+                }
+                widthOffset += size.x;
+                rowHeight = Math.max(rowHeight, size.y);
             }
-            widthOffset += size.x;
-            rowHeight = Math.max(rowHeight, size.y);
+
+            result.x = Math.max(result.x, widthOffset);
+            result.y += rowHeight;
         }
-
-        result.x = Math.max(result.x, widthOffset);
-        result.y += rowHeight;
 
         return result;
     }
@@ -251,5 +286,24 @@ public class FlowLayout extends CoreLayout<LayoutHint> {
      */
     public void clearRightToLeftAlignBinding() {
         this.rightToLeftAlign = new DefaultBinding<>(false);
+    }
+
+
+
+    // vertical alignment code addition
+    public boolean isTopToBottomAlign() {
+        return topToBottomAlign.get();
+    }
+
+    public void setTopToBottomAlign(boolean topToBottomAlign) {
+        this.topToBottomAlign.set(topToBottomAlign);
+    }
+
+    public void bindTopToBottomAlign(Binding<Boolean> binding) {
+        this.topToBottomAlign = binding;
+    }
+
+    public void clearTopToBottomAlignBinding() {
+        this.topToBottomAlign = new DefaultBinding<>(false);
     }
 }
