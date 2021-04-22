@@ -11,8 +11,7 @@ repositories {
     // For development so you can publish binaries locally and have them grabbed from there
     mavenLocal()
 
-    // External libs - jcenter is Bintray and is supposed to be a superset of Maven Central, but do both just in case
-    jcenter()
+    // External libs
     mavenCentral()
 
     // Used for gestalt 7 - Android annotations
