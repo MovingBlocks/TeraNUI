@@ -1,3 +1,6 @@
+// Copyright 2021 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
 package org.terasology.reflection;
 
 import com.google.common.collect.Lists;
@@ -36,11 +39,10 @@ public class ModuleTypeRegistry extends TypeRegistry {
         initialize(classLoader, loader -> !(loader instanceof ModuleClassLoader));
 
         for (Module module : environment.getModulesOrderedByDependencies()) {
-            if (module.getClasspaths().size() == 0) {
-                continue;
+            Reflections moduleReflections = module.getModuleManifest();
+            if (moduleReflections != null) {
+                reflections.merge(moduleReflections);
             }
-
-            reflections.merge(module.getModuleManifest());
         }
     }
 
