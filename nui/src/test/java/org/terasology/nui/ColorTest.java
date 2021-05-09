@@ -103,7 +103,6 @@ public class ColorTest {
         assertEquals(0, c1.g());
         assertEquals(0, c1.b());
         assertEquals(255, c1.a());
-
     }
 
 
@@ -272,14 +271,65 @@ public class ColorTest {
 
     @ParameterizedTest
     @MethodSource("SingleColorChangeFloatArgs")
-    public void testFloatColorA(float value, int expected) {
-        Color test = new Color(0.0f, 0.0f, 0.0f, value);
+    public void testSetFloatColorA(float value, int expected) {
+        Color test = new Color();
+        test.setAlpha(value);
 
         assertEquals(test.r(), 0);
         assertEquals(test.g(), 0);
         assertEquals(test.b(), 0);
         assertEquals(test.a(), expected);
     }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorR(float value, int expected) {
+        Color test = new Color();
+        test.setRed(value);
+
+        assertEquals(test.r(), expected);
+        assertEquals(test.g(), 0);
+        assertEquals(test.b(), 0);
+        assertEquals(test.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorG(float value, int expected) {
+        Color c2 = new Color();
+        c2.setGreen(value);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), expected);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorB(float value, int expected) {
+        Color c2 = new Color();
+        c2.setBlue(value);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), 0);
+        assertEquals(c2.b(), expected);
+        assertEquals(c2.a(), 255);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testFloatColorA(float value, int expected) {
+        Color test = new Color();
+        test.setAlpha(value);
+
+        assertEquals(test.r(), 0);
+        assertEquals(test.g(), 0);
+        assertEquals(test.b(), 0);
+        assertEquals(test.a(), expected);
+    }
+
 
 
     @ParameterizedTest

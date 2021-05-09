@@ -248,7 +248,7 @@ public class Color implements Colorc {
      * @return this
      */
     public Color setRed(float value) {
-        return setRed((int) value * MAX);
+        return setRed((int) (value * MAX));
     }
 
     /**
