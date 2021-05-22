@@ -187,30 +187,30 @@ public class Color implements Colorc {
 
 
     public Color set(Vector3ic representation) {
-        return this.set((byte) representation.x(),
-            (byte) representation.y(),
-            (byte) representation.z());
+        return this.set(representation.x(),
+                representation.y(),
+                representation.z());
     }
 
     public Color set(Vector3fc representation) {
-        return this.set((byte) (representation.x() * MAX),
-            (byte) (representation.y() * MAX),
-            (byte) (representation.z() * MAX));
+        return this.set((int) (representation.x() * MAX),
+            (int) (representation.y() * MAX),
+            (int) (representation.z() * MAX));
     }
 
 
     public Color set(Vector4fc representation) {
-        return this.set((byte) (representation.x() * MAX),
-            (byte) (representation.y() * MAX),
-            (byte) (representation.z() * MAX),
-            (byte) (representation.w() * MAX));
+        return this.set((int) (representation.x() * MAX),
+            (int) (representation.y() * MAX),
+            (int) (representation.z() * MAX),
+            (int) (representation.w() * MAX));
     }
 
     public Color set(Vector4ic representation) {
-        return this.set((byte) representation.x(),
-            (byte) representation.y(),
-            (byte) representation.z(),
-            (byte) representation.w());
+        return this.set(representation.x(),
+                representation.y(),
+                representation.z(),
+                representation.w());
     }
 
     public Color set(int representation) {
@@ -248,7 +248,7 @@ public class Color implements Colorc {
      * @return this
      */
     public Color setRed(float value) {
-        return setRed((int) value * MAX);
+        return setRed((int) (value * MAX));
     }
 
     /**
@@ -269,7 +269,7 @@ public class Color implements Colorc {
      * @return this
      */
     public Color setGreen(float value) {
-        return setGreen((int) value * MAX);
+        return setGreen((int) (value * MAX));
     }
 
 
@@ -290,7 +290,7 @@ public class Color implements Colorc {
      * @return this
      */
     public Color setBlue(float value) {
-        return setBlue((int) value * MAX);
+        return setBlue((int) (value * MAX));
     }
 
     /**
@@ -310,7 +310,7 @@ public class Color implements Colorc {
      * @return this
      */
     public Color setAlpha(float value) {
-        return setAlpha((int) value * MAX);
+        return setAlpha((int) (value * MAX));
     }
 
 
