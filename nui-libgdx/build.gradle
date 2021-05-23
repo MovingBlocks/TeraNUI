@@ -13,7 +13,7 @@ ext {
 dependencies {
     api project(':nui')
     api project(':nui-input')
-    api project(':nui-gestalt7')
+    api project(':nui-gestalt')
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
 }
