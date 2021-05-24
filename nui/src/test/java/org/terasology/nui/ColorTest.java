@@ -3,9 +3,15 @@
 
 package org.terasology.nui;
 
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
+import org.joml.Vector4f;
+import org.joml.Vector4fc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
@@ -14,277 +20,341 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ColorTest {
 
-    private Color color;
-
-    private static Stream<Arguments> nextGameNamesProvider() {
+    static Stream<Arguments> singleColorChangeIntArgs() {
         return Stream.of(
-            Arguments.arguments("Custom", "Custom 1"),
-            Arguments.arguments("Custom 1", "Custom 2"),
-            Arguments.arguments("Custom 2", "Custom 3"),
-            Arguments.arguments("Custom 9", "Custom 10"),
-            Arguments.arguments("Custom 19", "Custom 20")
+                Arguments.of(255, 255),
+                Arguments.of(175, 175),
+                Arguments.of(125, 125),
+                Arguments.of(600, 255),
+                Arguments.of(0, 0)
+        );
+    };
+
+    static Stream<Arguments> singleColorAlterIntArgs() {
+        return Stream.of(
+                Arguments.of(255, 255),
+                Arguments.of(175, 175),
+                Arguments.of(125, 125),
+                Arguments.of(0, 0)
+        );
+    };
+    static Stream<Arguments> setColorVector4fArgs() {
+        return Stream.of(
+                Arguments.of(new Vector4f(1.0f,0,0,0), new Color(255, 0,0,0)),
+                Arguments.of(new Vector4f(0,1.0f,0,0), new Color(0, 255,0,0)),
+                Arguments.of(new Vector4f(0,0,1.0f,0.0f), new Color(0, 0,255,0)),
+                Arguments.of(new Vector4f(0,0,0.0f,1.0f), new Color(0, 0,0,255))
         );
     }
 
-    @BeforeEach
-    public void setUp() {
-        color = new Color(1, 10, 60, 255);
+    static Stream<Arguments> setColorVector3fArgs() {
+        return Stream.of(
+                Arguments.of(new Vector3f(1.0f,0,0), new Color(255, 0,0,255)),
+                Arguments.of(new Vector3f(0,1.0f,0), new Color(0, 255,0,255)),
+                Arguments.of(new Vector3f(0,0,1.0f), new Color(0, 0,255,255))
+        );
     }
 
-    @Test
-    public void testColorToHash() {
-        assertEquals("010A3CFF", color.toHex());
+    static Stream<Arguments> SingleColorChangeFloatArgs() {
+        return Stream.of(
+                Arguments.of(1.0f, 255),
+                Arguments.of(0.68f, 173),
+                Arguments.of(0.49f, 124),
+                Arguments.of(6.0f, 255),
+                Arguments.of(-1.0f, 0),
+                Arguments.of(0, 0)
+        );
+    };
+
+    static Stream<Arguments> inverseColorArgs() {
+        return Stream.of(
+                Arguments.of(new Color(255, 0, 0, 255), new Color(0, 255, 255, 255)),
+                Arguments.of(new Color(0, 125, 0, 255), new Color(255, 130, 255, 255)),
+                Arguments.of(new Color(125, 125, 0, 255), new Color(130, 130, 255, 255)),
+                Arguments.of(new Color(0, 0, 90, 255), new Color(255, 255, 165, 255))
+        );
+    };
+
+    static Stream<Arguments> hexColorArgs() {
+        return Stream.of(
+                Arguments.of(new Color(255, 0, 0, 255),"FF0000FF"),
+                Arguments.of(new Color(0, 125, 0, 255), "007D00FF"),
+                Arguments.of(new Color(125, 125, 0, 255), "7D7D00FF"),
+                Arguments.of(new Color(0, 0, 90, 255), "00005AFF")
+        );
+    };
+
+
+    @ParameterizedTest
+    @MethodSource("hexColorArgs")
+    public void testHexColor(Color c, String expected) {
+        Color c1 = new Color(c);
+        assertEquals(c1.toHex(), expected);
     }
 
-    // -- RED -----------------------------------------------------------------
 
-    @Test
-    public void testGetRed() {
-        assertEquals(1, color.r());
-    }
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testSetColorR(int test, int expected) {
+        Color c1 = new Color();
+        c1.setRed(test);
 
-    @Test
-    public void testAlterRed() {
-        color = color.alterRed(72);
-        assertEquals(72, color.r());
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterRed(-1),
-            "alter-method throws exception when color value is below lower bound");
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterRed(256),
-            "alter-method throws exception when color value is above upper bound");
-    }
-
-    @Test
-    public void testSetRed() {
-        color = color.setRed(72);
-        assertEquals(72, color.r());
-
-        color = color.setRed(-1);
-        assertEquals(0, color.r(), "set-method clamps when color value is below lower bound");
-
-        color = color.setRed(256);
-        assertEquals(255, color.r(), "set-method clamps when color value is above upper bound");
-    }
-
-    // -- GREEN ---------------------------------------------------------------
-
-    @Test
-    public void testGetGreen() {
-        assertEquals(10, color.g());
-    }
-
-    @Test
-    public void testAlterGreen() {
-        color = color.alterGreen(72);
-        assertEquals(72, color.g());
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterGreen(-1),
-            "alter-method throws exception when color value is below lower bound");
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterGreen(256),
-            "alter-method throws exception when color value is above upper bound");
-    }
-
-    @Test
-    public void testSetGreen() {
-        color = color.setGreen(72);
-        assertEquals(72, color.g());
-
-        color = color.setGreen(-1);
-        assertEquals(0, color.g(), "set-method clamps when color value is below lower bound");
-
-        color = color.setGreen(256);
-        assertEquals(255, color.g(), "set-method clamps when color value is above upper bound");
-    }
-
-    // -- BLUE ----------------------------------------------------------------
-
-    @Test
-    public void testGetBlue() {
-        assertEquals(60, color.b());
-    }
-
-    @Test
-    public void testAlterBlue() {
-        color = color.alterBlue(72);
-        assertEquals(72, color.b());
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterBlue(-1),
-            "alter-method throws exception when color value is below lower bound");
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterBlue(256),
-            "alter-method throws exception when color value is above upper bound");
-    }
-
-    @Test
-    public void testSetBlue() {
-        color = color.setBlue(72);
-        assertEquals(72, color.b());
-
-        color = color.setBlue(-1);
-        assertEquals(0, color.b(), "set-method clamps when color value is below lower bound");
-
-        color = color.setBlue(256);
-        assertEquals(255, color.b(), "set-method clamps when color value is above upper bound");
-    }
-
-    // -- ALPHA ----------------------------------------------------------------
-
-    @Test
-    public void testGetAlpha() {
-        assertEquals(255, color.a());
-    }
-
-    @Test
-    public void testAlterAlpha() {
-        color = color.alterAlpha(72);
-        assertEquals(72, color.a());
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterAlpha(-1),
-            "alter-method throws exception when color value is below lower bound");
-
-        assertThrows(IllegalArgumentException.class,
-            () -> color.alterAlpha(256),
-            "alter-method throws exception when color value is above upper bound");
-    }
-
-    @Test
-    public void testSetAlpha() {
-        color = color.setAlpha(72);
-        assertEquals(72, color.a());
-
-        color = color.setAlpha(-1);
-        assertEquals(0, color.a(), "set-method clamps when color value is below lower bound");
-
-        color = color.setAlpha(256);
-        assertEquals(255, color.a(), "set-method clamps when color value is above upper bound");
-    }
-
-    @Test
-    public void testColorR() {
-        Color c1 = new Color(255, 0, 0);
-
-        assertEquals(255, c1.r());
+        assertEquals(expected, c1.r());
         assertEquals(0, c1.g());
         assertEquals(0, c1.b());
         assertEquals(255, c1.a());
-        assertEquals(Color.red, c1);
-    }
-
-    @Test
-    public void testColorG() {
-        Color c2 = new Color(0, 255, 0);
-
-        assertEquals(c2.r(), 0);
-        assertEquals(c2.g(), 255);
-        assertEquals(c2.b(), 0);
-        assertEquals(c2.a(), 255);
-        assertEquals(Color.green, c2);
-    }
-
-    @Test
-    public void testColorB() {
-        Color c3 = new Color(0, 0, 255);
-
-        assertEquals(c3.r(), 0);
-        assertEquals(c3.g(), 0);
-        assertEquals(c3.b(), 255);
-        assertEquals(Color.blue, c3);
-    }
-
-    @Test
-    public void testColorRWithOverflow() {
-        Color c4 = new Color(300, 0, 255);
-
-        assertEquals(c4.r(), 255);
-        assertEquals(c4.g(), 0);
-        assertEquals(c4.b(), 255);
-        assertEquals(c4.a(), 255);
-        assertEquals(Color.magenta, c4);
-    }
-
-    @Test
-    public void testFloatColorR() {
-        Color c1 = new Color(1.0f, 0, 0);
-
-        assertEquals(255, c1.r());
-        assertEquals(0, c1.g());
-        assertEquals(0, c1.b());
-        assertEquals(255, c1.a());
-        assertEquals(Color.red, c1);
     }
 
 
-    @Test
-    public void testFloatColorG() {
-        Color c2 = new Color(0, 1.0f, 0);
-
-        assertEquals(c2.r(), 0);
-        assertEquals(c2.g(), 255);
-        assertEquals(c2.b(), 0);
-        assertEquals(c2.a(), 255);
-        assertEquals(Color.green, c2);
-    }
-
-    @Test
-    public void testFloatColorB() {
-        Color c3 = new Color(0, 0, 1.0f);
-
-        assertEquals(c3.r(), 0);
-        assertEquals(c3.g(), 0);
-        assertEquals(c3.b(), 255);
-        assertEquals(Color.blue, c3);
-    }
-
-    @Test
-    public void testFloatColorRWithOverflow() {
-        Color c4 = new Color(1.5f, 0, 1.0f);
-
-        assertEquals(c4.r(), 255);
-        assertEquals(c4.g(), 0);
-        assertEquals(c4.b(), 255);
-        assertEquals(c4.a(), 255);
-        assertEquals(Color.magenta, c4);
-    }
-
-    @Test
-    public void testFloatHalfRedColor() {
-        Color c5 = new Color(0, .5f, 1.0f);
-
-
-        assertEquals(c5.r(), 0);
-        assertEquals(c5.g(), 127);
-        assertEquals(c5.b(), 255);
-        assertEquals(c5.a(), 255);
-    }
-
-    @Test
-    public void testFloatAlpha() {
-        Color c5 = new Color(0, .5f, 1.0f, .5f);
-
-        assertEquals(c5.r(), 0);
-        assertEquals(c5.g(), 127);
-        assertEquals(c5.b(), 255);
-        assertEquals(c5.a(), 127);
-    }
-
-    @Test
-    public void testInvert() {
-        Color c1 = new Color(255, 0, 0, 155);
-
-        c1.invert();
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testSetColorG(int value, int expected) {
+        Color c1 = new Color();
+        c1.setGreen(value);
 
         assertEquals(0, c1.r());
-        assertEquals(255, c1.g());
-        assertEquals(255, c1.b());
-        assertEquals(155, c1.a());
+        assertEquals(expected, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(255, c1.a());
     }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testSetColorB(int value, int expected) {
+        Color c1 = new Color();
+        c1.setBlue(value);
+
+        assertEquals(0, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(expected, c1.b());
+        assertEquals(255, c1.a());
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorAlterIntArgs")
+    public void testAlterColorR(int value, int expected) {
+        Color c1 = new Color();
+        c1 = c1.alterRed(value);
+
+        assertEquals(expected, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(255, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorAlterIntArgs")
+    public void testAlterColorG(int value, int expected) {
+        Color c1 = new Color();
+        c1 = c1.alterGreen(value);
+
+        assertEquals(0, c1.r());
+        assertEquals(expected, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(255, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorAlterIntArgs")
+    public void testAlterColorB(int value, int expected) {
+        Color c1 = new Color();
+        c1 = c1.alterBlue(value);
+
+        assertEquals(0, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(expected, c1.b());
+        assertEquals(255, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorAlterIntArgs")
+    public void testAlterColorA(int value, int expected) {
+        Color c1 = new Color();
+        c1 = c1.alterAlpha(value);
+
+        assertEquals(0, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(expected, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testSetColorA(int value, int expected) {
+        Color c1 = new Color();
+        c1.setAlpha(value);
+
+        assertEquals(0, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(expected, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testIntColorR(int value, int expected) {
+        Color c1 = new Color(value, 0, 0);
+
+        assertEquals(expected, c1.r());
+        assertEquals(0, c1.g());
+        assertEquals(0, c1.b());
+        assertEquals(255, c1.a());
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testIntColorG(int value, int expected) {
+        Color c2 = new Color(0, value, 0);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), expected);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testIntColorB(int value, int expected) {
+        Color c3 = new Color(0, 0, value);
+
+        assertEquals(c3.r(), 0);
+        assertEquals(c3.g(), 0);
+        assertEquals(c3.b(), expected);
+        assertEquals(c3.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleColorChangeIntArgs")
+    public void testIntColorA(int value, int expected) {
+        Color c3 = new Color(0, 0, 0,value);
+
+        assertEquals(c3.r(), 0);
+        assertEquals(c3.g(), 0);
+        assertEquals(c3.b(), 0);
+        assertEquals(c3.a(), expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testFloatColorR(float value, int expected) {
+        Color c2 = new Color(value, 0, 0);
+
+        assertEquals(c2.r(), expected);
+        assertEquals(c2.g(), 0);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testFloatColorG(float value, int expected) {
+        Color c2 = new Color(0, value, 0);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), expected);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testFloatColorB(float value, int expected) {
+        Color c2 = new Color(0, 0.0f, value);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), 0);
+        assertEquals(c2.b(), expected);
+        assertEquals(c2.a(), 255);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorA(float value, int expected) {
+        Color test = new Color();
+        test.setAlpha(value);
+
+        assertEquals(test.r(), 0);
+        assertEquals(test.g(), 0);
+        assertEquals(test.b(), 0);
+        assertEquals(test.a(), expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorR(float value, int expected) {
+        Color test = new Color();
+        test.setRed(value);
+
+        assertEquals(test.r(), expected);
+        assertEquals(test.g(), 0);
+        assertEquals(test.b(), 0);
+        assertEquals(test.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorG(float value, int expected) {
+        Color c2 = new Color();
+        c2.setGreen(value);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), expected);
+        assertEquals(c2.b(), 0);
+        assertEquals(c2.a(), 255);
+    }
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testSetFloatColorB(float value, int expected) {
+        Color c2 = new Color();
+        c2.setBlue(value);
+
+        assertEquals(c2.r(), 0);
+        assertEquals(c2.g(), 0);
+        assertEquals(c2.b(), expected);
+        assertEquals(c2.a(), 255);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("SingleColorChangeFloatArgs")
+    public void testFloatColorA(float value, int expected) {
+        Color test = new Color();
+        test.setAlpha(value);
+
+        assertEquals(test.r(), 0);
+        assertEquals(test.g(), 0);
+        assertEquals(test.b(), 0);
+        assertEquals(test.a(), expected);
+    }
+
+
+
+    @ParameterizedTest
+    @MethodSource("inverseColorArgs")
+    public void testInvert(Color value, Color expected) {
+        Color test = new Color(value);
+        test.invert();
+        assertEquals(expected, test);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("setColorVector4fArgs")
+    public void testSetColorVector4f(Vector4f pos, Color expected) {
+        Color test = new Color();
+        test.set(pos);
+        assertEquals(test, expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("setColorVector3fArgs")
+    public void testSetColorVector3f(Vector3f pos, Color expected) {
+        Color c = new Color();
+        c.set(pos);
+        assertEquals(c, expected);
+    }
+
 }
