@@ -5,7 +5,7 @@ import org.terasology.nui.core.bind.BindingFunction;
 import java.lang.ref.WeakReference;
 
 public class UISlot<T extends BindingFunction> {
-    private WeakReference<UIWidget> reference;
+    private WeakReference<UIObject> reference;
     private T handler;
 
     public UISlot(T handler) {

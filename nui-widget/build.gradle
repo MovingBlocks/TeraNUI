@@ -8,6 +8,7 @@ apply from: "$rootDir/gradle/common.gradle"
 dependencies {
     api group: 'org.terasology.gestalt', name: 'gestalt-module', version: '7.0.3'
     api group: 'org.terasology.gestalt', name: 'gestalt-asset-core', version: '7.0.3'
+    api project(':nui-core')
 
     api ('org.joml:joml') {
         version {
@@ -22,4 +23,6 @@ dependencies {
     }
 
     implementation group: 'com.google.guava', name: 'guava', version: '23.0'
+
+
 }
