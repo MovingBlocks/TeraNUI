@@ -43,7 +43,7 @@ The following table shows release branches and known projects using them.
 
 | Branch         | Version | gestalt | Projects |
 | -------------- |:-------:|:-------:| -------- |
-| `master`       | v3.x    | \*      | Terasology 4.4+ |
+| `master`       | v3.x    | \*      | [Terasology] 4.4+, [DestinationSol] |
 | `release/v2.x` | v2.x    | v7      | [DestinationSol] |
 | `release/v1.x` | v1.x    | v5      | [Terasology] prior to 4.4.0 |
 
@@ -78,7 +78,7 @@ non-snapshot release for any version is as follows:
 1. **Make the release commit** ▪ Trigger a release via [Jenkins]
 
     _Update the version in [build.gradle](./build.gradle) and remove the `-SNAPSHOT` suffix. Commit the change with the
-     following message:_
+     following message and push it:_
 
     > `release: version {{version}}`
 
@@ -95,8 +95,8 @@ non-snapshot release for any version is as follows:
 
     _Finally, we have to increase the version number to be able to get pre-release `-SNAPSHOT` builds for subsequent 
      commits. Therefore, the version number MUST be a higher SemVer than the version just released. This will typically
-     be a minor version bump. To do this, just update the version in [build.gradle](./build.gradle) and commit the 
-     change with the following message:_
+     be a minor version bump. To do this, just update the version in [build.gradle](./build.gradle), commit the 
+     change with the following message and push it:_
     
     > `chore: prepare next snapshot for {{version}}`
 
