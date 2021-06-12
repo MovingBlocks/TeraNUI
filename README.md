@@ -55,7 +55,7 @@ It is the responsibility of the preview branch maintainers to keep the preview b
 
 | Branch         | Version       | gestalt | Projects                             |
 | -------------- |:-------------:|:-------:| ------------------------------------ |
-| `preview/v4.x` | v4.x-SNAPSHOT | \*      | [DestinationSol] experimental branch |
+| `preview/v4.x-SNAPSHOT` | v4.x-SNAPSHOT | \*      | [DestinationSol] experimental branch |
 
 ## 🚀 Release Management
 
