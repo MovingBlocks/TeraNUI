@@ -49,6 +49,14 @@ The following table shows release branches and known projects using them.
 
 We may port back changes made to the main line of the code to release branches by _cherry picking_ them to the respective branches.
 
+In addition to release branches we may prepare _preview branches_ for upcoming and/or experimental features.
+Only `-SNAPSHOT` versions may be released from preview branches.
+It is the responsibility of the preview branch maintainers to keep the preview branches up-to-date with main development.
+
+| Branch         | Version       | gestalt | Projects                             |
+| -------------- |:-------------:|:-------:| ------------------------------------ |
+| `preview/v4.x` | v4.x-SNAPSHOT | \*      | [DestinationSol] experimental branch |
+
 ## 🚀 Release Management
 
 A _release_ denotes that an artifact for the associated commit is available for consumption. Our
