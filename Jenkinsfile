@@ -18,6 +18,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch pattern: "release/v\\d+.x", comparator: "REGEXP"
+                    branch pattern: "preview/v\\d+.x", comparator: "REGEXP"
                 }
             }
             steps {
