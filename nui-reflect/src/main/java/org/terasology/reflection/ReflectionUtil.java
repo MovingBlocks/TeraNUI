@@ -599,6 +599,31 @@ public final class ReflectionUtil {
         return null;
     }
 
+
+    /**
+     * Tries to resolve a java type name to a Class
+     * @param typeName the class name
+     * @param classLoaders class loaders which will used for resolve
+     * @return The {@link Class} if resolving sucess, {@code null} otherwise
+     */
+    public static Class<?> forName(String typeName, ClassLoader... classLoaders) {
+        for (ClassLoader classLoader : classLoaders) {
+            if (typeName.contains("[")) {
+                try {
+                    return Class.forName(typeName, false, classLoader);
+                } catch (Throwable e) {
+                    // ignored, we don't find class.
+                }
+            }
+            try {
+                return classLoader.loadClass(typeName);
+            } catch (Throwable e) {
+                // ignored, we don't find class.
+            }
+        }
+        return null;
+    }
+
     private static class WildcardTypeImpl implements WildcardType {
         private final Type[] upperBounds;
         private final Type[] lowerBounds;

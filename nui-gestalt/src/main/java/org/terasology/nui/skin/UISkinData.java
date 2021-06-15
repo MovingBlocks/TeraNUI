@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 MovingBlocks
+ * Copyright 2014 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.nui.asset;
+package org.terasology.nui.skin;
 
-import org.terasology.assets.AssetData;
-import org.terasology.assets.format.AssetDataFile;
-import org.terasology.module.sandbox.API;
-import org.terasology.nui.UIWidget;
+import org.terasology.gestalt.assets.AssetData;
+import org.terasology.gestalt.assets.format.AssetDataFile;
 
 /**
- * UIData contains a UI widget that has been loaded from a UI asset.
  */
-@API
-public class UIData implements AssetData {
-    private UIWidget rootWidget;
+public class UISkinData implements AssetData {
+    private UISkin uiSkin;
 
     private transient AssetDataFile source;
 
-    public UIData(UIWidget rootWidget) {
-        this.rootWidget = rootWidget;
+    public UISkinData(UISkin uiSkin) {
+        this.uiSkin = uiSkin;
     }
 
-    /**
-     * @return The root widget loaded from the UI asset.
-     */
-    public UIWidget getRootWidget() {
-        return rootWidget;
+    public UIStyleFamily getFamily(String familyName) {
+        return uiSkin.getFamily(familyName);
+    }
+
+    public UISkin getUiSkin() {
+        return uiSkin;
     }
 
     /**

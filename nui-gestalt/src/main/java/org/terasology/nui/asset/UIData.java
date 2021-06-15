@@ -15,9 +15,9 @@
  */
 package org.terasology.nui.asset;
 
+import org.terasology.context.annotation.API;
 import org.terasology.gestalt.assets.AssetData;
 import org.terasology.gestalt.assets.format.AssetDataFile;
-import org.terasology.gestalt.module.sandbox.API;
 import org.terasology.nui.UIWidget;
 
 /**
