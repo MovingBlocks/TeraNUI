@@ -15,23 +15,24 @@
  */
 package org.terasology.nui.backends.libgdx;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.joml.Vector2d;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
 import org.joml.Vector2i;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 /**
  * A MouseDevice implementation using LibGDX to obtain input.
  */
 public class LibGDXMouseDevice implements MouseDevice {
-    private LinkedList<MouseAction> inputQueue = new LinkedList<>();
+    private boolean[] removePointer;
 
     public LibGDXMouseDevice() {
         NUIInputProcessor.init();
+        removePointer = new boolean[20];
     }
 
     @Override
@@ -45,6 +46,30 @@ public class LibGDXMouseDevice implements MouseDevice {
     @Override
     public Vector2i getPosition() {
         return GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(), Gdx.input.getY());
+    }
+
+    @Override
+    public Vector2i getPosition(int pointer) {
+        if (pointer >= getMaxPointers()) {
+            // Send invalid results for invalid poimters.
+            return new Vector2i(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
+
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            if (Gdx.input.isTouched(pointer)) {
+                removePointer[pointer] = false;
+            } else {
+                if (removePointer[pointer]) {
+                    // Since touches are mapped to pointers on Android, reset the pointer when not currently touching.
+                    // Set the pointer to an off-screen location, so it acts as if it were not present.
+                    return new Vector2i(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                } else {
+                    removePointer[pointer] = true;
+                }
+            }
+        }
+
+        return GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(pointer), Gdx.input.getY(pointer));
     }
 
     /**
@@ -66,7 +91,6 @@ public class LibGDXMouseDevice implements MouseDevice {
 
     @Override
     public void update() {
-
     }
 
     /**
@@ -85,5 +109,10 @@ public class LibGDXMouseDevice implements MouseDevice {
     @Override
     public void setGrabbed(boolean grabbed) {
         Gdx.input.setCursorCatched(grabbed);
+    }
+
+    @Override
+    public int getMaxPointers() {
+        return 20;
     }
 }

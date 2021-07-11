@@ -27,13 +27,77 @@ public interface CanvasControl extends Canvas {
 
     void postRender();
 
+    /**
+     * Call this method when the mouse position changes.
+     * This method does not support multiple pointers. Use {@link #processMousePosition(Vector2i, int)} for that case if supported.
+     * @param position The position of the mouse pointer
+     */
     void processMousePosition(Vector2i position);
 
+    /**
+     * Call this method when the position of a mouse pointer changes.
+     *
+     * The pointers must have a consistent ordering in the positions array e.g.
+     * the first pointer position must be at index 0, the second at index 1, third at index 3 etc.
+     * The same indexes should be provided as to the {@link #processMouseClick(MouseInput, Vector2i, int)}
+     * and {@link #processMouseRelease(MouseInput, Vector2i, int)} methods.
+     * @param position The position of the mouse pointer
+     * @param pointer The mouse pointer performing the action
+     */
+    void processMousePosition(Vector2i position, int pointer);
+
+    /**
+     * Call this method when a mouse button is pressed.
+     * This method does not support multiple pointers. Use {@link #processMouseClick(MouseInput, Vector2i, int)} for that case.
+     * @param button The button pressed
+     * @param pos The mouse position when the button was pressed
+     * @return Whether the input should be consumed
+     */
     boolean processMouseClick(MouseInput button, Vector2i pos);
 
+    /**
+     * Call this method when a mouse button associated with a pointer is pressed.
+     * @param button The button pressed
+     * @param pos The mouse position when the button was pressed
+     * @param pointer The mouse pointer performing the action
+     * @return Whether the input should be consumed
+     */
+    boolean processMouseClick(MouseInput button, Vector2i pos, int pointer);
+
+    /**
+     * Call this method when a mouse button is released.
+     * This method does not support multiple pointers. Use {@link #processMouseRelease(MouseInput, Vector2i, int)} for that case.
+     * @param button The button released
+     * @param pos The mouse position when the button was released
+     * @return Whether the input should be consumed
+     */
     boolean processMouseRelease(MouseInput button, Vector2i pos);
 
+    /**
+     * Call this method when a mouse button associated with a pointer is released.
+     * @param button The button released
+     * @param pos The mouse position when the button was released
+     * @param pointer The mouse pointer performing the action
+     * @return Whether the input should be consumed
+     */
+    boolean processMouseRelease(MouseInput button, Vector2i pos, int pointer);
+
+    /**
+     * Call this method when the mouse wheel is turned
+     * @param wheelTurns the number of turns moved by the wheel (< 0 = down, 0 = no movement, > 0 = up).
+     * @param pos The mouse position when the wheel was turned
+     * @return Whether the input should be consumed
+     */
     boolean processMouseWheel(int wheelTurns, Vector2i pos);
+
+    /**
+     * Call this method when the mouse wheel associated with a pointer is turned
+     * @param wheelTurns the number of turns moved by the wheel (< 0 = down, 0 = no movement, > 0 = up).
+     * @param pos The mouse position when the wheel was turned
+     * @param pointer The mouse pointer performing the action
+     * @return Whether the input should be consumed
+     */
+    boolean processMouseWheel(int wheelTurns, Vector2i pos, int pointer);
 
     /**
      * Returns the scale factor to scale the UI by, relative to the screen size.

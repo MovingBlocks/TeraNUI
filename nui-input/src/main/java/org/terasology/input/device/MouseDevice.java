@@ -31,9 +31,21 @@ public interface MouseDevice extends InputDevice {
     Queue<MouseAction> getInputQueue();
 
     /**
-     * @return The current position of the mouse in screen space
+     * @return The current position of the first mouse pointer in screen space
      */
     Vector2i getPosition();
+
+    /**
+     * @return The current position of a mouse pointer in screen space
+     */
+    default Vector2i getPosition(int pointer) {
+        if (pointer == 0) {
+            return getPosition();
+        } else {
+            // Multiple pointers not supported, so return a zero value.
+            return new Vector2i();
+        }
+    }
 
     /**
      * @return The change in mouse position over the last update
@@ -57,4 +69,13 @@ public interface MouseDevice extends InputDevice {
      * Specifies if the mouse is grabbed and there is thus no mouse cursor that can get to a border.
      */
     void setGrabbed(boolean grabbed);
+
+    /**
+     * @return The maximum number of supported pointers for this device.
+     */
+    default int getMaxPointers() {
+        // Normal desktop mice only support a single pointer, so 1 is a sensible default.
+        // Touch screens can support many pointers though, so this can change.
+        return 1;
+    }
 }
