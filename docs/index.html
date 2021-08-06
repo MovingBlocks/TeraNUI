@@ -17,6 +17,7 @@
       name: "TeraNUI",
       repo: 'MovingBlocks/TeraNUI',
       loadSidebar: true,
+      subMaxLevel: 2,
       themeColor: '#08A045',
       homepage: 'https://raw.githubusercontent.com/MovingBlocks/TeraNui/master/README.md',
       alias: {
@@ -24,7 +25,20 @@
       },
       plugins: [
         EditOnGithubPlugin.create("https://raw.githubusercontent.com/MovingBlocks/TeraNui/tree/master/docs/")
-      ]
+      ],
+      pagination: {
+        crossChapter: true,
+        crossChapterText: true,
+      },
+      vueComponents: {
+        'fig': {
+          props: ['src', 'alt', 'caption'],
+          template: '<div align="center"><figure><img v-bind:src="src" v-bind:alt="alt"/><figcaption><slot></slot></figcaption></figure></div>'
+        },
+      },
+      'flexible-alerts': {
+        style: 'flat'
+      }
     }
   </script>
   <!-- Docsify v4 -->
@@ -32,6 +46,8 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
+  <script src="//cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
 
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json5.min.js"></script>

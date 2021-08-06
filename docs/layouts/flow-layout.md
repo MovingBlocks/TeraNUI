@@ -8,7 +8,7 @@ top-aligned, and wrapped at the first element that does not fit in the row.
 
 
 <figure id="fig:layouts-flow-ltr">
-  <img src="/layouts/nui_layout_flow-ltr.svg" />
+  <img src="layouts/nui_layout_flow-ltr.svg" />
   <figcaption>
     Arrangement of widgets in Flow layout with left-to-right alignment.
   </figcaption>
