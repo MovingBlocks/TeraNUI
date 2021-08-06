@@ -4,4 +4,5 @@
   - [Core Widgets](widgets/core-widgets.md)
 - [Layouts](layouts/README.md)
   - [Flow](layouts/flow-layout.md)
+  - [Scrollable](layouts/scrollable-area.md)
 - [Skins](skins/README.md)
