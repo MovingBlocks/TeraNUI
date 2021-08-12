@@ -5,7 +5,7 @@ very much like words wrap at the end of a line when writing a text. The children
 row in the flow direction, each widget sized by its preferred size. The individual elements are
 top-aligned, and wrapped at the first element that does not fit in the row.
 
-<fig src="layouts/nui_layout_flow-ltr.svg" alt="">Arrangement of widgets in Flow layout with left-to-right alignment.</fig>
+<fig src="layouts/images/flow-layout_ltr.svg" alt="">Arrangement of widgets in Flow layout with left-to-right alignment.</fig>
 
 _Flow_ lays out each managed child regardless of the child's visible property value - invisible
 children won't be rendered but will take up space. The layout may be styled as other widgets with
@@ -29,4 +29,4 @@ Example of a _Flow_ layout:
 
 ## Implementation
 
-<fig src="layouts/nui_layout_flow-internal.svg" alt="">Internal fields and measures of the Flow layout.</fig>
+<fig src="layouts/images/flow-layout_internal.svg" alt="">Internal fields and measures of the Flow layout.</fig>
