@@ -147,8 +147,8 @@ public class NUIInputProcessor implements InputProcessor {
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        amount = (amount < 0 ? 1 : -1);
+    public boolean scrolled(float amountX, float amountY) {
+        int amount = (amountY < 0 ? 1 : -1);
         mouseActionQueue.add(new MouseAction(InputType.MOUSE_WHEEL.getInput(amount), amount, GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(), Gdx.input.getY())));
         return CONSUME_INPUT;
     }
