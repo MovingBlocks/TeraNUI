@@ -5,4 +5,5 @@
 - [Layouts](layouts/README.md)
   - [Flow](layouts/flow-layout.md)
   - [Scrollable](layouts/scrollable-area.md)
+  - [Mig](layouts/mig-layout.md)
 - [Skins](skins/README.md)
