@@ -85,16 +85,13 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Input.Keys.toString(keycode).equalsIgnoreCase("UNKNOWN")) {
+        String keyName = Input.Keys.toString(keycode);
+        if (keyName == null || keyName.equalsIgnoreCase("UNKNOWN")) {
             return false;
         }
+
         Keyboard.Key key = GDXInputUtil.GDXToNuiKey(keycode);
-        char keyChar = GDXInputUtil.getGDXKeyChar(keycode);
-        lastKey = key;
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || keyChar == '\n') {
-            // NOTE: Control+Key combinations do not produce valid key chars (fixes input field bugs)
-            keyChar = 0;
-        } else if (keyChar != 0 && keyChar != '\t') {
+        if (key == null) {
             return false;
         }
 
@@ -104,16 +101,13 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (Input.Keys.toString(keycode).equalsIgnoreCase("UNKNOWN")) {
+        String keyName = Input.Keys.toString(keycode);
+        if (keyName == null || keyName.equalsIgnoreCase("UNKNOWN")) {
             return false;
         }
 
         Keyboard.Key key = GDXInputUtil.GDXToNuiKey(keycode);
-        char keyChar = GDXInputUtil.getGDXKeyChar(keycode);
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-            // NOTE: Control+Key combinations do not produce valid key chars (fixes input field bugs)
-            keyChar = 0;
-        } else if (keyChar != 0) {
+        if (key == null) {
             return false;
         }
 
@@ -123,14 +117,6 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        if (Character.isISOControl(character) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-            return false;
-        }
-
-        // HACK: Backslash character is not identified in keyDown and keyUp events
-        if (character == '\\') {
-            lastKey = Keyboard.Key.BACKSLASH;
-        }
         keyboardCharQueue.add(new CharKeyboardAction(character));
         return CONSUME_INPUT;
     }
