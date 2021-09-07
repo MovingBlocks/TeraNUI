@@ -206,8 +206,11 @@ public class CanvasImpl implements CanvasControl {
         }
 
         if (mouseOverRegions[pointer] != null) {
-            mouseOverRegions[pointer].stream().filter(region -> !newMouseOverRegions.contains(region)).forEach(region ->
-                    region.listener.onMouseLeave());
+            for (InteractionRegion region : mouseOverRegions[pointer]) {
+                if (!newMouseOverRegions.contains(region)) {
+                    region.listener.onMouseLeave();
+                }
+            }
         }
         mouseOverRegions[pointer] = newMouseOverRegions;
 

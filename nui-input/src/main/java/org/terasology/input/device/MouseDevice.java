@@ -42,8 +42,8 @@ public interface MouseDevice extends InputDevice {
         if (pointer == 0) {
             return getPosition();
         } else {
-            // Multiple pointers not supported, so return a zero value.
-            return new Vector2i();
+            // Multiple pointers are not supported by default.
+            throw new UnsupportedOperationException("This mouse device does not support multiple pointers.");
         }
     }
 

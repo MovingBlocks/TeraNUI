@@ -28,11 +28,26 @@ import java.util.Queue;
  * A MouseDevice implementation using LibGDX to obtain input.
  */
 public class LibGDXMouseDevice implements MouseDevice {
+    // The maximum number of touches that LibGDX supports on Android is 20.
+    // See https://github.com/libgdx/libgdx/blob/5eac848925d6e1f24070f887cbfaf99bb8bc4a63/backends/gdx-backend-android/src/com/badlogic/gdx/backends/android/AndroidInput.java#L99
+    private static final int MAX_POINTERS = 20;
+    /**
+     * Flags a pointer for "removal" when it is no longer present on the screen.
+     *
+     * When a finger is removed from the touch screen, that pointer will still remain in the last known
+     * position by-default. This makes sense on a desktop where pointing devices will always be present.
+     *
+     * It does not make sense for a mobile device though, where touches are assumed to be transient.
+     * In order to overcome this limitation, the pointer is placed into an almost certainly off-screen location
+     * (NUI doesn't seem to do any checks on this) when the corresponding touch has been removed.
+     * The removePointer variable is used to delay this removal by a single update, so that UI widgets have time
+     * to register the removal first (e.g. for button de-presses).
+     */
     private boolean[] removePointer;
 
     public LibGDXMouseDevice() {
         NUIInputProcessor.init();
-        removePointer = new boolean[20];
+        removePointer = new boolean[MAX_POINTERS];
     }
 
     @Override
@@ -50,9 +65,9 @@ public class LibGDXMouseDevice implements MouseDevice {
 
     @Override
     public Vector2i getPosition(int pointer) {
-        if (pointer >= getMaxPointers()) {
-            // Send invalid results for invalid poimters.
-            return new Vector2i(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        if (pointer < 0 || pointer >= getMaxPointers()) {
+            throw new IndexOutOfBoundsException("Attempted to access pointer " + pointer + "when there are only " +
+                    getMaxPointers() + " pointers available.");
         }
 
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
@@ -113,6 +128,6 @@ public class LibGDXMouseDevice implements MouseDevice {
 
     @Override
     public int getMaxPointers() {
-        return 20;
+        return MAX_POINTERS;
     }
 }

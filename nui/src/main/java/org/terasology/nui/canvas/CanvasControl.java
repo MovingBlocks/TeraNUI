@@ -28,7 +28,7 @@ public interface CanvasControl extends Canvas {
     void postRender();
 
     /**
-     * Call this method when the mouse position changes.
+     * Call this method when the mouse position changes. It will update the position of the primary mouse pointer.
      * This method does not support multiple pointers. Use {@link #processMousePosition(Vector2i, int)} for that case if supported.
      * @param position The position of the mouse pointer
      */
@@ -38,8 +38,8 @@ public interface CanvasControl extends Canvas {
      * Call this method when the position of a mouse pointer changes.
      *
      * The pointers must have a consistent ordering in the positions array e.g.
-     * the first pointer position must be at index 0, the second at index 1, third at index 3 etc.
-     * The same indexes should be provided as to the {@link #processMouseClick(MouseInput, Vector2i, int)}
+     * the first pointer position must be at index 0, the second at index 1, third at index 2 etc.
+     * The same indices should be provided as to the {@link #processMouseClick(MouseInput, Vector2i, int)}
      * and {@link #processMouseRelease(MouseInput, Vector2i, int)} methods.
      * @param position The position of the mouse pointer
      * @param pointer The mouse pointer performing the action
@@ -47,7 +47,7 @@ public interface CanvasControl extends Canvas {
     void processMousePosition(Vector2i position, int pointer);
 
     /**
-     * Call this method when a mouse button is pressed.
+     * Call this method when a mouse button is pressed. It will update the state of the primary mouse pointer.
      * This method does not support multiple pointers. Use {@link #processMouseClick(MouseInput, Vector2i, int)} for that case.
      * @param button The button pressed
      * @param pos The mouse position when the button was pressed
@@ -65,7 +65,7 @@ public interface CanvasControl extends Canvas {
     boolean processMouseClick(MouseInput button, Vector2i pos, int pointer);
 
     /**
-     * Call this method when a mouse button is released.
+     * Call this method when a mouse button is released. It will update the state of the primary mouse pointer.
      * This method does not support multiple pointers. Use {@link #processMouseRelease(MouseInput, Vector2i, int)} for that case.
      * @param button The button released
      * @param pos The mouse position when the button was released
@@ -83,7 +83,8 @@ public interface CanvasControl extends Canvas {
     boolean processMouseRelease(MouseInput button, Vector2i pos, int pointer);
 
     /**
-     * Call this method when the mouse wheel is turned
+     * Call this method when the mouse wheel is turned. It will update the state of the primary mouse pointer.
+     * This method does not support multiple pointers. Use {@link #processMouseWheel(int, Vector2i, int)} for that case.
      * @param wheelTurns the number of turns moved by the wheel (< 0 = down, 0 = no movement, > 0 = up).
      * @param pos The mouse position when the wheel was turned
      * @return Whether the input should be consumed
