@@ -90,7 +90,7 @@ public class UIButton extends ActivatableWidget {
         @Override
         public void onMouseRelease(NUIMouseReleaseEvent event) {
             if (event.getMouseButton() == MouseInput.MOUSE_LEFT) {
-                if (isMouseOver()) {
+                if (isMouseOver() && isEnabled()) {
                     activateWidget();
                 }
                 down = false;
@@ -152,7 +152,7 @@ public class UIButton extends ActivatableWidget {
             canvas.drawTexture(image.get());
         }
         canvas.drawText(text.get());
-        if (isEnabled()) {
+        if (isEnabled() || down) {
             canvas.addInteractionRegion(interactionListener);
         }
     }
