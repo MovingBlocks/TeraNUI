@@ -56,6 +56,7 @@ import org.terasology.nui.widgets.UITooltip;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -93,13 +94,13 @@ public class CanvasImpl implements CanvasControl {
 
     // Interaction region handling
     protected Deque<InteractionRegion> interactionRegions = Queues.newArrayDeque();
-    protected Set<InteractionRegion> mouseOverRegions = Sets.newLinkedHashSet();
+    protected Set<InteractionRegion>[] mouseOverRegions;
     protected InteractionRegion topMouseOverRegion;
     protected float tooltipTime;
     protected Vector2i lastTooltipPosition = new Vector2i();
     protected UITooltip tooltipWidget = new UITooltip();
 
-    protected InteractionRegion clickedRegion;
+    protected InteractionRegion[] clickedRegions;
 
     // Double click handling
     protected long lastClickTime;
@@ -121,6 +122,10 @@ public class CanvasImpl implements CanvasControl {
         this.whiteTexture = whiteTexture;
 
         this.uiScale = uiScale / 100f;
+
+        int maxPointers = mouse.getMaxPointers();
+        mouseOverRegions = new Set[maxPointers];
+        clickedRegions = new InteractionRegion[maxPointers];
 
         CanvasState.DEFAULT_SKIN = defaultSkin;
     }
@@ -171,13 +176,20 @@ public class CanvasImpl implements CanvasControl {
 
     @Override
     public void processMousePosition(Vector2i position) {
+        processMousePosition(position, 0);
+    }
+
+    @Override
+    public void processMousePosition(Vector2i position, int pointer) {
+        Set<InteractionRegion> newMouseOverRegions = Sets.newLinkedHashSet();
+
+        InteractionRegion clickedRegion = clickedRegions[pointer];
         if (clickedRegion != null) {
             Vector2i relPos = new Vector2i(position);
             relPos.sub(clickedRegion.offset);
             clickedRegion.listener.onMouseDrag(new NUIMouseDragEvent(mouse, keyboard, relPos));
         }
 
-        Set<InteractionRegion> newMouseOverRegions = Sets.newLinkedHashSet();
         Iterator<InteractionRegion> iter = interactionRegions.descendingIterator();
         while (iter.hasNext()) {
             InteractionRegion next = iter.next();
@@ -193,19 +205,23 @@ public class CanvasImpl implements CanvasControl {
             }
         }
 
-        mouseOverRegions.stream().filter(region -> !newMouseOverRegions.contains(region)).forEach(region ->
-            region.listener.onMouseLeave());
+        if (mouseOverRegions[pointer] != null) {
+            for (InteractionRegion region : mouseOverRegions[pointer]) {
+                if (!newMouseOverRegions.contains(region)) {
+                    region.listener.onMouseLeave();
+                }
+            }
+        }
+        mouseOverRegions[pointer] = newMouseOverRegions;
 
         if (clickedRegion != null && !interactionRegions.contains(clickedRegion)) {
-            clickedRegion = null;
+            clickedRegions[pointer] = null;
         }
 
-        mouseOverRegions = newMouseOverRegions;
-
-        if (mouseOverRegions.isEmpty()) {
+        if (newMouseOverRegions.isEmpty()) {
             topMouseOverRegion = null;
         } else {
-            InteractionRegion newTopMouseOverRegion = mouseOverRegions.iterator().next();
+            InteractionRegion newTopMouseOverRegion = newMouseOverRegions.iterator().next();
             if (!newTopMouseOverRegion.equals(topMouseOverRegion)) {
                 topMouseOverRegion = newTopMouseOverRegion;
                 tooltipTime = getGameTimeInSeconds() + newTopMouseOverRegion.element.getTooltipDelay();
@@ -221,6 +237,11 @@ public class CanvasImpl implements CanvasControl {
 
     @Override
     public boolean processMouseClick(MouseInput button, Vector2i pos) {
+        return processMouseClick(button, pos, 0);
+    }
+
+    @Override
+    public boolean processMouseClick(MouseInput button, Vector2i pos, int pointer) {
         TabbingManager.focusSetThrough = false;
         TabbingManager.resetCurrentNum();
 
@@ -230,18 +251,18 @@ public class CanvasImpl implements CanvasControl {
         lastClickButton = button;
         lastClickTime = getGameTimeInMs();
 
-        for (InteractionRegion next : mouseOverRegions) {
+        for (InteractionRegion next : mouseOverRegions[pointer]) {
             // HACK: There's a bug in JOML where the contains method uses the following faulty logic
             if (RectUtility.contains(next.region, pos)) {
                 Vector2i relPos = new Vector2i(pos);
                 relPos.sub(next.offset);
                 if (possibleDoubleClick && focusManager.getFocus() == next.element) {
                     if (next.listener.onMouseDoubleClick(createDoubleClickEvent(button, relPos))) {
-                        clickedRegion = next;
+                        clickedRegions[pointer] = next;
                         return true;
                     }
                 } else if (next.listener.onMouseClick(createClickEvent(button, relPos))) {
-                    clickedRegion = next;
+                    clickedRegions[pointer] = next;
                     focusManager.setFocus(next.element);
                     return true;
                 }
@@ -260,11 +281,17 @@ public class CanvasImpl implements CanvasControl {
 
     @Override
     public boolean processMouseRelease(MouseInput button, Vector2i pos) {
+        return processMouseRelease(button, pos, 0);
+    }
+
+    @Override
+    public boolean processMouseRelease(MouseInput button, Vector2i pos, int pointer) {
+        InteractionRegion clickedRegion = clickedRegions[pointer];
         if (clickedRegion != null) {
             Vector2i relPos = new Vector2i(pos);
             relPos.sub(clickedRegion.region.lengths(new Vector2i()));
             clickedRegion.listener.onMouseRelease(new NUIMouseReleaseEvent(mouse, keyboard, relPos, button));
-            clickedRegion = null;
+            clickedRegions[pointer] = null;
             return true;
         }
         return false;
@@ -272,12 +299,17 @@ public class CanvasImpl implements CanvasControl {
 
     @Override
     public boolean processMouseWheel(int wheelTurns, Vector2i pos) {
-        for (InteractionRegion next : mouseOverRegions) {
+        return processMouseWheel(wheelTurns, pos, 0);
+    }
+
+    @Override
+    public boolean processMouseWheel(int wheelTurns, Vector2i pos, int pointer) {
+        for (InteractionRegion next : mouseOverRegions[pointer]) {
             if (RectUtility.contains(next.region, pos)) {
                 Vector2i relPos = new Vector2i(pos);
                 relPos.sub(new Vector2i(next.region.minX, next.region.minY));
                 if (next.listener.onMouseWheel(new NUIMouseWheelEvent(mouse, keyboard, relPos, wheelTurns))) {
-                    clickedRegion = next;
+                    clickedRegions[pointer] = next;
                     focusManager.setFocus(next.element);
                     return true;
                 }
