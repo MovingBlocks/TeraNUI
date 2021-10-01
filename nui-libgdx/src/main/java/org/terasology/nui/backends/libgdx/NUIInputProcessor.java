@@ -19,6 +19,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import org.joml.Vector2i;
 import org.terasology.input.ButtonState;
 import org.terasology.input.InputType;
 import org.terasology.input.Keyboard;
@@ -85,16 +86,13 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Input.Keys.toString(keycode).equalsIgnoreCase("UNKNOWN")) {
+        String keyName = Input.Keys.toString(keycode);
+        if (keyName == null || keyName.equalsIgnoreCase("UNKNOWN")) {
             return false;
         }
+
         Keyboard.Key key = GDXInputUtil.GDXToNuiKey(keycode);
-        char keyChar = GDXInputUtil.getGDXKeyChar(keycode);
-        lastKey = key;
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || keyChar == '\n') {
-            // NOTE: Control+Key combinations do not produce valid key chars (fixes input field bugs)
-            keyChar = 0;
-        } else if (keyChar != 0 && keyChar != '\t') {
+        if (key == null) {
             return false;
         }
 
@@ -104,16 +102,13 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (Input.Keys.toString(keycode).equalsIgnoreCase("UNKNOWN")) {
+        String keyName = Input.Keys.toString(keycode);
+        if (keyName == null || keyName.equalsIgnoreCase("UNKNOWN")) {
             return false;
         }
 
         Keyboard.Key key = GDXInputUtil.GDXToNuiKey(keycode);
-        char keyChar = GDXInputUtil.getGDXKeyChar(keycode);
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-            // NOTE: Control+Key combinations do not produce valid key chars (fixes input field bugs)
-            keyChar = 0;
-        } else if (keyChar != 0) {
+        if (key == null) {
             return false;
         }
 
@@ -123,27 +118,21 @@ public class NUIInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        if (Character.isISOControl(character) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-            return false;
-        }
-
-        // HACK: Backslash character is not identified in keyDown and keyUp events
-        if (character == '\\') {
-            lastKey = Keyboard.Key.BACKSLASH;
-        }
         keyboardCharQueue.add(new CharKeyboardAction(character));
         return CONSUME_INPUT;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        mouseActionQueue.add(new MouseAction(GDXInputUtil.GDXToNuiMouseButton(button), ButtonState.DOWN, GDXInputUtil.GDXToNuiMousePosition(screenX, screenY)));
+        Vector2i pointerPosition = GDXInputUtil.GDXToNuiMousePosition(screenX, screenY);
+        mouseActionQueue.add(new MouseAction(GDXInputUtil.GDXToNuiMouseButton(button), ButtonState.DOWN, pointerPosition, pointer));
         return CONSUME_INPUT;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        mouseActionQueue.add(new MouseAction(GDXInputUtil.GDXToNuiMouseButton(button), ButtonState.UP, GDXInputUtil.GDXToNuiMousePosition(screenX, screenY)));
+        Vector2i pointerPosition = GDXInputUtil.GDXToNuiMousePosition(screenX, screenY);
+        mouseActionQueue.add(new MouseAction(GDXInputUtil.GDXToNuiMouseButton(button), ButtonState.UP, pointerPosition, pointer));
         return CONSUME_INPUT;
     }
 
