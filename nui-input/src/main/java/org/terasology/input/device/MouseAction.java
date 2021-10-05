@@ -26,12 +26,30 @@ public final class MouseAction {
     private final ButtonState state;
     private final int delta;
     private final Vector2i mousePosition;
+    private final int pointer;
+
+    public MouseAction(Input input, ButtonState state, Vector2i mousePosition, int pointer) {
+        this.mousePosition = mousePosition;
+        this.input = input;
+        this.state = state;
+        this.pointer = pointer;
+        this.delta = 0;
+    }
 
     public MouseAction(Input input, ButtonState state, Vector2i mousePosition) {
         this.mousePosition = mousePosition;
         this.input = input;
         this.state = state;
         this.delta = 0;
+        this.pointer = 0;
+    }
+
+    public MouseAction(Input input, int delta, Vector2i mousePosition, int pointer) {
+        this.mousePosition = mousePosition;
+        this.input = input;
+        this.state = ButtonState.DOWN;
+        this.delta = delta;
+        this.pointer = pointer;
     }
 
     public MouseAction(Input input, int delta, Vector2i mousePosition) {
@@ -39,6 +57,7 @@ public final class MouseAction {
         this.input = input;
         this.state = ButtonState.DOWN;
         this.delta = delta;
+        this.pointer = 0;
     }
 
     /**
@@ -73,8 +92,15 @@ public final class MouseAction {
         return mousePosition;
     }
 
+    /**
+     * @return The pointer this event refers to
+     */
+    public int getPointer() {
+        return pointer;
+    }
+
     @Override
     public String toString() {
-        return "MouseAction [" + this.input + ", mouse: " + mousePosition + " (" + state + ")]";
+        return "MouseAction [" + this.input + ", mouse " + pointer + ": " + mousePosition + " (" + state + ")]";
     }
 }

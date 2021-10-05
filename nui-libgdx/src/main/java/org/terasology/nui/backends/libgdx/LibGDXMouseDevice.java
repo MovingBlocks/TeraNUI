@@ -15,23 +15,39 @@
  */
 package org.terasology.nui.backends.libgdx;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.joml.Vector2d;
 import org.terasology.input.device.MouseAction;
 import org.terasology.input.device.MouseDevice;
 import org.joml.Vector2i;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 /**
  * A MouseDevice implementation using LibGDX to obtain input.
  */
 public class LibGDXMouseDevice implements MouseDevice {
-    private LinkedList<MouseAction> inputQueue = new LinkedList<>();
+    // The maximum number of touches that LibGDX supports on Android is 20.
+    // See https://github.com/libgdx/libgdx/blob/5eac848925d6e1f24070f887cbfaf99bb8bc4a63/backends/gdx-backend-android/src/com/badlogic/gdx/backends/android/AndroidInput.java#L99
+    private static final int MAX_POINTERS = 20;
+    /**
+     * Flags a pointer for "removal" when it is no longer present on the screen.
+     *
+     * When a finger is removed from the touch screen, that pointer will still remain in the last known
+     * position by-default. This makes sense on a desktop where pointing devices will always be present.
+     *
+     * It does not make sense for a mobile device though, where touches are assumed to be transient.
+     * In order to overcome this limitation, the pointer is placed into an almost certainly off-screen location
+     * (NUI doesn't seem to do any checks on this) when the corresponding touch has been removed.
+     * The removePointer variable is used to delay this removal by a single update, so that UI widgets have time
+     * to register the removal first (e.g. for button de-presses).
+     */
+    private boolean[] removePointer;
 
     public LibGDXMouseDevice() {
         NUIInputProcessor.init();
+        removePointer = new boolean[MAX_POINTERS];
     }
 
     @Override
@@ -45,6 +61,30 @@ public class LibGDXMouseDevice implements MouseDevice {
     @Override
     public Vector2i getPosition() {
         return GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(), Gdx.input.getY());
+    }
+
+    @Override
+    public Vector2i getPosition(int pointer) {
+        if (pointer < 0 || pointer >= getMaxPointers()) {
+            throw new IndexOutOfBoundsException("Attempted to access pointer " + pointer + "when there are only " +
+                    getMaxPointers() + " pointers available.");
+        }
+
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            if (Gdx.input.isTouched(pointer)) {
+                removePointer[pointer] = false;
+            } else {
+                if (removePointer[pointer]) {
+                    // Since touches are mapped to pointers on Android, reset the pointer when not currently touching.
+                    // Set the pointer to an off-screen location, so it acts as if it were not present.
+                    return new Vector2i(Integer.MAX_VALUE, Integer.MAX_VALUE);
+                } else {
+                    removePointer[pointer] = true;
+                }
+            }
+        }
+
+        return GDXInputUtil.GDXToNuiMousePosition(Gdx.input.getX(pointer), Gdx.input.getY(pointer));
     }
 
     /**
@@ -66,7 +106,6 @@ public class LibGDXMouseDevice implements MouseDevice {
 
     @Override
     public void update() {
-
     }
 
     /**
@@ -85,5 +124,10 @@ public class LibGDXMouseDevice implements MouseDevice {
     @Override
     public void setGrabbed(boolean grabbed) {
         Gdx.input.setCursorCatched(grabbed);
+    }
+
+    @Override
+    public int getMaxPointers() {
+        return MAX_POINTERS;
     }
 }
