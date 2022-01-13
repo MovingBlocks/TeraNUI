@@ -17,6 +17,8 @@ package org.terasology.nui.backends.libgdx;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import org.joml.Math;
+import org.joml.RoundingMode;
 import org.terasology.gestalt.assets.AssetData;
 import org.joml.Vector2i;
 import org.terasology.nui.asset.font.Font;
@@ -44,31 +46,31 @@ public class LibGDXFont implements Font, AssetData {
     public int getWidth(String text) {
         glyphLayout.reset();
         glyphLayout.setText(bitmapFont, text);
-        return (int) glyphLayout.width;
+        return Math.roundUsing(glyphLayout.width, RoundingMode.CEILING);
     }
 
     @Override
     public int getWidth(Character c) {
         glyphLayout.reset();
         glyphLayout.setText(bitmapFont, "" + c);
-        return (int) glyphLayout.width;
+        return Math.roundUsing(glyphLayout.width, RoundingMode.CEILING);
     }
 
     @Override
     public int getHeight(String text) {
         glyphLayout.reset();
         glyphLayout.setText(bitmapFont, text);
-        return (int) glyphLayout.height;
+        return Math.roundUsing(glyphLayout.height, RoundingMode.CEILING);
     }
 
     @Override
     public int getLineHeight() {
-        return (int) bitmapFont.getLineHeight();
+        return Math.roundUsing(bitmapFont.getLineHeight(), RoundingMode.CEILING);
     }
 
     @Override
     public int getBaseHeight() {
-        return (int) bitmapFont.getCapHeight();
+        return Math.roundUsing(bitmapFont.getCapHeight(), RoundingMode.CEILING);
     }
 
     @Override
@@ -85,7 +87,7 @@ public class LibGDXFont implements Font, AssetData {
         glyphLayout.setText(bitmapFont, builder.toString());
 
         // NOTE: The line height is calculated like this in Terasology's implementation, so the size is larger than the actual height
-        return new Vector2i((int) glyphLayout.width, getLineHeight() * lines.size());
+        return new Vector2i(Math.roundUsing(glyphLayout.width, RoundingMode.CEILING), getLineHeight() * lines.size());
     }
 
     @Override
