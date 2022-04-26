@@ -25,13 +25,17 @@ import org.terasology.reflection.metadata.ClassMetadata;
 import org.terasology.reflection.metadata.ModuleClassLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 /**
  */
 public class WidgetLibrary extends ModuleClassLibrary<UIWidget> {
 
     private static final Logger logger = LoggerFactory.getLogger(WidgetLibrary.class);
 
-    public WidgetLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    @Inject
+    public WidgetLibrary(Provider<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         super(environment, reflectFactory, copyStrategyLibrary);
     }
 
