@@ -11,7 +11,6 @@ dependencies {
     api group: 'org.terasology.gestalt', name: 'gestalt-di', version: '8.0.0-SNAPSHOT'
 
     annotationProcessor "org.terasology.gestalt:gestalt-inject-java:8.0.0-SNAPSHOT"
-
     implementation "org.slf4j:slf4j-api:1.7.30"
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
     implementation group: 'com.google.guava', name: 'guava', version: '23.0'
