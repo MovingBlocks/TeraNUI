@@ -34,6 +34,7 @@ public class WidgetLibrary extends ModuleClassLibrary<UIWidget> {
     private static final Logger logger = LoggerFactory.getLogger(WidgetLibrary.class);
 
 
+    @Inject
     public WidgetLibrary(Provider<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
 
         super(environment, reflectFactory, copyStrategyLibrary);
