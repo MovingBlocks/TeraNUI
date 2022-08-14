@@ -35,7 +35,9 @@ public class LibGDXTexture implements UITextureRegion, AssetData {
      */
     @Override
     public Rectanglef getRegion() {
-        return RectUtility.createFromMinAndSize((float) texture.getRegionX(), texture.getRegionY(), texture.getRegionWidth(), texture.getRegionHeight());
+        float minX = texture.isFlipX() ? texture.getTexture().getWidth() - texture.getRegionX() : texture.getRegionX();
+        float minY = texture.isFlipY() ? texture.getTexture().getHeight() - texture.getRegionY() : texture.getRegionY();
+        return RectUtility.createFromMinAndSize(minX, minY, texture.getRegionWidth(), texture.getRegionHeight());
     }
 
     /**
@@ -43,7 +45,9 @@ public class LibGDXTexture implements UITextureRegion, AssetData {
      */
     @Override
     public Rectanglei getPixelRegion() {
-        return RectUtility.createFromMinAndSize(texture.getRegionX(), texture.getRegionY(), texture.getRegionWidth(), texture.getRegionHeight());
+        int minX = texture.isFlipX() ? texture.getTexture().getWidth() - texture.getRegionX() : texture.getRegionX();
+        int minY = texture.isFlipY() ? texture.getTexture().getHeight() - texture.getRegionY() : texture.getRegionY();
+        return RectUtility.createFromMinAndSize(minX, minY, texture.getRegionWidth(), texture.getRegionHeight());
     }
 
     @Override
