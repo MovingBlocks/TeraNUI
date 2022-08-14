@@ -6,7 +6,7 @@ plugins {
 apply from: "$rootDir/gradle/common.gradle"
 
 ext {
-    gdxVersion = '1.9.8'
+    gdxVersion = '1.9.14'
     roboVMVersion = '2.3.3'
 }
 
