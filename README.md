@@ -113,14 +113,14 @@ non-snapshot release for any version is as follows:
 This library is licensed under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 <!-- References -->
-[artifactory]: http://artifactory.terasology.org/
-[artifactory-nui-snapshot]: http://artifactory.terasology.org/artifactory/webapp/#/artifacts/browse/simple/General/libs-snapshot-local/org/terasology/nui
-[artifactory-nui-release]: http://artifactory.terasology.org/artifactory/webapp/#/artifacts/browse/simple/General/libs-release-local/org/terasology/nui
+[artifactory]: https://artifactory.terasology.io/
+[artifactory-nui-snapshot]: https://artifactory.terasology.io/ui/repos/tree/General/libs-snapshot-local/org/terasology/nui
+[artifactory-nui-release]: https://artifactory.terasology.io/ui/repos/tree/General/libs-release-local/org/terasology/nui
 [destinationsol]: https://github.com/MovingBlocks/DestinationSol
 [gestalt]: https://github.com/MovingBlocks/gestalt
 [git-tag]: https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag
 [guide]: https://terasology.org/TeraNUI
-[javadoc]: http://jenkins.terasology.io/teraorg/job/Libraries/job/TeraNUI/job/master/javadoc/overview-summary.html
-[jenkins]: http://jenkins.terasology.io/teraorg/job/Libraries/job/TeraNUI/
+[javadoc]: https://jenkins.terasology.io/job/Libraries/job/TeraNUI/job/master/javadoc/overview-summary.html
+[jenkins]: https://jenkins.terasology.io/job/Libraries/job/TeraNUI/
 [terasology]: https://github.com/MovingBlocks/Terasology
 [tutorial]: https://github.com/Terasology/TutorialNUI/wiki
