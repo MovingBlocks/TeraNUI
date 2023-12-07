@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 MovingBlocks
+ * Copyright 2013 MovingBlocks
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.terasology.reflection.copy;
+package org.terasology.reflection.copy.strategy;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.joml.Quaternionf;
+import org.terasology.reflection.copy.CopyStrategy;
 
 /**
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface RegisterCopyStrategy {
+public class QuaternionfCopyStrategy implements CopyStrategy<Quaternionf> {
+
+    @Override
+    public Quaternionf copy(Quaternionf value) {
+        if (value != null) {
+            return new Quaternionf(value);
+        }
+        return null;
+    }
 }
