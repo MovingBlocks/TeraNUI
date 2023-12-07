@@ -30,6 +30,7 @@ import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 
 import javax.inject.Provider;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     protected final CopyStrategyLibrary copyStrategyLibrary;
 
     private ReflectFactory reflectFactory;
+
     private Provider<ModuleEnvironment> environment;
 
     private Map<Class<? extends T>, ClassMetadata<? extends T, ?>> classLookup = Maps.newHashMap();
@@ -148,6 +150,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     }
 
     public ClassMetadata<? extends T, ?> resolve(String name, Name context) {
+
         Module moduleContext = environment.get().get(context);
         if (moduleContext != null) {
             return resolve(name, moduleContext);
@@ -180,7 +183,9 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
             default:
 
                 if (context != null) {
+
                     Set<Name> dependencies = environment.get().getDependencyNamesOf(context.getId());
+
                     Iterator<ClassMetadata<? extends T, ?>> iterator = possibilities.iterator();
                     while (iterator.hasNext()) {
                         ClassMetadata<? extends T, ?> metadata = iterator.next();
