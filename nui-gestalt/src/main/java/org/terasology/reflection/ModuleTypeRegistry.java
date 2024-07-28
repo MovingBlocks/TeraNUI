@@ -62,9 +62,9 @@ public class ModuleTypeRegistry extends TypeRegistry {
 
     @Override
     public <T> Set<Class<? extends T>> getSubtypesOf(Class<T> type) {
-        return classIndex.getSubtypesOf(type.toString())
+        return classIndex.getSubtypesOf(type.getName())
                 .stream()
-                .map(ReflectionUtil::forName)
+                .map(className -> ReflectionUtil.forName(className, classLoaders))
                 .map(c -> (Class<? extends T>) c)
                 .collect(Collectors.toSet());
     }
@@ -73,7 +73,7 @@ public class ModuleTypeRegistry extends TypeRegistry {
     public Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotationType) {
         return classIndex.getTypesAnnotatedWith(annotationType.getName())
                 .stream()
-                .map(ReflectionUtil::forName)
+                .map(className -> ReflectionUtil.forName(className, classLoaders))
                 .collect(Collectors.toSet());
     }
 
