@@ -8,15 +8,15 @@ apply from: "$rootDir/gradle/common.gradle"
 dependencies {
     api ('org.joml:joml') {
         version {
-            require jomlVersion
+            require rootProject.jomlVersion
         }
     }
 
     api ('org.terasology.joml-ext:joml-geometry') {
         version {
-            require geomVersion
+            require rootProject.geomVersion
         }
     }
 
-    implementation group: 'com.google.guava', name: 'guava', version: '23.0'
+    implementation "com.google.guava:guava:23.0"
 }
