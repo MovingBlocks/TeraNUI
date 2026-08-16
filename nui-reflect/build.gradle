@@ -7,13 +7,13 @@ apply from: "$rootDir/gradle/common.gradle"
 
 dependencies {
     implementation "org.slf4j:slf4j-api:1.7.30"
-    implementation group: 'org.reflections', name: 'reflections', version: '0.9.10'
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+    implementation "org.reflections:reflections:0.9.10"
+    implementation "com.google.code.gson:gson:2.6.2"
 
-    implementation group: 'com.google.guava', name: 'guava', version: '23.0'
+    implementation "com.google.guava:guava:23.0"
     api ('org.joml:joml') {
         version {
-            require jomlVersion
+            require rootProject.jomlVersion
         }
     }
 
@@ -23,7 +23,7 @@ dependencies {
 
     api ('org.terasology.joml-ext:joml-geometry') {
         version {
-            require geomVersion
+            require rootProject.geomVersion
         }
     }
 }

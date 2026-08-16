@@ -6,26 +6,26 @@ plugins {
 apply from: "$rootDir/gradle/common.gradle"
 
 dependencies {
-    api group: 'org.abego.treelayout', name: 'org.abego.treelayout.core', version: '1.0.3'
-    api group: 'com.miglayout', name: 'miglayout-core', version: '5.0'
+    api "org.abego.treelayout:org.abego.treelayout.core:1.0.3"
+    api "com.miglayout:miglayout-core:5.0"
 
     api ('org.joml:joml') {
         version {
-            require jomlVersion
+            require rootProject.jomlVersion
         }
     }
 
     api ('org.terasology.joml-ext:joml-geometry') {
         version {
-            require geomVersion
+            require rootProject.geomVersion
         }
     }
 
     api project(':nui-input')
     api project(':nui-reflect')
 
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
-    implementation group: 'org.reflections', name: 'reflections', version: '0.9.10'
+    implementation "com.google.code.gson:gson:2.6.2"
+    implementation "org.reflections:reflections:0.9.10"
     implementation "org.slf4j:slf4j-api:1.7.30"
 
     api "org.terasology.gestalt:gestalt-inject:8.0.0-SNAPSHOT"
