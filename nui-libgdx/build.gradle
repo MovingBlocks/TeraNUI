@@ -6,14 +6,14 @@ plugins {
 apply from: "$rootDir/gradle/common.gradle"
 
 ext {
-    gdxVersion = '1.9.14'
+    gdxVersion = '1.12.1'
     roboVMVersion = '2.3.3'
 }
 
 dependencies {
     api project(':nui')
     api project(':nui-input')
-    api project(':nui-gestalt7')
+    api project(':nui-gestalt')
 
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
 }

@@ -28,6 +28,7 @@ import org.terasology.reflection.copy.strategy.SetCopyStrategy;
 import org.terasology.reflection.reflect.ReflectFactory;
 import org.terasology.reflection.ReflectionUtil;
 
+import javax.inject.Inject;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -51,6 +52,7 @@ public class CopyStrategyLibrary {
     private CopyStrategy<?> defaultStrategy = new ReturnAsIsStrategy<>();
     private ReflectFactory reflectFactory;
 
+    @Inject
     public CopyStrategyLibrary(ReflectFactory reflectFactory) {
         this.reflectFactory = reflectFactory;
     }

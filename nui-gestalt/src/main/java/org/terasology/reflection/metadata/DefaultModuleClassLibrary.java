@@ -10,10 +10,12 @@ import org.terasology.gestalt.module.ModuleEnvironment;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 
+import javax.inject.Provider;
+
 public class DefaultModuleClassLibrary<T> extends ModuleClassLibrary<T> {
     private static final Logger logger = LoggerFactory.getLogger(DefaultModuleClassLibrary.class);
 
-    public DefaultModuleClassLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    public DefaultModuleClassLibrary(Provider<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         super(environment, reflectFactory, copyStrategyLibrary);
     }
 

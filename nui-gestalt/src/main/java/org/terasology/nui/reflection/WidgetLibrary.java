@@ -17,13 +17,16 @@ package org.terasology.nui.reflection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terasology.assets.ResourceUrn;
-import org.terasology.module.ModuleEnvironment;
+import org.terasology.gestalt.assets.ResourceUrn;
+import org.terasology.gestalt.module.ModuleEnvironment;
+import org.terasology.nui.UIWidget;
 import org.terasology.reflection.copy.CopyStrategyLibrary;
 import org.terasology.reflection.metadata.ClassMetadata;
 import org.terasology.reflection.metadata.ModuleClassLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
-import org.terasology.nui.UIWidget;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  */
@@ -31,7 +34,8 @@ public class WidgetLibrary extends ModuleClassLibrary<UIWidget> {
 
     private static final Logger logger = LoggerFactory.getLogger(WidgetLibrary.class);
 
-    public WidgetLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    @Inject
+    public WidgetLibrary(Provider<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         super(environment, reflectFactory, copyStrategyLibrary);
     }
 

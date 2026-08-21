@@ -17,8 +17,10 @@ package org.terasology.reflection.reflect;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.terasology.context.annotation.Service;
 import org.terasology.reflection.ReflectionUtil;
 
+import javax.inject.Inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -26,8 +28,8 @@ import java.lang.reflect.Method;
 
 /**
  * Reflection based implementation of ReflectFactory. Uses standard Java reflection to provide the necessary reflection functionality.
- *
  */
+@Service
 public class ReflectionReflectFactory implements ReflectFactory {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionReflectFactory.class);
 
@@ -66,7 +68,7 @@ public class ReflectionReflectFactory implements ReflectFactory {
         private Class<T> type;
         private Constructor<T> constructor;
 
-         ReflectionConstructor(Class<T> type) throws NoSuchMethodException {
+        ReflectionConstructor(Class<T> type) throws NoSuchMethodException {
             this.type = type;
             constructor = type.getDeclaredConstructor();
             constructor.setAccessible(true);
@@ -95,7 +97,7 @@ public class ReflectionReflectFactory implements ReflectFactory {
         private Method getter;
         private Method setter;
 
-         ReflectionFieldAccessor(Field field, Class<U> fieldType) {
+        ReflectionFieldAccessor(Field field, Class<U> fieldType) {
             this.field = field;
             getter = ReflectionUtil.findGetter(field.getName(), field.getDeclaringClass(), fieldType);
             setter = ReflectionUtil.findSetter(field.getName(), field.getDeclaringClass(), fieldType);

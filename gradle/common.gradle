@@ -2,8 +2,8 @@ java {
     withSourcesJar()
     withJavadocJar()
 
-    sourceCompatibility(JavaVersion.VERSION_1_8)
-    targetCompatibility(JavaVersion.VERSION_1_8)
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
@@ -22,22 +22,22 @@ repositories {
         def repoViaEnv = System.getenv()["RESOLUTION_REPO"]
         if (rootProject.hasProperty("alternativeResolutionRepo")) {
             // If the user supplies an alternative repo via gradle.properties then use that
-            name "from alternativeResolutionRepo property"
-            url alternativeResolutionRepo
+            name = "from alternativeResolutionRepo property"
+            url = alternativeResolutionRepo
         } else if (repoViaEnv != null && repoViaEnv != "") {
-            name "from \$RESOLUTION_REPO"
+            name = "from \$RESOLUTION_REPO"
             url = repoViaEnv
         } else {
             // Our default is the main virtual repo containing everything except repos for testing Artifactory itself
-            name "Terasology Artifactory"
-            url "https://artifactory.terasology.io/artifactory/virtual-repo-live"
+            name = "Terasology Artifactory"
+            url = "https://artifactory.terasology.io/artifactory/virtual-repo-live"
         }
     }
 
     maven {
-        name "snowplow (pre-0.9)"
-        url "http://maven.snplow.com/releases"
-        allowInsecureProtocol true  // 😱
+        name = "snowplow (pre-0.9)"
+        url = "http://maven.snplow.com/releases"
+        allowInsecureProtocol = true  // 😱
     }
 }
 
@@ -63,7 +63,7 @@ javadoc {
 }
 
 group = 'org.terasology.nui'
-version = nuiVersion
+version = rootProject.nuiVersion
 
 publishing {
     publications {

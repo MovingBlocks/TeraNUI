@@ -15,11 +15,11 @@
  */
 package org.terasology.nui.asset;
 
+import org.terasology.context.annotation.API;
 import org.terasology.gestalt.assets.Asset;
 import org.terasology.gestalt.assets.AssetType;
 import org.terasology.gestalt.assets.ResourceUrn;
 import org.terasology.gestalt.assets.format.AssetDataFile;
-import org.terasology.gestalt.module.sandbox.API;
 import org.terasology.nui.UIWidget;
 
 import java.util.List;

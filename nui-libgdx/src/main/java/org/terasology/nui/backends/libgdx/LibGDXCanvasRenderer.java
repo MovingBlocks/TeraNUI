@@ -18,6 +18,7 @@ package org.terasology.nui.backends.libgdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -107,7 +108,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
 
         viewport.update(width, height);
         viewport.setWorldSize(scaledWidth, scaledHeight);
-        Gdx.gl.glViewport(0, 0, width, height);
+        HdpiUtils.glViewport(0, 0, width, height);
 
         if (controlSpriteBatch) {
             viewport.apply(true);
@@ -138,7 +139,7 @@ public class LibGDXCanvasRenderer implements CanvasRenderer {
         if (controlSpriteBatch) {
             spriteBatch.end();
         } else {
-            Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+            HdpiUtils.glViewport(0, 0, screenWidth, screenHeight);
             spriteBatch.setProjectionMatrix(lastMatrix);
             spriteBatch.setTransformMatrix(lastTransformMatrix);
         }

@@ -15,9 +15,12 @@
  */
 package org.terasology.nui;
 
+import org.terasology.context.annotation.IndexInherited;
+
 /**
  * @param <T> the class type of the layout hint
  */
+@IndexInherited
 public interface UILayout<T extends LayoutHint> extends UIWidget {
 
     /**
