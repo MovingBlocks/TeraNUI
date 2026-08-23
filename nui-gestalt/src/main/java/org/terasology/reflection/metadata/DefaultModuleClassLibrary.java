@@ -16,6 +16,7 @@ public class DefaultModuleClassLibrary<T> extends ModuleClassLibrary<T> {
     private static final Logger logger = LoggerFactory.getLogger(DefaultModuleClassLibrary.class);
 
     public DefaultModuleClassLibrary(Provider<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+
         super(environment, reflectFactory, copyStrategyLibrary);
     }
 
