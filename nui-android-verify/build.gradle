@@ -42,17 +42,15 @@ android {
 }
 
 dependencies {
-    // Both exclusions are pre-existing duplicate-class conflicts in nui/nui-libgdx's own transitive
-    // dependency graph (findbugs's two different javax.annotation.* artifacts; upstream reflections
-    // vs. the org.terasology fork of it) - Gradle's plain "highest version wins" resolution never
-    // catches these since it doesn't consider class *contents*, only Android's stricter
-    // checkDuplicateClasses task does. Any real Android app depending on nui-libgdx would need the
-    // same exclusions.
-    implementation(project(':nui')) {
-        exclude group: 'org.reflections', module: 'reflections'
-    }
+    // nui/nui-reflect/nui-gestalt5/nui-gestalt7 all consistently depend on the org.terasology fork
+    // of reflections now (see nui/build.gradle), so that duplicate-class conflict is fixed at the
+    // source rather than excluded here. com.google.code.findbugs:annotations vs :jsr305 (both
+    // declare javax.annotation.*) is still a real, separate conflict in the transitive dependency
+    // graph - Gradle's plain "highest version wins" resolution never catches this since it doesn't
+    // consider class *contents*, only Android's stricter checkDuplicateClasses task does. Any real
+    // Android app depending on nui-libgdx would need the same exclusion.
+    implementation project(':nui')
     implementation(project(':nui-libgdx')) {
-        exclude group: 'org.reflections', module: 'reflections'
         exclude group: 'com.google.code.findbugs', module: 'annotations'
     }
 }
