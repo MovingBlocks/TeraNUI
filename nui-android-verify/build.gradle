@@ -1,0 +1,58 @@
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
+
+// Not a real application - exists purely to force the real Android toolchain (javac -> D8
+// desugar/dex -> APK assembly) to process nui/nui-libgdx's compiled classes end-to-end, verifying
+// they're genuinely buildable for Android rather than just API-signature-clean. gradle/common.gradle's
+// AnimalSniffer check only verifies referenced java.* symbols exist on Android - it says nothing
+// about whether the resulting class files actually dex, which is what this module checks instead.
+// Only included when a local Android SDK is configured - see settings.gradle.
+plugins {
+    id 'com.android.application'
+}
+
+// Not covered by gradle/common.gradle (that's only applied by the plain java-library subprojects) -
+// needs its own repositories to resolve nui/nui-libgdx's own dependencies (gestalt, libGDX, ...).
+repositories {
+    google()
+    mavenCentral()
+
+    maven {
+        name 'Terasology Artifactory'
+        url 'https://artifactory.terasology.io/artifactory/virtual-repo-live'
+    }
+}
+
+android {
+    namespace 'org.terasology.nui.android.verify'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'org.terasology.nui.android.verify'
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    // Both exclusions are pre-existing duplicate-class conflicts in nui/nui-libgdx's own transitive
+    // dependency graph (findbugs's two different javax.annotation.* artifacts; upstream reflections
+    // vs. the org.terasology fork of it) - Gradle's plain "highest version wins" resolution never
+    // catches these since it doesn't consider class *contents*, only Android's stricter
+    // checkDuplicateClasses task does. Any real Android app depending on nui-libgdx would need the
+    // same exclusions.
+    implementation(project(':nui')) {
+        exclude group: 'org.reflections', module: 'reflections'
+    }
+    implementation(project(':nui-libgdx')) {
+        exclude group: 'org.reflections', module: 'reflections'
+        exclude group: 'com.google.code.findbugs', module: 'annotations'
+    }
+}
