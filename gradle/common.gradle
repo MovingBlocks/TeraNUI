@@ -29,10 +29,11 @@ dependencies {
 animalsniffer {
     // java.nio.* APIs can be desugared by D8. java.io.File.toPath() also needs to be excluded.
     //
-    // java.awt.Toolkit/datatransfer.* genuinely don't exist on Android at all - UIText.AwtClipboard
-    // isolates that usage behind a LinkageError-catching caller so it degrades gracefully instead
-    // of crashing, but the check itself can't be satisfied for a real platform absence like this
-    // one, so it's excluded here rather than by leaving the whole check non-fatal.
+    // java.awt.Toolkit/datatransfer.* genuinely don't exist on Android at all - AwtClipboardProvider
+    // (UIText's pluggable, but default, ClipboardProvider) isolates that usage behind a
+    // LinkageError-catching caller so it degrades gracefully instead of crashing, but the check
+    // itself can't be satisfied for a real platform absence like this one, so it's excluded here
+    // rather than by leaving the whole check non-fatal.
     ignore = ['java.nio.file.*', 'java.io.File', 'java.awt.Toolkit', 'java.awt.datatransfer.*']
 }
 
