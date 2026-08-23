@@ -6,6 +6,16 @@ java {
     targetCompatibility(JavaVersion.VERSION_1_8)
 }
 
+// Gradle 9 (unlike 8.2.1, which this wrapper was previously on) no longer pulls the JUnit Platform
+// launcher onto the test runtime classpath transitively from junit-jupiter-engine - every
+// subproject here uses useJUnitPlatform() below, so needs this declared explicitly or `test` fails
+// immediately with "Failed to load JUnit Platform".
+dependencies {
+    // 1.6.2 to match the junit-jupiter-engine:5.6.2 subprojects declare - JUnit Platform and Jupiter
+    // versions are paired (5.x.y <-> platform 1.x.y).
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.6.2'
+}
+
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
 repositories {
     // For development so you can publish binaries locally and have them grabbed from there
