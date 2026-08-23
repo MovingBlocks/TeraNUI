@@ -3,6 +3,21 @@
 
 // See gradle/common.gradle for more or less global build logic applied to the subprojects
 
+// Only needed for Android suitability checking (AnimalSniffer, see gradle/common.gradle) plus any
+// future Android-specific module, same as gestalt's root buildscript block.
+buildscript {
+    repositories {
+        mavenCentral()
+
+        // Needed for the Android Gradle Plugin to work
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:9.3.1'
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.1'
+    }
+}
+
 plugins {
     id 'idea'
 }

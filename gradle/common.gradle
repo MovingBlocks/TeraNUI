@@ -17,6 +17,27 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.6.2'
 }
 
+// Same Android-suitability check as gestalt's gestalt-library-common.gradle.kts: verifies this
+// module's API surface only uses classes/methods that also exist on Android, so NUI stays usable
+// from an eventual Android-facing module without discovering incompatible JDK-only API usage late.
+apply plugin: 'ru.vyarus.animalsniffer'
+
+dependencies {
+    signature 'com.toasttab.android:gummy-bears-api-24:0.15.0:coreLib2@signature'
+}
+
+animalsniffer {
+    // java.nio.* APIs can be desugared by D8. java.io.File.toPath() also needs to be excluded.
+    ignore = ['java.nio.file.*', 'java.io.File']
+
+    // Unlike gestalt, NUI isn't clean yet: UIText's clipboard handling uses java.awt (genuinely
+    // absent on Android, not just missing from this signature set) and ObjectLayoutBuilder uses a
+    // couple of java.lang.reflect.Parameter methods gummy-bears-api-24 doesn't include. Report
+    // instead of failing the build for now - fixing those is real, separate work, tracked
+    // separately from wiring the check up.
+    ignoreFailures = true
+}
+
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
 repositories {
     // For development so you can publish binaries locally and have them grabbed from there
