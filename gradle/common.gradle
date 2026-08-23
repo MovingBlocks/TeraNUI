@@ -28,14 +28,12 @@ dependencies {
 
 animalsniffer {
     // java.nio.* APIs can be desugared by D8. java.io.File.toPath() also needs to be excluded.
-    ignore = ['java.nio.file.*', 'java.io.File']
-
-    // Unlike gestalt, NUI isn't clean yet: UIText's clipboard handling uses java.awt (genuinely
-    // absent on Android, not just missing from this signature set) and ObjectLayoutBuilder uses a
-    // couple of java.lang.reflect.Parameter methods gummy-bears-api-24 doesn't include. Report
-    // instead of failing the build for now - fixing those is real, separate work, tracked
-    // separately from wiring the check up.
-    ignoreFailures = true
+    //
+    // java.awt.Toolkit/datatransfer.* genuinely don't exist on Android at all - UIText.AwtClipboard
+    // isolates that usage behind a LinkageError-catching caller so it degrades gracefully instead
+    // of crashing, but the check itself can't be satisfied for a real platform absence like this
+    // one, so it's excluded here rather than by leaving the whole check non-fatal.
+    ignore = ['java.nio.file.*', 'java.io.File', 'java.awt.Toolkit', 'java.awt.datatransfer.*']
 }
 
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
