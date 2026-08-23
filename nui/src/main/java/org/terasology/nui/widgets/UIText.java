@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.terasology.input.Keyboard;
 import org.terasology.input.Keyboard.KeyId;
 import org.terasology.input.MouseInput;
+import org.terasology.input.device.ClipboardProvider;
 import org.terasology.input.device.KeyboardDevice;
 import org.terasology.nui.BaseInteractionListener;
 import org.terasology.nui.Canvas;
@@ -45,15 +46,10 @@ import org.terasology.nui.events.NUIMouseClickEvent;
 import org.terasology.nui.events.NUIMouseDoubleClickEvent;
 import org.terasology.nui.events.NUIMouseDragEvent;
 import org.terasology.nui.events.NUIMouseReleaseEvent;
+import org.terasology.nui.util.AwtClipboardProvider;
 import org.terasology.nui.util.NUIMathUtil;
 import org.terasology.nui.util.RectUtility;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +61,21 @@ public class UIText extends WidgetWithOrder {
     private static final Logger logger = LoggerFactory.getLogger(UIText.class);
 
     private static final float BLINK_RATE = 0.25f;
+
+    /**
+     * The clipboard implementation used by every UIText instance. Defaults to java.awt's system
+     * clipboard, which doesn't exist on Android or GWT/HTML - platforms without it should call
+     * {@link #setClipboardProvider} with a platform-appropriate implementation (e.g. nui-libgdx's
+     * LibGDXClipboardProvider) during application startup.
+     */
+    private static ClipboardProvider clipboardProvider = new AwtClipboardProvider();
+
+    /**
+     * @param provider the clipboard implementation every UIText instance should use from now on.
+     */
+    public static void setClipboardProvider(ClipboardProvider provider) {
+        clipboardProvider = provider;
+    }
 
     /** Whether the content needs to be displayed on multiple lines. */
     @LayoutConfig
@@ -600,12 +611,12 @@ public class UIText extends WidgetWithOrder {
     /**
      * Get the current clipboard contents.
      *
-     * @return The string currently in the clipboard, or an empty string if the system clipboard
-     * isn't available on this platform (e.g. Android, which has no java.awt).
+     * @return The string currently in the clipboard, or an empty string if the clipboard
+     * implementation in use (see {@link #setClipboardProvider}) fails to load on this platform.
      */
     protected String getClipboardContents() {
         try {
-            return AwtClipboard.getContents();
+            return clipboardProvider.getContents();
         } catch (LinkageError e) {
             logger.warn("System clipboard is not available on this platform", e);
             return "";
@@ -613,45 +624,16 @@ public class UIText extends WidgetWithOrder {
     }
 
     /**
-     * Set the contents of the clipboard to a given value. Does nothing if the system clipboard
-     * isn't available on this platform (e.g. Android, which has no java.awt).
+     * Set the contents of the clipboard to a given value. Does nothing if the clipboard
+     * implementation in use (see {@link #setClipboardProvider}) fails to load on this platform.
      *
      * @param str The new value of the clipboard contents
      */
     protected void setClipboardContents(String str) {
         try {
-            AwtClipboard.setContents(str);
+            clipboardProvider.setContents(str);
         } catch (LinkageError e) {
             logger.warn("System clipboard is not available on this platform", e);
-        }
-    }
-
-    /**
-     * Isolates the java.awt.datatransfer clipboard access in its own class, rather than referencing
-     * it directly in getClipboardContents()/setClipboardContents(), so that loading UIText itself
-     * doesn't require java.awt to be resolvable - it genuinely doesn't exist on Android, unlike the
-     * other API-level gaps elsewhere in this codebase that have a same-behavior workaround.
-     * AwtClipboard is only classloaded the first time one of those two methods actually runs, and
-     * the LinkageError (a NoClassDefFoundError, on a platform without java.awt) is caught by the
-     * caller rather than here, since the failure happens on this class's own initialization.
-     */
-    private static final class AwtClipboard {
-        static String getContents() {
-            Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-
-            try {
-                if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                    return (String) t.getTransferData(DataFlavor.stringFlavor);
-                }
-            } catch (UnsupportedFlavorException | IOException e) {
-                logger.warn("Failed to get data from clipboard", e);
-            }
-
-            return "";
-        }
-
-        static void setContents(String str) {
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(str), null);
         }
     }
 
