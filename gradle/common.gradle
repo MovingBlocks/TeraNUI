@@ -2,8 +2,9 @@ java {
     withSourcesJar()
     withJavadocJar()
 
-    sourceCompatibility(JavaVersion.VERSION_1_8)
-    targetCompatibility(JavaVersion.VERSION_1_8)
+    // Matches gestalt's gestalt-library-common.gradle.kts.
+    sourceCompatibility(JavaVersion.VERSION_17)
+    targetCompatibility(JavaVersion.VERSION_17)
 }
 
 // Gradle 9 (unlike 8.2.1, which this wrapper was previously on) no longer pulls the JUnit Platform
