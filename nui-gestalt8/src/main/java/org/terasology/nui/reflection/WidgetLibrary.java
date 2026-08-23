@@ -13,13 +13,15 @@ import org.terasology.reflection.metadata.ModuleClassLibrary;
 import org.terasology.reflection.reflect.ReflectFactory;
 import org.terasology.nui.UIWidget;
 
+import java.util.function.Supplier;
+
 /**
  */
 public class WidgetLibrary extends ModuleClassLibrary<UIWidget> {
 
     private static final Logger logger = LoggerFactory.getLogger(WidgetLibrary.class);
 
-    public WidgetLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    public WidgetLibrary(Supplier<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         super(environment, reflectFactory, copyStrategyLibrary);
     }
 

@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Abstract base implement of ClassLibrary.
@@ -32,12 +33,15 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     protected final CopyStrategyLibrary copyStrategyLibrary;
 
     private ReflectFactory reflectFactory;
-    private ModuleEnvironment environment;
+    // A supplier, not a plain ModuleEnvironment, because ModuleManager.getEnvironment() returns a
+    // mutable reference that gets replaced when modules reload - capturing a single environment at
+    // construction time would silently keep resolving against a stale one after any reload.
+    private Supplier<ModuleEnvironment> environment;
 
     private Map<Class<? extends T>, ClassMetadata<? extends T, ?>> classLookup = Maps.newHashMap();
     private Table<Name, Name, ClassMetadata<? extends T, ?>> urnLookup = HashBasedTable.create();
 
-    public ModuleClassLibrary(ModuleEnvironment environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
+    public ModuleClassLibrary(Supplier<ModuleEnvironment> environment, ReflectFactory reflectFactory, CopyStrategyLibrary copyStrategyLibrary) {
         this.environment = environment;
         this.reflectFactory = reflectFactory;
         this.copyStrategyLibrary = copyStrategyLibrary;
@@ -134,7 +138,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
     }
 
     public ClassMetadata<? extends T, ?> resolve(String name, Name context) {
-        Module moduleContext = environment.get(context);
+        Module moduleContext = environment.get().get(context);
         if (moduleContext != null) {
             return resolve(name, moduleContext);
         }
@@ -166,7 +170,7 @@ public abstract class ModuleClassLibrary<T> implements ClassLibrary<T> {
             default:
 
                 if (context != null) {
-                    Set<Name> dependencies = environment.getDependencyNamesOf(context.getId());
+                    Set<Name> dependencies = environment.get().getDependencyNamesOf(context.getId());
                     Iterator<ClassMetadata<? extends T, ?>> iterator = possibilities.iterator();
                     while (iterator.hasNext()) {
                         ClassMetadata<? extends T, ?> metadata = iterator.next();
