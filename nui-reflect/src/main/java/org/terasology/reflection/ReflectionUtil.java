@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
@@ -516,7 +517,27 @@ public final class ReflectionUtil {
         try {
             StringBuilder stringBuilder = new StringBuilder();
 
-            TypeVariable[] typeParameters = method.getTypeParameters();
+            // Executable itself isn't available before Android API 26. Method and Constructor each
+            // declare getTypeParameters()/getGenericParameterTypes()/isVarArgs() directly (and did
+            // so long before Executable existed), so resolve them through the concrete type instead
+            // of calling through the Executable-typed parameter - a call resolved against Executable
+            // trips AnimalSniffer even though the underlying Method/Constructor method is fine.
+            TypeVariable[] typeParameters;
+            Type[] unresolvedParameterTypes;
+            boolean varArgs;
+
+            if (method instanceof Method) {
+                Method asMethod = (Method) method;
+                typeParameters = asMethod.getTypeParameters();
+                unresolvedParameterTypes = asMethod.getGenericParameterTypes();
+                varArgs = asMethod.isVarArgs();
+            } else {
+                Constructor<?> asConstructor = (Constructor<?>) method;
+                typeParameters = asConstructor.getTypeParameters();
+                unresolvedParameterTypes = asConstructor.getGenericParameterTypes();
+                varArgs = asConstructor.isVarArgs();
+            }
+
             if (typeParameters.length > 0) {
                 boolean first = true;
                 stringBuilder.append('<');
@@ -534,24 +555,24 @@ public final class ReflectionUtil {
             }
 
             if (method instanceof Method) {
-                Type returnType = resolveType(declaringType, ((Method) method).getGenericReturnType());
+                Method asMethod = (Method) method;
+                Type returnType = resolveType(declaringType, asMethod.getGenericReturnType());
 
                 stringBuilder.append(typeToString(returnType, useSimpleName))
                         .append(' ');
-                stringBuilder.append(method.getName());
+                stringBuilder.append(asMethod.getName());
             } else {
-                final Class<?> declaringClass = method.getDeclaringClass();
+                final Class<?> declaringClass = ((Constructor<?>) method).getDeclaringClass();
                 stringBuilder.append(typeToString(declaringClass, useSimpleName));
             }
 
             stringBuilder.append('(');
-            Type[] unresolvedParameterTypes = method.getGenericParameterTypes();
 
             for (int i = 0; i < unresolvedParameterTypes.length; ++i) {
                 final Type parameterType = resolveType(declaringType, unresolvedParameterTypes[i]);
                 String parameterName = typeToString(parameterType, useSimpleName);
 
-                if (method.isVarArgs() && i == unresolvedParameterTypes.length - 1) {
+                if (varArgs && i == unresolvedParameterTypes.length - 1) {
                     parameterName = parameterName.replaceFirst("\\[\\]$", "...");
                 }
 
@@ -581,7 +602,7 @@ public final class ReflectionUtil {
                 return clazz.getSimpleName();
             }
 
-            return clazz.getTypeName();
+            return classTypeName(clazz);
         }
 
         if (type instanceof WildcardType) {
@@ -597,6 +618,30 @@ public final class ReflectionUtil {
         }
 
         return null;
+    }
+
+    /**
+     * Equivalent to {@link Class#getTypeName()}, which isn't available before Android API 26.
+     * Unlike {@link Class#getName()}, array types are rendered as e.g. {@code java.lang.String[]}
+     * rather than the JVM-internal {@code [Ljava.lang.String;}.
+     */
+    private static String classTypeName(Class<?> clazz) {
+        if (!clazz.isArray()) {
+            return clazz.getName();
+        }
+
+        Class<?> componentType = clazz;
+        int dimensions = 0;
+        while (componentType.isArray()) {
+            dimensions++;
+            componentType = componentType.getComponentType();
+        }
+
+        StringBuilder stringBuilder = new StringBuilder(componentType.getName());
+        for (int i = 0; i < dimensions; i++) {
+            stringBuilder.append("[]");
+        }
+        return stringBuilder.toString();
     }
 
 
