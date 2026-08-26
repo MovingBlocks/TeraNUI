@@ -3,6 +3,15 @@
 
 // See gradle/common.gradle for more or less global build logic applied to the subprojects
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.1'
+    }
+}
+
 plugins {
     id 'idea'
 }
