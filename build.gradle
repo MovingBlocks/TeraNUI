@@ -15,3 +15,12 @@ ext {
     jomlVersion = "1.10.0"
     geomVersion = "0.1.0"
 }
+
+// -PnoLock: skip locking, resolve ranges fresh. Locks all configs, not just compileClasspath.
+if (!project.hasProperty("noLock")) {
+    subprojects {
+        dependencyLocking {
+            lockAllConfigurations()
+        }
+    }
+}
