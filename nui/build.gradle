@@ -26,7 +26,7 @@ dependencies {
 
     implementation "com.google.code.gson:gson:2.6.2"
     implementation "org.reflections:reflections:0.9.10"
-    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation "org.slf4j:slf4j-api:2.0.18"
 
     api "org.terasology.gestalt:gestalt-inject:8.0.0-SNAPSHOT"
     annotationProcessor "org.terasology.gestalt:gestalt-inject-java:8.0.0-SNAPSHOT"
