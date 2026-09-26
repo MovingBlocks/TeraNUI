@@ -28,8 +28,8 @@ dependencies {
     implementation "org.reflections:reflections:0.9.10"
     implementation "org.slf4j:slf4j-api:1.7.30"
 
-    api "org.terasology.gestalt:gestalt-inject:8.0.0-SNAPSHOT"
-    annotationProcessor "org.terasology.gestalt:gestalt-inject-java:8.0.0-SNAPSHOT"
+    api "org.terasology.gestalt:gestalt-inject:8.0.2"
+    annotationProcessor "org.terasology.gestalt:gestalt-inject-java:8.0.2"
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.6.2")
