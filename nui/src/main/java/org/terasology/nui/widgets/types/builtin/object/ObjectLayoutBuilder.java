@@ -24,7 +24,6 @@ import org.terasology.reflection.TypeInfo;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -145,11 +144,10 @@ public class ObjectLayoutBuilder<T> extends ExpandableLayoutBuilder<T> {
                                                Binding<Constructor<T>> selectedConstructor) {
         parameterLayout.removeAllWidgets();
 
-        Parameter[] parameters = selectedConstructor.get().getParameters();
-
+        // java.lang.reflect.Parameter isn't available before Android API 26 - Constructor's older
+        // getGenericParameterTypes() gets us the same Type[] without going through it.
         List<TypeInfo<?>> parameterTypes =
-            Arrays.stream(parameters)
-                .map(Parameter::getParameterizedType)
+            Arrays.stream(selectedConstructor.get().getGenericParameterTypes())
                 .map(parameterType -> ReflectionUtil.resolveType(type.getType(), parameterType))
                 .map(TypeInfo::of)
                 .collect(Collectors.toList());
@@ -186,14 +184,13 @@ public class ObjectLayoutBuilder<T> extends ExpandableLayoutBuilder<T> {
                 for (int i = 0; i < parameterTypes.size(); i++) {
                     TypeInfo<?> parameterType = parameterTypes.get(i);
                     Binding<?> argumentBinding = argumentBindings.get(i);
-                    Parameter parameter = parameters[i];
 
                     Optional<UIWidget> optionalWidget =
                         library.getBaseTypeWidget((Binding) argumentBinding, parameterType);
 
                     if (!optionalWidget.isPresent()) {
                         LOGGER.warn("Could not create widget for parameter of type {} of constructor {}",
-                            parameter, selectedConstructor.get());
+                            parameterType, selectedConstructor.get());
                         continue;
                     }
 
