@@ -3,12 +3,20 @@
 
 package org.terasology.nui.widgets;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.terasology.input.device.ClipboardProvider;
+import org.terasology.nui.util.AwtClipboardProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class UITextClipboardTest {
+
+    @AfterEach
+    void restoreDefaultClipboardProvider() {
+        UIText.setClipboardProvider(new AwtClipboardProvider());
+    }
 
     @Test
     void copiesSelectedTextToClipboard() {
@@ -69,20 +77,24 @@ class UITextClipboardTest {
         private String clipboardContents = "";
         private boolean clipboardUnavailable;
 
-        @Override
-        String readAwtClipboardContents() {
-            if (clipboardUnavailable) {
-                throw new NoClassDefFoundError("java/awt/Toolkit");
-            }
-            return clipboardContents;
-        }
+        private TestUIText() {
+            UIText.setClipboardProvider(new ClipboardProvider() {
+                @Override
+                public String getContents() {
+                    if (clipboardUnavailable) {
+                        throw new NoClassDefFoundError("java/awt/Toolkit");
+                    }
+                    return clipboardContents;
+                }
 
-        @Override
-        void writeAwtClipboardContents(String str) {
-            if (clipboardUnavailable) {
-                throw new NoClassDefFoundError("java/awt/Toolkit");
-            }
-            clipboardContents = str;
+                @Override
+                public void setContents(String value) {
+                    if (clipboardUnavailable) {
+                        throw new NoClassDefFoundError("java/awt/Toolkit");
+                    }
+                    clipboardContents = value;
+                }
+            });
         }
     }
 }
