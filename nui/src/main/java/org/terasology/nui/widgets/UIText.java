@@ -605,7 +605,7 @@ public class UIText extends WidgetWithOrder {
      */
     protected String getClipboardContents() {
         try {
-            return AwtClipboard.getContents();
+            return readAwtClipboardContents();
         } catch (LinkageError e) {
             logger.warn("System clipboard is not available on this platform", e);
             return "";
@@ -620,10 +620,18 @@ public class UIText extends WidgetWithOrder {
      */
     protected void setClipboardContents(String str) {
         try {
-            AwtClipboard.setContents(str);
+            writeAwtClipboardContents(str);
         } catch (LinkageError e) {
             logger.warn("System clipboard is not available on this platform", e);
         }
+    }
+
+    String readAwtClipboardContents() {
+        return AwtClipboard.getContents();
+    }
+
+    void writeAwtClipboardContents(String str) {
+        AwtClipboard.setContents(str);
     }
 
     /**
