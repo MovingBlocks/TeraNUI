@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.input.device.ClipboardProvider;
 
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -34,7 +33,7 @@ public class AwtClipboardProvider implements ClipboardProvider {
             }
         } catch (UnsupportedFlavorException | IOException e) {
             logger.warn("Failed to get data from clipboard", e);
-        } catch (HeadlessException e) {
+        } catch (UnsupportedOperationException e) {
             logger.warn("System clipboard is unavailable in headless mode");
         }
 
@@ -45,7 +44,7 @@ public class AwtClipboardProvider implements ClipboardProvider {
     public void setContents(String value) {
         try {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(value), null);
-        } catch (HeadlessException e) {
+        } catch (UnsupportedOperationException e) {
             logger.warn("System clipboard is unavailable in headless mode");
         }
     }
