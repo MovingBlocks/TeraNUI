@@ -113,9 +113,12 @@ public class JsonTreeValue {
             if (key != null && value != null) {
                 return key + ": " + value;
             }
-            return key == null ? value.toString() : key;
+            if (key != null) {
+                return key;
+            }
+            return value != null ? value.toString() : NULL_STRING;
         } else if (type == Type.VALUE) {
-            return value.toString();
+            return value != null ? value.toString() : NULL_STRING;
         } else if (type == Type.ARRAY) {
             return key != null ? key : ARRAY_STRING;
         } else if (type == Type.OBJECT) {

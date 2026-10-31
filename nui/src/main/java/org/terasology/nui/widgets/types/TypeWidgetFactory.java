@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * Creates a {@link UIWidget} for objects sharing similar structure.
  * <p>
- * Supports dependency injection via {@link org.terasology.registry.In}.
+ * Supports dependency injection via {@link javax.inject.Inject}.
  */
 public interface TypeWidgetFactory {
     /**

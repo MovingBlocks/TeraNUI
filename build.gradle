@@ -3,13 +3,22 @@
 
 // See gradle/common.gradle for more or less global build logic applied to the subprojects
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'ru.vyarus:gradle-animalsniffer-plugin:2.0.1'
+    }
+}
+
 plugins {
     id 'idea'
 }
 
 ext {
     // Overall version number for NUI's various elements
-    nuiVersion = "3.1.1-SNAPSHOT"
+    nuiVersion = "4.0.0"
 
     // JOML version we're tracking
     jomlVersion = "1.10.0"

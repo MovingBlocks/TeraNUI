@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Creates {@link UIWidget UIWidgets} to edit objects of various types.
  * <p>
- * Instances can only be accessed via injection (see {@link org.terasology.registry.In}) in
+ * Instances can only be accessed via injection (see {@link javax.inject.Inject}) in
  * screens and overlays.
  */
 public interface TypeWidgetLibrary {
@@ -30,6 +30,10 @@ public interface TypeWidgetLibrary {
      * Returns a {@link UIWidget} that can be used to edit an object of the given type bound
      * by the given binding.
      *
+     * @param binding The {@link Binding} used to get and set the object to be edited.
+     * @param type    The {@link TypeInfo} describing the type of the object to be edited.
+     * @param <T>     The type of the object to be edited.
+     * @return The generated {@link UIWidget}.
      * @see #getWidget(Binding, TypeInfo)
      */
     <T> Optional<UIWidget> getWidget(Binding<T> binding, Class<T> type);

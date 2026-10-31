@@ -2,8 +2,27 @@ java {
     withSourcesJar()
     withJavadocJar()
 
-    sourceCompatibility(JavaVersion.VERSION_1_8)
-    targetCompatibility(JavaVersion.VERSION_1_8)
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// Same Android-suitability check as gestalt's gestalt-library-common.gradle.kts: verifies this
+// module's API surface only uses classes/methods that also exist on Android, so NUI stays usable
+// from an eventual Android-facing module without discovering incompatible JDK-only API usage late.
+apply plugin: 'ru.vyarus.animalsniffer'
+
+dependencies {
+    signature 'com.toasttab.android:gummy-bears-api-24:0.15.0:coreLib2@signature'
+}
+
+animalsniffer {
+    // java.nio.* APIs can be desugared by D8. java.io.File.toPath() also needs to be excluded.
+    //
+    // java.awt.Toolkit/datatransfer.* genuinely don't exist on Android at all - UIText.AwtClipboard
+    // isolates that usage behind a LinkageError-catching caller so it degrades gracefully instead
+    // of crashing, but the check itself can't be satisfied for a real platform absence like this
+    // one, so it's excluded here rather than by leaving the whole check non-fatal.
+    ignore = ['java.nio.file.*', 'java.io.File', 'java.awt.Toolkit', 'java.awt.datatransfer.*']
 }
 
 // We use both Maven Central and our own Artifactory instance, which contains module builds, extra libs, and so on
@@ -22,22 +41,22 @@ repositories {
         def repoViaEnv = System.getenv()["RESOLUTION_REPO"]
         if (rootProject.hasProperty("alternativeResolutionRepo")) {
             // If the user supplies an alternative repo via gradle.properties then use that
-            name "from alternativeResolutionRepo property"
-            url alternativeResolutionRepo
+            name = "from alternativeResolutionRepo property"
+            url = alternativeResolutionRepo
         } else if (repoViaEnv != null && repoViaEnv != "") {
-            name "from \$RESOLUTION_REPO"
+            name = "from \$RESOLUTION_REPO"
             url = repoViaEnv
         } else {
             // Our default is the main virtual repo containing everything except repos for testing Artifactory itself
-            name "Terasology Artifactory"
-            url "https://artifactory.terasology.io/artifactory/virtual-repo-live"
+            name = "Terasology Artifactory"
+            url = "https://artifactory.terasology.io/artifactory/virtual-repo-live"
         }
     }
 
     maven {
-        name "snowplow (pre-0.9)"
-        url "http://maven.snplow.com/releases"
-        allowInsecureProtocol true  // 😱
+        name = "snowplow (pre-0.9)"
+        url = "http://maven.snplow.com/releases"
+        allowInsecureProtocol = true  // 😱
     }
 }
 
@@ -63,7 +82,7 @@ javadoc {
 }
 
 group = 'org.terasology.nui'
-version = nuiVersion
+version = rootProject.nuiVersion
 
 publishing {
     publications {

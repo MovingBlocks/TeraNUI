@@ -15,6 +15,9 @@
  */
 package org.terasology.nui;
 
+import org.terasology.context.annotation.Service;
+
+@Service
 public class FocusManagerImpl implements FocusManager {
     private UIWidget currentFocus;
 

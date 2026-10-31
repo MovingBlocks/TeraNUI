@@ -53,6 +53,9 @@ public class TextLineBuilder {
     }
 
     public void addText(String text) {
+        if (text == null) {
+            return;
+        }
         List<String> paragraphs = Arrays.asList(text.split("\\r?\\n", -1));
         for (String paragraph : paragraphs) {
             String remainder = paragraph;
